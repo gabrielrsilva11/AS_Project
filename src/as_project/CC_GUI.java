@@ -10,7 +10,8 @@ package as_project;
  * @author gabri
  */
 public class CC_GUI extends javax.swing.JPanel {
-
+    
+    private ControlCenter cc = null;
     /**
      * Creates new form CC_GUI
      */
@@ -19,6 +20,9 @@ public class CC_GUI extends javax.swing.JPanel {
         Button_Start.setEnabled(false);
         Button_Collect.setEnabled(false);
         Button_Return.setEnabled(false);
+        Text_Collected.setEditable(false);
+        cc = new ControlCenter();
+        
     }
 
     /**
@@ -102,6 +106,11 @@ public class CC_GUI extends javax.swing.JPanel {
         add(Button_Return, new org.netbeans.lib.awtextra.AbsoluteConstraints(24, 163, 71, -1));
 
         Button_Stop.setText("Stop");
+        Button_Stop.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Button_StopActionPerformed(evt);
+            }
+        });
         add(Button_Stop, new org.netbeans.lib.awtextra.AbsoluteConstraints(24, 199, 71, -1));
 
         jLabel5.setText("Corn Cobs Collected");
@@ -122,6 +131,7 @@ public class CC_GUI extends javax.swing.JPanel {
 
     private void Button_PrepareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_PrepareActionPerformed
         // TODO add your handling code here:
+        cc.serverConnect.sendMessage("1");
         Button_Prepare.setEnabled(false);
         Button_Start.setEnabled(true);
     }//GEN-LAST:event_Button_PrepareActionPerformed
@@ -138,6 +148,11 @@ public class CC_GUI extends javax.swing.JPanel {
     private void Text_CollectedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Text_CollectedActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_Text_CollectedActionPerformed
+
+    private void Button_StopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_StopActionPerformed
+        // TODO add your handling code here:
+        cc.serverConnect.sendMessage("0");
+    }//GEN-LAST:event_Button_StopActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

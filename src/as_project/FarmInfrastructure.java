@@ -18,16 +18,14 @@ public class FarmInfrastructure {
         FI_GUI fi = new FI_GUI();
         gui = new JFrame();
         gui.setVisible(true);
-        gui.setSize(350, 280);
-        gui.setResizable(false);
+        gui.setSize(440, 650);
+        gui.setResizable(true);
         gui.add(fi);
         clientSocket = new Sockets();
-        clientSocket.startClient(5000);
+        clientSocket.startServer(5000);
     }
    
     public static void main(String[] args) {
         FarmInfrastructure farm = new FarmInfrastructure();
-        farm.clientSocket.sendMessage("1");
-        farm.clientSocket.sendMessage("0");
     }  
 }

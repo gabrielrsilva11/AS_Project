@@ -13,6 +13,11 @@ import javax.swing.JFrame;
  */
 public class Run {
         public static void main(String[] args) {
-          ControlCenter cc = new ControlCenter();
+            CC_GUI cc_gui = new CC_GUI();
+            JFrame gui = new JFrame();
+            gui.setVisible(true);
+            gui.setSize(350, 280);
+            gui.setResizable(false);
+            gui.add(cc_gui);
     }
 }
