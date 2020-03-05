@@ -21,8 +21,7 @@ public class CC_GUI extends javax.swing.JPanel {
         Button_Collect.setEnabled(false);
         Button_Return.setEnabled(false);
         Text_Collected.setEditable(false);
-        cc = new ControlCenter();
-        
+        cc = new ControlCenter();   
     }
 
     /**
@@ -123,6 +122,8 @@ public class CC_GUI extends javax.swing.JPanel {
             }
         });
         add(Text_Collected, new org.netbeans.lib.awtextra.AbsoluteConstraints(253, 181, 58, -1));
+
+        getAccessibleContext().setAccessibleName("Control Center");
     }// </editor-fold>//GEN-END:initComponents
 
     private void Dropdown_NumFarmersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Dropdown_NumFarmersActionPerformed
@@ -130,19 +131,20 @@ public class CC_GUI extends javax.swing.JPanel {
     }//GEN-LAST:event_Dropdown_NumFarmersActionPerformed
 
     private void Button_PrepareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_PrepareActionPerformed
-        // TODO add your handling code here:
         cc.serverConnect.sendMessage("1");
         Button_Prepare.setEnabled(false);
         Button_Start.setEnabled(true);
     }//GEN-LAST:event_Button_PrepareActionPerformed
 
     private void Button_StartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_StartActionPerformed
-        // TODO add your handling code here:
+        Button_Start.setEnabled(false);
+        Button_Return.setEnabled(true);
         
     }//GEN-LAST:event_Button_StartActionPerformed
 
     private void Button_ReturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_ReturnActionPerformed
-        // TODO add your handling code here:
+        Button_Return.setEnabled(false);
+        Button_Prepare.setEnabled(true);
     }//GEN-LAST:event_Button_ReturnActionPerformed
 
     private void Text_CollectedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Text_CollectedActionPerformed
@@ -152,6 +154,10 @@ public class CC_GUI extends javax.swing.JPanel {
     private void Button_StopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_StopActionPerformed
         // TODO add your handling code here:
         cc.serverConnect.sendMessage("0");
+        Button_Prepare.setEnabled(true);
+        Button_Start.setEnabled(false);
+        Button_Collect.setEnabled(false);
+        Button_Return.setEnabled(false);
     }//GEN-LAST:event_Button_StopActionPerformed
 
 

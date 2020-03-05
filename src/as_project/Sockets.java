@@ -18,7 +18,8 @@ import java.net.UnknownHostException;
  * @author gabri
  */
 public class Sockets {
-    private Socket socket = null;
+    private Socket socketServer = null;
+    private Socket socketClient = null;
     private ServerSocket server = null;
     private DataInputStream input = null;
     private DataOutputStream output = null;
@@ -32,10 +33,10 @@ public class Sockets {
             System.out.println("Server Start");
             System.out.println("Waiting for client");
             
-            socket = server.accept();
+            socketServer = server.accept();
             System.out.println("Client Accepted");
             
-            input = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
+            input = new DataInputStream(new BufferedInputStream(socketServer.getInputStream()));
             
             String message = "";
             while(!message.equals("0")){
@@ -52,9 +53,9 @@ public class Sockets {
     
     public void startClient(int port){
         try{
-            socket = new Socket("127.0.0.1", 5000);
+            socketClient = new Socket("127.0.0.1", port);
             System.out.println("Connected");
-            output = new DataOutputStream(socket.getOutputStream());
+            output = new DataOutputStream(socketClient.getOutputStream());
         }catch(UnknownHostException u){
             System.out.println(u);
         }catch(IOException i){
@@ -83,7 +84,8 @@ public class Sockets {
     private void closeConnection(){
         System.out.println("Closing connection");
         try{
-            socket.close();
+            socketClient.close();
+            socketServer.close();
             if(output != null){
                 output.close();
             }

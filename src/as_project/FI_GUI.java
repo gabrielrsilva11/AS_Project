@@ -10,7 +10,6 @@ package as_project;
  * @author gabri
  */
 public class FI_GUI extends javax.swing.JPanel {
-
     /**
      * Creates new form FI_GUI
      */
@@ -837,6 +836,8 @@ public class FI_GUI extends javax.swing.JPanel {
                 .addComponent(standingPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(25, Short.MAX_VALUE))
         );
+
+        getAccessibleContext().setAccessibleName("Farm Infrastructure");
     }// </editor-fold>//GEN-END:initComponents
 
     private void storeField_5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_storeField_5ActionPerformed
