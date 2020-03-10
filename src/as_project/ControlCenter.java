@@ -10,7 +10,7 @@ import javax.swing.JFrame;
  * @author gabriel
  */
 public class ControlCenter {
-    Sockets serverConnect = null;
+    public Sockets serverConnect = null;
 
     
     public ControlCenter(){
