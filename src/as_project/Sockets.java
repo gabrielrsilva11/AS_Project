@@ -5,8 +5,6 @@
  */
 package as_project;
 
-import java.io.BufferedInputStream;
-import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -21,39 +19,31 @@ public class Sockets {
     private Socket socketServer = null;
     private Socket socketClient = null;
     private ServerSocket server = null;
-    private DataInputStream input = null;
     private DataOutputStream output = null;
     
     public Sockets(){
     }
     
+    public Socket getSocketServer(){
+        return socketServer;
+    }
+        
     public void startServer(int port){
         try{
             server = new ServerSocket(port);
             System.out.println("Server Start");
             System.out.println("Waiting for client");
-            
+
             socketServer = server.accept();
             System.out.println("Client Accepted");
-            
-            input = new DataInputStream(new BufferedInputStream(socketServer.getInputStream()));
-            
-            String message = "";
-            while(!message.equals("0")){
-                message = input.readUTF();
-                if(message.equals("1")){
-                    System.out.println("aaaaah");
-                }
-            }
-            closeConnection();
-        }catch(IOException i){
-            System.out.println(i);
-        }        
+        }catch(IOException e){
+            System.out.println(e);
+        }       
     }
     
-    public void startClient(int port){
+    public void startClient(String ip, int port){
         try{
-            socketClient = new Socket("127.0.0.1", port);
+            socketClient = new Socket(ip, port);
             System.out.println("Connected");
             output = new DataOutputStream(socketClient.getOutputStream());
         }catch(UnknownHostException u){
@@ -63,6 +53,8 @@ public class Sockets {
         }  
     }
     
+    
+    
     public void sendMessage(String message){
         if(message.equals("0")){
             try{
@@ -70,7 +62,7 @@ public class Sockets {
             }catch(IOException i){
                 System.out.println(i);
             }
-            closeConnection();
+            closeAllConnections();
         }
         else{
             try{
@@ -81,17 +73,22 @@ public class Sockets {
         }
     }
     
-    private void closeConnection(){
+    public void closeConnection(Socket toClose){
         System.out.println("Closing connection");
         try{
-            socketClient.close();
+            toClose.close();
+        }catch(IOException i){
+            System.out.println(i);
+        }
+    }
+    
+    public void closeAllConnections(){
+        System.out.println("Closing ALL connections");
+        try{
             socketServer.close();
-            if(output != null){
-                output.close();
-            }
-            if(input!= null){
-                input.close();
-            }
+            socketClient.close();
+            server.close();
+            output.close();
         }catch(IOException i){
             System.out.println(i);
         }
