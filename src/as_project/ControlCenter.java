@@ -4,6 +4,9 @@
  * and open the template in the editor.
  */
 package as_project;
+import java.io.BufferedInputStream;
+import java.io.DataInputStream;
+import java.io.IOException;
 import javax.swing.JFrame;
 /**
  *
@@ -15,6 +18,20 @@ public class ControlCenter {
     
     public ControlCenter(){
         serverConnect = new Sockets();
-        serverConnect.startClient(5000);
+        serverConnect.startClient("127.0.0.1", 5000);
+    }
+    
+    public void waitForMessage(){
+        serverConnect.startServer(5001);
+        try{
+            DataInputStream input = null;
+            input = new DataInputStream(new BufferedInputStream(serverConnect.getSocketServer().getInputStream()));
+            String message = "";
+            message = input.readUTF();
+            System.out.println("Operacao terminada");
+        
+        }catch(IOException i){
+            System.out.println(i);
+        }     
     }
 }

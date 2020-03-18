@@ -23,7 +23,7 @@ public class CC_GUI extends javax.swing.JPanel {
         Button_Collect.setEnabled(false);
         Button_Return.setEnabled(false);
         Text_Collected.setEditable(false);
-        cc = new ControlCenter();   
+        cc = new ControlCenter(); 
     }
 
     /**
@@ -49,6 +49,7 @@ public class CC_GUI extends javax.swing.JPanel {
         Button_Stop = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         Text_Collected = new javax.swing.JTextField();
+        Button_Exit = new javax.swing.JButton();
 
         setName("Control Center"); // NOI18N
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -125,6 +126,14 @@ public class CC_GUI extends javax.swing.JPanel {
         });
         add(Text_Collected, new org.netbeans.lib.awtextra.AbsoluteConstraints(253, 181, 58, -1));
 
+        Button_Exit.setText("Exit");
+        Button_Exit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Button_ExitActionPerformed(evt);
+            }
+        });
+        add(Button_Exit, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 230, -1, -1));
+
         getAccessibleContext().setAccessibleName("Control Center");
     }// </editor-fold>//GEN-END:initComponents
 
@@ -135,6 +144,8 @@ public class CC_GUI extends javax.swing.JPanel {
     private void Button_PrepareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_PrepareActionPerformed
         cc.serverConnect.sendMessage("1");
         Button_Prepare.setEnabled(false);
+        cc.serverConnect.sendMessage(Dropdown_NumFarmers.getSelectedItem().toString());
+        cc.waitForMessage();
         Button_Start.setEnabled(true);
     }//GEN-LAST:event_Button_PrepareActionPerformed
 
@@ -145,7 +156,9 @@ public class CC_GUI extends javax.swing.JPanel {
     }//GEN-LAST:event_Button_StartActionPerformed
 
     private void Button_ReturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_ReturnActionPerformed
+        cc.serverConnect.sendMessage("2");
         Button_Return.setEnabled(false);
+        cc.waitForMessage();
         Button_Prepare.setEnabled(true);
     }//GEN-LAST:event_Button_ReturnActionPerformed
 
@@ -162,9 +175,14 @@ public class CC_GUI extends javax.swing.JPanel {
         Button_Return.setEnabled(false);
     }//GEN-LAST:event_Button_StopActionPerformed
 
+    private void Button_ExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_ExitActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Button_ExitActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton Button_Collect;
+    private javax.swing.JButton Button_Exit;
     private javax.swing.JToggleButton Button_Prepare;
     private javax.swing.JToggleButton Button_Return;
     private javax.swing.JToggleButton Button_Start;
