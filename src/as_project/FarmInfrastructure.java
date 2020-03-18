@@ -10,7 +10,7 @@ import as_project.monitors.PathMonitor;
 import as_project.monitors.StandingAreaMonitor;
 import as_project.monitors.StoreHouseMonitor;
 import as_project.threads.FarmerThread;
-import as_project.util.SelectionAlgorithm;
+import static as_project.util.Constants.*;
 import java.util.concurrent.locks.ReentrantLock;
 import javax.swing.JFrame;
 
@@ -35,28 +35,25 @@ public class FarmInfrastructure {
    
     public static void main(String[] args) {
         //FarmInfrastructure farm = new FarmInfrastructure();
-        
-        ReentrantLock rel = new ReentrantLock();
-        StoreHouseMonitor storeHouseMonitor = new StoreHouseMonitor(rel);
-        StandingAreaMonitor standingAreaMonitor = new StandingAreaMonitor(rel);
-        PathMonitor pathMonitor = new PathMonitor(rel);
-        GranaryMonitor granaryMonitor = new GranaryMonitor(rel);
+      
         
         //Aqui recebe a chamada da gui com o número de farmers e cria um numero de threads
-        int nFarmers = 5;
+        int nFarmers = 3;
         //Recebe o número de steps que cada um vai andar
         int nSteps = 2;
         
+        ReentrantLock rel = new ReentrantLock();
+        StoreHouseMonitor storeHouseMonitor = new StoreHouseMonitor(rel);
+        StandingAreaMonitor standingAreaMonitor = new StandingAreaMonitor(rel, nFarmers);
+        PathMonitor pathMonitor = new PathMonitor(rel);
+        GranaryMonitor granaryMonitor = new GranaryMonitor(rel);
+        
         //Initialize selectionBox
-        SelectionAlgorithm selectionAlgorithm = new SelectionAlgorithm(nFarmers, nSteps);
-        for(int n = 1; n <= nFarmers; n++) {
+        //SelectionAlgorithm selectionAlgorithm = new SelectionAlgorithm(nFarmers, nSteps);
+        for(int n = 1; n <= ROWS; n++) {
             FarmerThread farmer = new FarmerThread(storeHouseMonitor, standingAreaMonitor, pathMonitor, granaryMonitor);
-            farmer.setName("Farmer" + n);
+            farmer.setName("" + n);
             farmer.start();
-        }
-        
-        storeHouseMonitor.readyToContinue();
-        
-        
+        }        
     }  
 }

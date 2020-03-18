@@ -11,22 +11,26 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static as_project.util.Constants.*;
+import as_project.util.PositionAlgorithm;
+import java.util.Arrays;
+
 /**
  *
- * @author manuelcura
+ * 
  */
 public class StoreHouseMonitor {
     
     private int numberOfFarmers;
     private final ReentrantLock rel;
-    private final Condition condition;
-    
-    
+    private final Condition conditionToWait;
+    private String[] positions;
     
     public StoreHouseMonitor(ReentrantLock rel) {
         this.rel = rel;
         numberOfFarmers = 0;
-        condition = rel.newCondition();
+        conditionToWait = rel.newCondition();
+        positions = new String[ROWS];
     }
     
     public void goToStoreHouse(FarmerThread farmer) {
@@ -34,22 +38,43 @@ public class StoreHouseMonitor {
         rel.lock();
         try {
             numberOfFarmers++;
-            System.out.println(farmer.getName() +": acquired lock");
             Thread.sleep(1000);
-            while(numberOfFarmers != 5) {
-                condition.await();
+            System.out.println(numberOfFarmers);
+            positions[getFarmerPosition()] = farmer.getName();
+            if(numberOfFarmers == ROWS) {
+                // signal the CC to enable the Prepare button
+                prepare(3);
             }
-            condition.signal();
+            conditionToWait.await();
+            System.out.println("One go stage 1");
         } catch (InterruptedException ex) {
-            ex.printStackTrace(); 
             Logger.getLogger(StoreHouseMonitor.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            System.out.println(farmer.getName() +": released lock");
             rel.unlock();
         }
     }
     
-    public void readyToContinue() {
-        condition.signalAll();
+    public void prepare(int nFarmers) {
+        // Evoke when the prepare button is used
+        rel.lock();
+        try {
+            Thread.sleep(1000);
+            do {
+                nFarmers--;
+                conditionToWait.signal();
+            } while(nFarmers > 0);
+        } catch(InterruptedException ex) {
+            Logger.getLogger(StoreHouseMonitor.class.getName()).log(Level.SEVERE, null, ex);   
+        } finally {
+            rel.lock();
+        }
+    }
+    
+    private int getFarmerPosition() {
+       int position;
+       do {
+           position = PositionAlgorithm.getVerticalPosition();
+       } while(positions[position] != null);
+       return position;
     }
 }

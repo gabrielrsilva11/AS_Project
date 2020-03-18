@@ -5,7 +5,6 @@
  */
 package as_project.threads;
 
-import as_project.models.FarmerStatus;
 import as_project.monitors.GranaryMonitor;
 import as_project.monitors.PathMonitor;
 import as_project.monitors.StandingAreaMonitor;
@@ -21,7 +20,6 @@ public class FarmerThread extends Thread {
     private final StandingAreaMonitor standingAreaMonitor;
     private final PathMonitor pathMonitor;
     private final GranaryMonitor granaryMonitor;
-    private FarmerStatus status;
     private int[][] position;
 
     public FarmerThread(StoreHouseMonitor storeHouse, StandingAreaMonitor standingAreaMonitor, PathMonitor pathMonitor, GranaryMonitor granaryMonitor) {
@@ -34,7 +32,9 @@ public class FarmerThread extends Thread {
     @Override
     public void run() {
         storeHouse.goToStoreHouse(this);
-        //standingAreaMonitor.enterStandingArea(this);
+        standingAreaMonitor.enterStandingArea(this);
+        //pathMonitor.walkToThePath(this);
+        //granaryMonitor.collectTheCorn(this);
     }
 
     public int[][] getPosition() {
@@ -43,13 +43,5 @@ public class FarmerThread extends Thread {
 
     public void setPosition(int[][] position) {
         this.position = position;
-    }
-
-    public FarmerStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(FarmerStatus status) {
-        this.status = status;
     }
 }
