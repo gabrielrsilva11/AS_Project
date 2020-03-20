@@ -19,9 +19,9 @@ public class CC_GUI extends javax.swing.JPanel {
      */
     public CC_GUI() {
         initComponents();
-        Button_Start.setEnabled(false);
-        Button_Collect.setEnabled(false);
-        Button_Return.setEnabled(false);
+        setAllButtons(false);
+        Button_Prepare.setEnabled(true);
+        Button_Stop.setEnabled(true);
         Text_Collected.setEditable(false);
         cc = new ControlCenter(); 
     }
@@ -41,7 +41,7 @@ public class CC_GUI extends javax.swing.JPanel {
         jLabel3 = new javax.swing.JLabel();
         Dropdown_NumSteps = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        Dropdown_Timeout = new javax.swing.JComboBox<>();
         Button_Prepare = new javax.swing.JToggleButton();
         Button_Start = new javax.swing.JToggleButton();
         Button_Collect = new javax.swing.JToggleButton();
@@ -77,10 +77,15 @@ public class CC_GUI extends javax.swing.JPanel {
         jLabel4.setText("Timeout");
         add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(202, 148, -1, -1));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0", "100", "250", "500", "1000" }));
-        add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(253, 143, -1, -1));
+        Dropdown_Timeout.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0", "100", "250", "500", "1000" }));
+        add(Dropdown_Timeout, new org.netbeans.lib.awtextra.AbsoluteConstraints(253, 143, -1, -1));
 
         Button_Prepare.setText("Prepare");
+        Button_Prepare.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Button_PrepareMouseClicked(evt);
+            }
+        });
         Button_Prepare.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Button_PrepareActionPerformed(evt);
@@ -89,6 +94,11 @@ public class CC_GUI extends javax.swing.JPanel {
         add(Button_Prepare, new org.netbeans.lib.awtextra.AbsoluteConstraints(24, 46, -1, -1));
 
         Button_Start.setText("Start");
+        Button_Start.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Button_StartMouseClicked(evt);
+            }
+        });
         Button_Start.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Button_StartActionPerformed(evt);
@@ -140,26 +150,39 @@ public class CC_GUI extends javax.swing.JPanel {
     private void Dropdown_NumFarmersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Dropdown_NumFarmersActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_Dropdown_NumFarmersActionPerformed
-
+    private void setAllButtons(boolean estado){
+        Button_Collect.setEnabled(estado);
+        Button_Prepare.setEnabled(estado);
+        Button_Start.setEnabled(estado);
+        Button_Return.setEnabled(estado);
+        Button_Stop.setEnabled(estado);
+    }
+    
+    private void setAllDropdowns(boolean estado){
+        Dropdown_NumFarmers.setEnabled(estado);
+        Dropdown_NumSteps.setEnabled(estado);
+        Dropdown_Timeout.setEnabled(estado);
+    }
+    
+    private String getDropdownValues(){
+        String numFarmers = Dropdown_NumFarmers.getSelectedItem().toString();
+        String numSteps = Dropdown_NumSteps.getSelectedItem().toString();
+        String timeout = Dropdown_NumSteps.getSelectedItem().toString();
+        
+        String message = numFarmers + ',' + numSteps + ',' + timeout;
+        return message;
+    }
+    
     private void Button_PrepareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_PrepareActionPerformed
-        cc.serverConnect.sendMessage("1");
-        Button_Prepare.setEnabled(false);
-        cc.serverConnect.sendMessage(Dropdown_NumFarmers.getSelectedItem().toString());
-        cc.waitForMessage();
-        Button_Start.setEnabled(true);
+
     }//GEN-LAST:event_Button_PrepareActionPerformed
 
     private void Button_StartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_StartActionPerformed
-        Button_Start.setEnabled(false);
-        Button_Return.setEnabled(true);
         
     }//GEN-LAST:event_Button_StartActionPerformed
 
     private void Button_ReturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_ReturnActionPerformed
-        cc.serverConnect.sendMessage("2");
-        Button_Return.setEnabled(false);
-        cc.waitForMessage();
-        Button_Prepare.setEnabled(true);
+
     }//GEN-LAST:event_Button_ReturnActionPerformed
 
     private void Text_CollectedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Text_CollectedActionPerformed
@@ -168,16 +191,30 @@ public class CC_GUI extends javax.swing.JPanel {
 
     private void Button_StopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_StopActionPerformed
         // TODO add your handling code here:
-        cc.serverConnect.sendMessage("0");
-        Button_Prepare.setEnabled(true);
-        Button_Start.setEnabled(false);
-        Button_Collect.setEnabled(false);
-        Button_Return.setEnabled(false);
     }//GEN-LAST:event_Button_StopActionPerformed
 
     private void Button_ExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_ExitActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_Button_ExitActionPerformed
+
+    private void Button_StartMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Button_StartMouseClicked
+        Button_Start.setEnabled(false);
+        cc.serverConnect.sendMessage("start");
+        cc.waitForMessage();
+        cc.serverConnect.closeServerConnection();
+        Button_Return.setEnabled(true);
+        Button_Stop.setEnabled(true);
+    }//GEN-LAST:event_Button_StartMouseClicked
+
+    private void Button_PrepareMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Button_PrepareMouseClicked
+        setAllDropdowns(false);
+        cc.serverConnect.sendMessage("prepare");
+        cc.serverConnect.sendMessage(getDropdownValues());
+        cc.waitForMessage();
+        cc.serverConnect.closeServerConnection();
+        Button_Start.setEnabled(true);
+        Button_Stop.setEnabled(true);
+    }//GEN-LAST:event_Button_PrepareMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -189,8 +226,8 @@ public class CC_GUI extends javax.swing.JPanel {
     private javax.swing.JButton Button_Stop;
     private javax.swing.JComboBox<String> Dropdown_NumFarmers;
     private javax.swing.JComboBox<String> Dropdown_NumSteps;
+    private javax.swing.JComboBox<String> Dropdown_Timeout;
     private javax.swing.JTextField Text_Collected;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

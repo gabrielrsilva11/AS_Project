@@ -4,13 +4,12 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/gabri/Documents/NetBeansProjects/AS_Project/src/as_project/ControlCenter.java</file>
-            <file>file:/C:/Users/gabri/Documents/NetBeansProjects/AS_Project/src/as_project/monitors/StandingAreaMonitor.java</file>
-            <file>file:/C:/Users/gabri/Documents/NetBeansProjects/AS_Project/src/as_project/monitors/StoreHouseMonitor.java</file>
             <file>file:/C:/Users/gabri/Documents/NetBeansProjects/AS_Project/src/as_project/Sockets.java</file>
-            <file>file:/C:/Users/gabri/Documents/NetBeansProjects/AS_Project/src/as_project/threads/FarmerThread.java</file>
+            <file>file:/C:/Users/gabri/Documents/NetBeansProjects/AS_Project/src/as_project/monitors/StoreHouseMonitor.java</file>
+            <file>file:/C:/Users/gabri/Documents/NetBeansProjects/AS_Project/src/as_project/GUI/CC_GUI.java</file>
+            <file>file:/C:/Users/gabri/Documents/NetBeansProjects/AS_Project/src/as_project/threads/MonitorLauncher.java</file>
             <file>file:/C:/Users/gabri/Documents/NetBeansProjects/AS_Project/src/as_project/FarmInfrastructure.java</file>
             <file>file:/C:/Users/gabri/Documents/NetBeansProjects/AS_Project/src/as_project/Run.java</file>
-            <file>file:/C:/Users/gabri/Documents/NetBeansProjects/AS_Project/src/as_project/util/SelectionAlgorithm.java</file>
         </group>
     </open-files>
 </project-private>
