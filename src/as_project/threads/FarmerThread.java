@@ -20,7 +20,6 @@ public class FarmerThread extends Thread {
     private final StandingAreaMonitor standingAreaMonitor;
     private final PathMonitor pathMonitor;
     private final GranaryMonitor granaryMonitor;
-    private int[][] position;
 
     public FarmerThread(StoreHouseMonitor storeHouse, StandingAreaMonitor standingAreaMonitor, PathMonitor pathMonitor, GranaryMonitor granaryMonitor) {
         this.storeHouse = storeHouse;
@@ -31,17 +30,11 @@ public class FarmerThread extends Thread {
 
     @Override
     public void run() {
-        storeHouse.goToStoreHouse(this);
-        standingAreaMonitor.enterStandingArea(this);
-        //pathMonitor.walkToThePath(this);
-        //granaryMonitor.collectTheCorn(this);
-    }
-
-    public int[][] getPosition() {
-        return position;
-    }
-
-    public void setPosition(int[][] position) {
-        this.position = position;
+        while(true) {
+            storeHouse.goToStoreHouse(this);
+            standingAreaMonitor.enterStandingArea(this);
+            pathMonitor.walkToThePath(this);
+            granaryMonitor.collectTheCorn(this);
+        }
     }
 }

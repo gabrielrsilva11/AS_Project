@@ -9,6 +9,7 @@ import as_project.threads.FarmerThread;
 import static as_project.util.Constants.ROWS;
 import as_project.util.PositionAlgorithm;
 import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,11 +22,11 @@ public class StandingAreaMonitor {
     
     private int numberOfFarmers;
     private int totalFarmers;
-    private final ReentrantLock rel;
+    private final Lock rel;
     private final Condition conditionToWait;
     private String[] positions;
     
-    public StandingAreaMonitor(ReentrantLock rel, int totalFarmers) {
+    public StandingAreaMonitor(Lock rel, int totalFarmers) {
         this.rel = rel;
         this.totalFarmers = totalFarmers;
         numberOfFarmers = 0;
@@ -42,7 +43,7 @@ public class StandingAreaMonitor {
             System.out.println(numberOfFarmers);
             positions[getFarmerPosition()] = farmer.getName();
             if(numberOfFarmers == totalFarmers) {
-                // signal the CC to enable the Prepare button
+                // signal the CC to enable the start button
                 // The positions contains the array with farmers to fill the GUI
                 proceedToThePath();
             }
@@ -65,7 +66,7 @@ public class StandingAreaMonitor {
         } catch(InterruptedException ex) {
             Logger.getLogger(StoreHouseMonitor.class.getName()).log(Level.SEVERE, null, ex);   
         } finally {
-            rel.lock();
+            rel.unlock();
         }
     }
     

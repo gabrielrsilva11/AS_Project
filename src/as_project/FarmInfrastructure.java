@@ -17,6 +17,7 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import javax.swing.JFrame;
 
@@ -30,6 +31,7 @@ public class FarmInfrastructure {
     private int numWorkers;
     private int numSteps;
     
+    /**
     public FarmInfrastructure(){
         FI_GUI fi = new FI_GUI();
         gui = new JFrame();
@@ -40,8 +42,8 @@ public class FarmInfrastructure {
         sock = new Sockets();
         sock.startServer(5000);
         numSteps = 1;
-        getMessages();
-    }
+        //getMessages();
+    }*/
     
     public int getNumWorkers(){
         return numWorkers;
@@ -60,29 +62,27 @@ public class FarmInfrastructure {
         int nSteps = 2;
         FarmInfrastructure farm = new FarmInfrastructure();
                 
-//        ReentrantLock rel = new ReentrantLock();
-//        StoreHouseMonitor storeHouseMonitor = new StoreHouseMonitor(rel);
-//        StandingAreaMonitor standingAreaMonitor = new StandingAreaMonitor(rel);
-//        PathMonitor pathMonitor = new PathMonitor(rel);
-//        GranaryMonitor granaryMonitor = new GranaryMonitor(rel);
-//        
-//        //Aqui recebe a chamada da gui com o número de farmers e cria um numero de threads
-//        int nFarmers = 5;
-//        //Recebe o número de steps que cada um vai andar
-//        int nSteps = 2;
-//        
-//        //Initialize selectionBox
-//        SelectionAlgorithm selectionAlgorithm = new SelectionAlgorithm(nFarmers, nSteps);
-//        for(int n = 1; n <= nFarmers; n++) {
-//            FarmerThread farmer = new FarmerThread(storeHouseMonitor, standingAreaMonitor, pathMonitor, granaryMonitor);
-//            farmer.setName("Farmer" + n);
-//            farmer.start();
-//        }
-//        
-//        storeHouseMonitor.readyToContinue();
+        Lock rel = new ReentrantLock();
+        Lock rel1 = new ReentrantLock();
+        Lock rel2 = new ReentrantLock();
+        Lock rel3 = new ReentrantLock();
+        StoreHouseMonitor storeHouseMonitor = new StoreHouseMonitor(rel);
+        StandingAreaMonitor standingAreaMonitor = new StandingAreaMonitor(rel1, nFarmers);
+        PathMonitor pathMonitor = new PathMonitor(rel2, nSteps, nFarmers);
+        GranaryMonitor granaryMonitor = new GranaryMonitor(rel3, nFarmers);
+       
+        
+        //Initialize selectionBox
+        //SelectionAlgorithm selectionAlgorithm = new SelectionAlgorithm(nFarmers, nSteps);
+        for(int n = 1; n <= 5; n++) {
+            FarmerThread farmer = new FarmerThread(storeHouseMonitor, standingAreaMonitor, pathMonitor, granaryMonitor);
+            farmer.setName("Farmer" + n);
+            farmer.start();
+        }
+        
           
     }
-    
+    /*
     public void getMessages(){
         // Farmers to go to standing area
         int nFarmers = 3;
@@ -130,5 +130,5 @@ public class FarmInfrastructure {
         }catch(IOException i){
             System.out.println(i);
         }     
-    } 
+    } */
 }

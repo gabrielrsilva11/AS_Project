@@ -18,7 +18,7 @@ public class PositionAlgorithm {
         return new Random().nextInt(ROWS);
     }
     
-    public static int getHorizontalPosition(int numSteps, int previousPosition) {
-        return new Random().nextInt(numSteps + 1) + 1 + previousPosition;
+    public static int getHorizontalPosition(int numSteps) {
+        return new Random().nextInt(numSteps) + 1;
     }
 }

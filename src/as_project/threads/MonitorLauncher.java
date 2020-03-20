@@ -24,7 +24,7 @@ public class MonitorLauncher implements Runnable{
         switch(message){
             case "prepare":
                 System.out.println("Caso prepare");
-                shMonitor.readyToContinue();
+                shMonitor.prepare(3);
                 System.out.println("Responder ao CC");
                 replyCC();
         }

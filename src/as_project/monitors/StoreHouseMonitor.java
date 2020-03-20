@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 import static as_project.util.Constants.*;
 import as_project.util.PositionAlgorithm;
 import java.util.Arrays;
+import java.util.concurrent.locks.Lock;
 
 /**
  *
@@ -22,11 +23,11 @@ import java.util.Arrays;
 public class StoreHouseMonitor {
     
     private int numberOfFarmers;
-    private final ReentrantLock rel;
+    private final Lock rel;
     private final Condition conditionToWait;
     private String[] positions;
     
-    public StoreHouseMonitor(ReentrantLock rel) {
+    public StoreHouseMonitor(Lock rel) {
         this.rel = rel;
         numberOfFarmers = 0;
         conditionToWait = rel.newCondition();
@@ -66,7 +67,7 @@ public class StoreHouseMonitor {
         } catch(InterruptedException ex) {
             Logger.getLogger(StoreHouseMonitor.class.getName()).log(Level.SEVERE, null, ex);   
         } finally {
-            rel.lock();
+            rel.unlock();
         }
     }
     
