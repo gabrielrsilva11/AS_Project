@@ -31,20 +31,17 @@ public class Sockets {
     public void startServer(int port){
         try{
             server = new ServerSocket(port);
-            System.out.println("Server Start");
-            System.out.println("Waiting for client");
 
             socketServer = server.accept();
-            System.out.println("Client Accepted");
         }catch(IOException e){
             System.out.println(e);
         }       
     }
     
     public void startClient(String ip, int port){
+        System.out.println("Starting Client");
         try{
             socketClient = new Socket(ip, port);
-            System.out.println("Connected");
             output = new DataOutputStream(socketClient.getOutputStream());
         }catch(UnknownHostException u){
             System.out.println(u);
@@ -56,34 +53,32 @@ public class Sockets {
     
     
     public void sendMessage(String message){
-        if(message.equals("0")){
-            try{
-                output.writeUTF(message);
-            }catch(IOException i){
-                System.out.println(i);
-            }
-            closeAllConnections();
-        }
-        else{
-            try{
-                output.writeUTF(message);
-            }catch(IOException i){
-                System.out.println(i);
-            }
+        try{
+            output.writeUTF(message);
+        }catch(IOException i){
+            System.out.println(i);
         }
     }
     
-    public void closeConnection(Socket toClose){
-        System.out.println("Closing connection");
+    public void closeClientConnection(){
         try{
-            toClose.close();
+            socketClient.close();
+            output.close();
+        }catch(IOException i){
+            System.out.println(i);
+        }
+    }
+    
+    public void closeServerConnection(){
+        try{
+            server.close();
+            socketServer.close();
         }catch(IOException i){
             System.out.println(i);
         }
     }
     
     public void closeAllConnections(){
-        System.out.println("Closing ALL connections");
         try{
             socketServer.close();
             socketClient.close();

@@ -4,17 +4,19 @@
  * and open the template in the editor.
  */
 package as_project.threads;
-import as_project.monitors.StoreHouseMonitor;
+import as_project.monitors.*;
 import as_project.Sockets;
 /**
  *
  * @author gabri
  */
 public class MonitorLauncher implements Runnable{
-    private String message;
-    private StoreHouseMonitor shMonitor;
+    private String message = null;
+    private StoreHouseMonitor shMonitor = null;
+    private StandingAreaMonitor saMonitor = null;
+    private int numFarmers;
     
-    public MonitorLauncher(String message, StoreHouseMonitor shMonitor){
+    public MonitorLauncher(String message, StoreHouseMonitor shMonitor, int numFarmers){
         this.message = message;
         this.shMonitor = shMonitor;
     }
