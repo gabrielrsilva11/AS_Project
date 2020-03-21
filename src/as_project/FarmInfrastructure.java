@@ -65,10 +65,10 @@ public class FarmInfrastructure extends Thread{
     public void handleMessages() {
         ReentrantLock rel = new ReentrantLock();
         ExecutorService executor = Executors.newFixedThreadPool(2);
-        StoreHouseMonitor storeHouseMonitor = null;
-        StandingAreaMonitor standingAreaMonitor = null;
-        PathMonitor pathMonitor = null;
-        GranaryMonitor granaryMonitor = null;
+        StoreHouseMonitor storeHouseMonitor = new StoreHouseMonitor(rel, storeFields);
+        StandingAreaMonitor standingAreaMonitor = new StandingAreaMonitor(rel, standingFields);
+        PathMonitor pathMonitor = new PathMonitor(rel, pathFields);
+        GranaryMonitor granaryMonitor = new GranaryMonitor(rel);
         ArrayList<FarmerThread> Farmers_Array = new ArrayList<FarmerThread>();
         
         try{
@@ -81,34 +81,29 @@ public class FarmInfrastructure extends Thread{
                 System.out.println(message);
                 switch(message){
                     //Prepare
-                    case "initial":
+                    case "prepare":
                         message = input.readUTF();
                         String[] splitMessage = message.split(",");
                         numWorkers = Integer.parseInt(splitMessage[0]);
                         numSteps = Integer.parseInt(splitMessage[1]);
                         timeout = Integer.parseInt(splitMessage[2]);
                         
-                        storeHouseMonitor = new StoreHouseMonitor(rel, storeFields);
-                        standingAreaMonitor = new StandingAreaMonitor(rel, standingFields);
                         standingAreaMonitor.setTotalFarmers(numWorkers);
-                        pathMonitor = new PathMonitor(rel, pathFields);
                         pathMonitor.setTotalFarmers(numWorkers);
                         pathMonitor.setNumberOfSteps(numSteps);
                         pathMonitor.setTimeout(timeout);
-                        granaryMonitor = new GranaryMonitor(rel);
                         granaryMonitor.setTotalFarmers(numWorkers);
-                        replyCC();
-                        break;
-                    case "prepare":
+                        
                         for(int n = 1; n <= 5; n++) {
                             FarmerThread farmer = new FarmerThread(storeHouseMonitor, standingAreaMonitor, pathMonitor, granaryMonitor);
                             Farmers_Array.add(farmer);
                             farmer.setName("Farmer" + n);
                             farmer.start();
                         }
+                        
                         MonitorLauncher mlPrepare = new MonitorLauncher("prepare",storeHouseMonitor,numWorkers);
                         executor.execute(mlPrepare);
-                        break; 
+                        break;
                     case "start":
                         MonitorLauncher mlStart = new MonitorLauncher("start", standingAreaMonitor);
                         executor.execute(mlStart);
