@@ -9,12 +9,11 @@ import as_project.Sockets;
 import as_project.threads.FarmerThread;
 import static as_project.util.Constants.*;
 import as_project.util.PositionAlgorithm;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -32,10 +31,8 @@ public class PathMonitor {
     private String[][] positions;
     private Map<String, int[]> previousPositions;
     
-    public PathMonitor(Lock rel, int nSteps, int totalFarmers) {
+    public PathMonitor(Lock rel) {
         this.rel = rel;
-        this.nSteps = nSteps;
-        this.totalFarmers = totalFarmers;
         this.previousPositions = new HashMap<>();
         numberOfFarmers = this.totalFarmers;
         conditionToWait = rel.newCondition();
@@ -46,16 +43,14 @@ public class PathMonitor {
 
         rel.lock();
         try {
+            Thread.sleep(new Random().nextInt(DELAY_BETWEEN_LOCKS));
             numberOfFarmers = this.totalFarmers;
-            Thread.sleep(1000);
             int[] farmerPosition;
             String farmerName;
             do {
                 farmerName = farmer.getName();
                 farmerPosition = getFarmerPosition(farmerName);
                 if (farmerPosition[1] > COLUMNS-1) {
-                    System.out.println("One go stage 3");
-                    System.out.println(farmerName);
                     positions[previousPositions.get(farmerName)[0]][previousPositions.get(farmerName)[1]] = null;
                     previousPositions.remove(farmerName);
                     numberOfFarmers--;
@@ -72,7 +67,6 @@ public class PathMonitor {
                     conditionToWait.await();
                 }
             } while(true);
-            System.out.println(Arrays.deepToString(positions).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
             proceedToTheGranary();
         } catch (InterruptedException ex) {
             Logger.getLogger(StoreHouseMonitor.class.getName()).log(Level.SEVERE, null, ex);
@@ -85,16 +79,14 @@ public class PathMonitor {
 
         rel.lock();
         try {
+            Thread.sleep(new Random().nextInt(DELAY_BETWEEN_LOCKS));
             numberOfFarmers = this.totalFarmers;
-            Thread.sleep(1000);
             int[] farmerPosition;
             String farmerName;
             do {
                 farmerName = farmer.getName();
                 farmerPosition = getFarmerPositionReverse(farmerName);
                 if (farmerPosition[1] < 0) {
-                    System.out.println("One go stage 3");
-                    System.out.println(farmerName);
                     positions[previousPositions.get(farmerName)[0]][previousPositions.get(farmerName)[1]] = null;
                     previousPositions.remove(farmerName);
                     numberOfFarmers--;
@@ -102,8 +94,6 @@ public class PathMonitor {
                 } else {
                     positions[farmerPosition[0]][farmerPosition[1]] = farmer.getName();
                 }
-                System.out.println(farmerName);
-                //System.out.println(Arrays.deepToString(positions).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
                 // when the others farmers finish theres no thread to wake the last one, or if theres only one farmer working
                 if (numberOfFarmers == 1) {
                     conditionToWait.signal();
@@ -123,7 +113,7 @@ public class PathMonitor {
     public void proceedToTheGranary() {
         rel.lock();
         try {
-            Thread.sleep(1000);
+            Thread.sleep(new Random().nextInt(DELAY_BETWEEN_LOCKS));
             conditionToWait.signal();
         } catch(InterruptedException ex) {
             Logger.getLogger(StoreHouseMonitor.class.getName()).log(Level.SEVERE, null, ex);   
@@ -135,13 +125,21 @@ public class PathMonitor {
     public void proceedToTheStoreHouse() {
         rel.lock();
         try {
-            Thread.sleep(1000);
+            Thread.sleep(new Random().nextInt(DELAY_BETWEEN_LOCKS));
             conditionToWait.signal();
         } catch(InterruptedException ex) {
             Logger.getLogger(StoreHouseMonitor.class.getName()).log(Level.SEVERE, null, ex);   
         } finally {
             rel.unlock();
         }
+    }
+    
+    public void setTotalFarmers(int totalFarmers) {
+        this.totalFarmers = totalFarmers;
+    }
+    
+    public void setNumberOfSteps(int nSteps) {
+        this.nSteps = nSteps;
     }
     
     private int[] getFarmerPosition(String farmerName) {
@@ -164,7 +162,6 @@ public class PathMonitor {
        if(positionHorizontal < COLUMNS) {
             previousPositions.put(farmerName, array);
        }
-       System.out.println("Steps: " + (positionHorizontal - previousHorizontalPosition));
        return array;
     }
     
@@ -188,7 +185,6 @@ public class PathMonitor {
         if(positionHorizontal >= 0) {
             previousPositions.put(farmerName, array);
         }
-        System.out.println("Steps: " + (positionHorizontal - previousHorizontalPosition));
        return array;
     }
     

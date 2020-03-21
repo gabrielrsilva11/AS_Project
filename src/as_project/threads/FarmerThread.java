@@ -56,5 +56,6 @@ public class FarmerThread extends Thread {
     
     public void setStopped(boolean stopped) {
         this.stopped = stopped;
+        storeHouse.setStoreCorn();
     }
 }

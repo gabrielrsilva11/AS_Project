@@ -7,12 +7,12 @@ package as_project.monitors;
 
 import as_project.Sockets;
 import as_project.threads.FarmerThread;
+import static as_project.util.Constants.DELAY_BETWEEN_LOCKS;
 import static as_project.util.Constants.ROWS;
 import as_project.util.PositionAlgorithm;
-import java.util.Arrays;
+import java.util.Random;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -28,9 +28,8 @@ public class StandingAreaMonitor {
     private final Condition conditionToWait;
     private String[] positions;
     
-    public StandingAreaMonitor(Lock rel, int totalFarmers) {
+    public StandingAreaMonitor(Lock rel) {
         this.rel = rel;
-        this.totalFarmers = totalFarmers;
         numberOfFarmers = 0;
         conditionToWait = rel.newCondition();
         positions = new String[ROWS];
@@ -39,9 +38,8 @@ public class StandingAreaMonitor {
     public void enterStandingArea(FarmerThread farmer) {
         rel.lock();
         try {
+            Thread.sleep(new Random().nextInt(DELAY_BETWEEN_LOCKS));
             numberOfFarmers++;
-            Thread.sleep(1000);
-            System.out.println(numberOfFarmers);
             positions[getFarmerPosition()] = farmer.getName();
             if(numberOfFarmers == totalFarmers) {
                 replyCC();
@@ -50,15 +48,12 @@ public class StandingAreaMonitor {
             }
             conditionToWait.await();
             conditionToWait.signal();
-            System.out.println("One go stage 2");
-            System.out.println(Arrays.toString(positions));
             for(int i = 0; i < positions.length; i++) {
                 if(farmer.getName().equals(positions[i])) {
                     positions[i] = null;
                     numberOfFarmers--;
                 }
             }
-            System.out.println(Arrays.toString(positions));
         } catch (InterruptedException ex) {
             Logger.getLogger(StoreHouseMonitor.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
@@ -67,16 +62,19 @@ public class StandingAreaMonitor {
     }
     
     public void proceedToThePath() {
-        // Evoke when the prepare button is used
         rel.lock();
         try {
-            Thread.sleep(1000);
+            Thread.sleep(new Random().nextInt(DELAY_BETWEEN_LOCKS));
             conditionToWait.signal();
         } catch(InterruptedException ex) {
             Logger.getLogger(StoreHouseMonitor.class.getName()).log(Level.SEVERE, null, ex);   
         } finally {
             rel.unlock();
         }
+    }
+    
+    public void setTotalFarmers(int totalFarmers) {
+        this.totalFarmers = totalFarmers;
     }
     
     private int getFarmerPosition() {

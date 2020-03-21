@@ -12,9 +12,9 @@ import as_project.util.PositionAlgorithm;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -32,9 +32,8 @@ private int numberOfFarmers;
     private String[] positions;
     private Map<String, Integer> collectedCornCob;
     
-    public GranaryMonitor(Lock rel, int totalFarmers) {
+    public GranaryMonitor(Lock rel) {
         this.rel = rel;
-        this.totalFarmers = totalFarmers;
         numberOfFarmers = 0;
         conditionToWait = rel.newCondition();
         collectConditionToWait = rel.newCondition();
@@ -46,26 +45,20 @@ private int numberOfFarmers;
 
         rel.lock();
         try {
+            Thread.sleep(new Random().nextInt(DELAY_BETWEEN_LOCKS));
             numberOfFarmers++;
-            Thread.sleep(1000);
-            System.out.println(numberOfFarmers);
             positions[getFarmerPosition()] = farmer.getName();
-            System.out.println("One go stage 4");
             if(numberOfFarmers == totalFarmers) {
                 replyCC();
-                // The positions contains the array with farmers to fill the GUI
-                //collect();
             }
             conditionToWait.await();
             conditionToWait.signal();
-            System.out.println(Arrays.toString(positions));
             for(int i = 0; i < positions.length; i++) {
                 if(farmer.getName().equals(positions[i])) {
                     positions[i] = null;
                     numberOfFarmers--;
                 }
             }
-            System.out.println(Arrays.toString(positions));
         } catch (InterruptedException ex) {
             Logger.getLogger(StoreHouseMonitor.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
@@ -77,15 +70,11 @@ private int numberOfFarmers;
         
         rel.lock();
         try {
-            Thread.sleep(1000);
-            System.out.println("One go stage 5");
+            Thread.sleep(new Random().nextInt(DELAY_BETWEEN_LOCKS));
             String farmerName = farmer.getName();
             collectedCornCob.put(farmerName, 0);
             while(true) {
-            //while(collectedCornCob.get(farmerName) < CORN_COBS) {
                 collectedCornCob.put(farmerName, collectedCornCob.get(farmerName)+1);
-                System.out.println("Farmer: " + farmerName);
-                System.out.println("collected: " + collectedCornCob.get(farmerName));
                 if(collectedCornCob.get(farmerName) == CORN_COBS) {
                     break;
                 }
@@ -99,7 +88,6 @@ private int numberOfFarmers;
             }
             collectConditionToWait.await();
             collectConditionToWait.signal();
-            System.out.println("returning: " +  farmer.getName());
             numberOfFarmers--;
             collectedCornCob.remove(farmerName);
         } catch (InterruptedException ex) {
@@ -112,7 +100,7 @@ private int numberOfFarmers;
     public void collect() {
         rel.lock();
         try {
-            Thread.sleep(1000);
+            Thread.sleep(new Random().nextInt(DELAY_BETWEEN_LOCKS));
             conditionToWait.signal();
         } catch(InterruptedException ex) {
             Logger.getLogger(StoreHouseMonitor.class.getName()).log(Level.SEVERE, null, ex);   
@@ -124,13 +112,17 @@ private int numberOfFarmers;
     public void returnToTheBeginning() {
         rel.lock();
         try {
-            Thread.sleep(1000);
+            Thread.sleep(new Random().nextInt(DELAY_BETWEEN_LOCKS));
             collectConditionToWait.signal();
         } catch(InterruptedException ex) {
             Logger.getLogger(StoreHouseMonitor.class.getName()).log(Level.SEVERE, null, ex);   
         } finally {
             rel.unlock();
         }
+    }
+    
+    public void setTotalFarmers(int totalFarmers) {
+        this.totalFarmers = totalFarmers;
     }
     
     private int getFarmerPosition() {

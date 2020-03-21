@@ -139,9 +139,13 @@ public class FarmInfrastructure extends Thread{
                         timeout = Integer.parseInt(splitMessage[2]);
                         
                         storeHouseMonitor = new StoreHouseMonitor(rel);
-                        standingAreaMonitor = new StandingAreaMonitor(rel, numWorkers);
-                        pathMonitor = new PathMonitor(rel, numWorkers, numSteps);
-                        granaryMonitor = new GranaryMonitor(rel, numWorkers);
+                        standingAreaMonitor = new StandingAreaMonitor(rel);
+                        standingAreaMonitor.setTotalFarmers(numWorkers);
+                        pathMonitor = new PathMonitor(rel);
+                        pathMonitor.setTotalFarmers(numWorkers);
+                        pathMonitor.setNumberOfSteps(numSteps);
+                        granaryMonitor = new GranaryMonitor(rel);
+                        granaryMonitor.setTotalFarmers(numWorkers);
                         replyCC();
                         break;
                     case "prepare":

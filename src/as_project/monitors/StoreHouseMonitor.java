@@ -7,15 +7,14 @@ package as_project.monitors;
 
 import as_project.Sockets;
 import as_project.threads.FarmerThread;
+import as_project.util.PositionAlgorithm;
 import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.locks.Lock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.Random;
 
 import static as_project.util.Constants.*;
-import as_project.util.PositionAlgorithm;
-import java.util.Arrays;
-import java.util.concurrent.locks.Lock;
 
 /**
  *
@@ -43,30 +42,26 @@ public class StoreHouseMonitor {
 
         rel.lock();
         try {
+            Thread.sleep(new Random().nextInt(DELAY_BETWEEN_LOCKS));
             numberOfFarmers++;
-            Thread.sleep(1000);
-            System.out.println(numberOfFarmers);
             positions[getFarmerPosition()] = farmer.getName();
-            // If the iteration ends we need to set this boolean to false
             if(storeCorn) {
                 storedCornCobs += CORN_COBS;
+                //Reply with the stored corns
+                replyCC();
             }
             
             if(numberOfFarmers == ROWS) {
+                //Reply to enable prepare button
                 replyCC();
-                //prepare(3);
             }
             conditionToWait.await();
-            System.out.println("Corn cobs: " + storedCornCobs);
-            System.out.println("One go stage 1");
-            System.out.println(Arrays.toString(positions));
             for(int i = 0; i < positions.length; i++) {
                 if(farmer.getName().equals(positions[i])) {
                     positions[i] = null;
                     numberOfFarmers--;
                 }
             }
-            System.out.println(Arrays.toString(positions));
         } catch (InterruptedException ex) {
             Logger.getLogger(StoreHouseMonitor.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
@@ -78,7 +73,7 @@ public class StoreHouseMonitor {
         // Evoke when the prepare button is used
         rel.lock();
         try {
-            Thread.sleep(1000);
+            Thread.sleep(new Random().nextInt(DELAY_BETWEEN_LOCKS));
             storeCorn = true;
             do {
                 nFarmers--;
@@ -89,6 +84,11 @@ public class StoreHouseMonitor {
         } finally {
             rel.unlock();
         }
+    }
+    
+    public void setStoreCorn() {
+        this.storeCorn = false;
+        this.storedCornCobs = 0;
     }
     
     private int getFarmerPosition() {
