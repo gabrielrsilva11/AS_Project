@@ -23,15 +23,19 @@ import java.util.concurrent.locks.Lock;
 public class StoreHouseMonitor {
     
     private int numberOfFarmers;
+    private int storedCornCobs;
+    private boolean storeCorn;
     private final Lock rel;
     private final Condition conditionToWait;
     private String[] positions;
     
     public StoreHouseMonitor(Lock rel) {
         this.rel = rel;
-        numberOfFarmers = 0;
-        conditionToWait = rel.newCondition();
-        positions = new String[ROWS];
+        this.storeCorn = false;
+        this.numberOfFarmers = 0;
+        this.storedCornCobs = 0;
+        this.conditionToWait = rel.newCondition();
+        this.positions = new String[ROWS];
     }
     
     public void goToStoreHouse(FarmerThread farmer) {
@@ -42,12 +46,25 @@ public class StoreHouseMonitor {
             Thread.sleep(1000);
             System.out.println(numberOfFarmers);
             positions[getFarmerPosition()] = farmer.getName();
+            // If the iteration ends we need to set this boolean to false
+            if(storeCorn) {
+                storedCornCobs += CORN_COBS;
+            }
             if(numberOfFarmers == ROWS) {
                 // signal the CC to enable the Prepare button
                 prepare(3);
             }
             conditionToWait.await();
+            System.out.println("Corn cobs: " + storedCornCobs);
             System.out.println("One go stage 1");
+            System.out.println(Arrays.toString(positions));
+            for(int i = 0; i < positions.length; i++) {
+                if(farmer.getName().equals(positions[i])) {
+                    positions[i] = null;
+                    numberOfFarmers--;
+                }
+            }
+            System.out.println(Arrays.toString(positions));
         } catch (InterruptedException ex) {
             Logger.getLogger(StoreHouseMonitor.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
@@ -60,6 +77,7 @@ public class StoreHouseMonitor {
         rel.lock();
         try {
             Thread.sleep(1000);
+            storeCorn = true;
             do {
                 nFarmers--;
                 conditionToWait.signal();

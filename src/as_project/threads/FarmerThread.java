@@ -34,7 +34,9 @@ public class FarmerThread extends Thread {
             storeHouse.goToStoreHouse(this);
             standingAreaMonitor.enterStandingArea(this);
             pathMonitor.walkToThePath(this);
+            granaryMonitor.enterTheGranary(this);
             granaryMonitor.collectTheCorn(this);
+            pathMonitor.walkToThePathReverse(this);
         }
     }
 }

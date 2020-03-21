@@ -54,8 +54,8 @@ public class FarmInfrastructure extends Thread{
     public int getNumSteps(){
         return numSteps;
     }
-//    public static void main(String[] args) {
-//        FarmInfrastructure farm = new FarmInfrastructure();
+    public static void main(String[] args) {
+        //FarmInfrastructure farm = new FarmInfrastructure();
         
         
         //Aqui recebe a chamada da gui com o número de farmers e cria um numero de threads
@@ -84,6 +84,7 @@ public class FarmInfrastructure extends Thread{
         
           
     }
+}
     /*
 //        ReentrantLock rel = new ReentrantLock();
 //        StoreHouseMonitor storeHouseMonitor = new StoreHouseMonitor(rel);

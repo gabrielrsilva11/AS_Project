@@ -8,6 +8,7 @@ package as_project.monitors;
 import as_project.threads.FarmerThread;
 import static as_project.util.Constants.ROWS;
 import as_project.util.PositionAlgorithm;
+import java.util.Arrays;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -50,6 +51,14 @@ public class StandingAreaMonitor {
             conditionToWait.await();
             conditionToWait.signal();
             System.out.println("One go stage 2");
+            System.out.println(Arrays.toString(positions));
+            for(int i = 0; i < positions.length; i++) {
+                if(farmer.getName().equals(positions[i])) {
+                    positions[i] = null;
+                    numberOfFarmers--;
+                }
+            }
+            System.out.println(Arrays.toString(positions));
         } catch (InterruptedException ex) {
             Logger.getLogger(StoreHouseMonitor.class.getName()).log(Level.SEVERE, null, ex);
         } finally {

@@ -6,8 +6,11 @@
 package as_project.monitors;
 
 import as_project.threads.FarmerThread;
-import static as_project.util.Constants.ROWS;
+import static as_project.util.Constants.*;
 import as_project.util.PositionAlgorithm;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -24,17 +27,21 @@ private int numberOfFarmers;
     private int totalFarmers;
     private final Lock rel;
     private final Condition conditionToWait;
+    private final Condition collectConditionToWait;
     private String[] positions;
+    private Map<String, Integer> collectedCornCob;
     
     public GranaryMonitor(Lock rel, int totalFarmers) {
         this.rel = rel;
         this.totalFarmers = totalFarmers;
         numberOfFarmers = 0;
         conditionToWait = rel.newCondition();
+        collectConditionToWait = rel.newCondition();
         positions = new String[ROWS];
+        collectedCornCob = new HashMap<>();
     }
     
-    public void collectTheCorn(FarmerThread farmer) {
+    public void enterTheGranary(FarmerThread farmer) {
 
         rel.lock();
         try {
@@ -50,8 +57,50 @@ private int numberOfFarmers;
             }
             conditionToWait.await();
             conditionToWait.signal();
-            System.out.println("Collecting: " +  farmer.getName());
-            //conditionToWait.signal();
+            System.out.println(Arrays.toString(positions));
+            for(int i = 0; i < positions.length; i++) {
+                if(farmer.getName().equals(positions[i])) {
+                    positions[i] = null;
+                    numberOfFarmers--;
+                }
+            }
+            System.out.println(Arrays.toString(positions));
+        } catch (InterruptedException ex) {
+            Logger.getLogger(StoreHouseMonitor.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            rel.unlock();
+        }
+    }
+    
+    public void collectTheCorn(FarmerThread farmer) {
+        
+        rel.lock();
+        try {
+            Thread.sleep(1000);
+            System.out.println("One go stage 5");
+            String farmerName = farmer.getName();
+            collectedCornCob.put(farmerName, 0);
+            while(true) {
+            //while(collectedCornCob.get(farmerName) < CORN_COBS) {
+                collectedCornCob.put(farmerName, collectedCornCob.get(farmerName)+1);
+                System.out.println("Farmer: " + farmerName);
+                System.out.println("collected: " + collectedCornCob.get(farmerName));
+                if(collectedCornCob.get(farmerName) == CORN_COBS) {
+                    break;
+                }
+                collectConditionToWait.signal();
+                collectConditionToWait.await();
+            }
+            numberOfFarmers++;
+            collectConditionToWait.signal();
+            if(numberOfFarmers == totalFarmers) {
+                returnToTheBeginning();
+            }
+            collectConditionToWait.await();
+            collectConditionToWait.signal();
+            System.out.println("returning: " +  farmer.getName());
+            numberOfFarmers--;
+            collectedCornCob.remove(farmerName);
         } catch (InterruptedException ex) {
             Logger.getLogger(StoreHouseMonitor.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
@@ -71,19 +120,15 @@ private int numberOfFarmers;
         }
     }
     
-        public void prepare(int nFarmers) {
-        // Evoke when the prepare button is used
+    public void returnToTheBeginning() {
         rel.lock();
         try {
             Thread.sleep(1000);
-            do {
-                nFarmers--;
-                conditionToWait.signal();
-            } while(nFarmers > 0);
+            collectConditionToWait.signal();
         } catch(InterruptedException ex) {
             Logger.getLogger(StoreHouseMonitor.class.getName()).log(Level.SEVERE, null, ex);   
         } finally {
-            rel.lock();
+            rel.unlock();
         }
     }
     

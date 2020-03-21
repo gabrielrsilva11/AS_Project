@@ -13,6 +13,7 @@ import javax.swing.JFrame;
  * @author gabri
  */
 public class Run {
+    /*
         public static void main(String[] args) {
             FarmInfrastructure fi = new FarmInfrastructure();
             fi.start();
@@ -23,6 +24,7 @@ public class Run {
             cc_frame.setSize(350, 300);
             cc_frame.setResizable(false);
             cc_frame.add(cc_gui);
+*/
             
             //FI_GUI fi_gui = new FI_GUI();
             //JFrame fi_frame = new JFrame();
@@ -31,5 +33,5 @@ public class Run {
             //fi_frame.setResizable(true);
             //fi_frame.add(fi_gui);
             
-    }
+    //}
 }
