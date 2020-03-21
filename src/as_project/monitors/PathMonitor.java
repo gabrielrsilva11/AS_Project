@@ -9,6 +9,7 @@ import as_project.Sockets;
 import as_project.threads.FarmerThread;
 import static as_project.util.Constants.*;
 import as_project.util.PositionAlgorithm;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -16,6 +17,7 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JTextField;
 
 /**
  *
@@ -30,13 +32,15 @@ public class PathMonitor {
     private final Condition conditionToWait;
     private String[][] positions;
     private Map<String, int[]> previousPositions;
+    private ArrayList<ArrayList<JTextField>> pathFields;
     
-    public PathMonitor(Lock rel) {
+    public PathMonitor(Lock rel, ArrayList<ArrayList<JTextField>> pathFields) {
         this.rel = rel;
         this.previousPositions = new HashMap<>();
         numberOfFarmers = this.totalFarmers;
         conditionToWait = rel.newCondition();
         positions = new String[ROWS][COLUMNS];
+        this.pathFields = pathFields;
     }
     
     public void walkToThePath(FarmerThread farmer) {
@@ -51,11 +55,13 @@ public class PathMonitor {
                 farmerName = farmer.getName();
                 farmerPosition = getFarmerPosition(farmerName);
                 if (farmerPosition[1] > COLUMNS-1) {
+                    pathFields.get(previousPositions.get(farmerName)[0]).get(previousPositions.get(farmerName)[1]).setText("");
                     positions[previousPositions.get(farmerName)[0]][previousPositions.get(farmerName)[1]] = null;
                     previousPositions.remove(farmerName);
                     numberOfFarmers--;
                     break;
                 } else {
+                    pathFields.get(farmerPosition[0]).get(farmerPosition[1]).setText("");
                     positions[farmerPosition[0]][farmerPosition[1]] = farmer.getName();
                 }
                 System.out.println(farmerName);

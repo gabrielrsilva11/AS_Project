@@ -15,6 +15,8 @@ import java.util.logging.Logger;
 import java.util.Random;
 
 import static as_project.util.Constants.*;
+import java.util.ArrayList;
+import javax.swing.JTextField;
 
 /**
  *
@@ -28,14 +30,16 @@ public class StoreHouseMonitor {
     private final Lock rel;
     private final Condition conditionToWait;
     private String[] positions;
+    private ArrayList<JTextField> storeHouseFields;
     
-    public StoreHouseMonitor(Lock rel) {
+    public StoreHouseMonitor(Lock rel,  ArrayList<JTextField> storeHouseFields) {
         this.rel = rel;
         this.storeCorn = false;
         this.numberOfFarmers = 0;
         this.storedCornCobs = 0;
         this.conditionToWait = rel.newCondition();
         this.positions = new String[ROWS];
+        this.storeHouseFields = storeHouseFields;
     }
     
     public void goToStoreHouse(FarmerThread farmer) {
@@ -58,6 +62,7 @@ public class StoreHouseMonitor {
             conditionToWait.await();
             for(int i = 0; i < positions.length; i++) {
                 if(farmer.getName().equals(positions[i])) {
+                    storeHouseFields.get(i).setText("");
                     positions[i] = null;
                     numberOfFarmers--;
                 }

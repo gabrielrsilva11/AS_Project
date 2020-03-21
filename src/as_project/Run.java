@@ -24,6 +24,5 @@ public class Run {
             cc_frame.setSize(463, 280);
             cc_frame.setResizable(false);
             cc_frame.add(cc_gui);
-            
     }
 }

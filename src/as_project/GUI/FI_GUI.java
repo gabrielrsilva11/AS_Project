@@ -27,25 +27,24 @@ public class FI_GUI extends javax.swing.JPanel {
 
         jLabel1 = new javax.swing.JLabel();
         storePanel = new javax.swing.JPanel();
-        storeField_1 = new javax.swing.JTextField();
         storeField_2 = new javax.swing.JTextField();
         storeField_3 = new javax.swing.JTextField();
         storeField_4 = new javax.swing.JTextField();
         storeField_5 = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
+        storeField_1 = new javax.swing.JTextField();
         standingPanel = new javax.swing.JPanel();
         standingField_1 = new javax.swing.JTextField();
         standingField_2 = new javax.swing.JTextField();
         standingField_3 = new javax.swing.JTextField();
         standingField_4 = new javax.swing.JTextField();
-        standingField_5 = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
+        standingField_5 = new javax.swing.JTextField();
         standingPanel1 = new javax.swing.JPanel();
         pathField_0_1 = new javax.swing.JTextField();
         pathField_0_2 = new javax.swing.JTextField();
         pathField_0_3 = new javax.swing.JTextField();
         pathField_0_4 = new javax.swing.JTextField();
-        pathField_0_5 = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         pathField_1_1 = new javax.swing.JTextField();
         pathField_1_2 = new javax.swing.JTextField();
@@ -92,45 +91,43 @@ public class FI_GUI extends javax.swing.JPanel {
         pathField_9_2 = new javax.swing.JTextField();
         pathField_9_3 = new javax.swing.JTextField();
         pathField_9_5 = new javax.swing.JTextField();
+        pathField_0_5 = new javax.swing.JTextField();
         standingPanel2 = new javax.swing.JPanel();
         granaryField_1 = new javax.swing.JTextField();
         granaryField_2 = new javax.swing.JTextField();
-        standingField_8 = new javax.swing.JTextField();
-        standingField_9 = new javax.swing.JTextField();
-        standingField_10 = new javax.swing.JTextField();
+        granaryField_4 = new javax.swing.JTextField();
+        granaryField_3 = new javax.swing.JTextField();
+        granaryField_5 = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
 
         jLabel1.setText("Farm Infrastructure");
 
-        storeField_1.setText("1");
-        storeField_1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                storeField_1ActionPerformed(evt);
-            }
-        });
-
-        storeField_2.setText("2");
+        storeField_2.setEditable(false);
+        storeField_2.setText("Farmer1");
         storeField_2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 storeField_2ActionPerformed(evt);
             }
         });
 
-        storeField_3.setText("4");
+        storeField_3.setEditable(false);
+        storeField_3.setText("Farmer3");
         storeField_3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 storeField_3ActionPerformed(evt);
             }
         });
 
-        storeField_4.setText("3");
+        storeField_4.setEditable(false);
+        storeField_4.setText("Farmer2");
         storeField_4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 storeField_4ActionPerformed(evt);
             }
         });
 
-        storeField_5.setText("5");
+        storeField_5.setEditable(false);
+        storeField_5.setText("Farmer4");
         storeField_5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 storeField_5ActionPerformed(evt);
@@ -139,411 +136,400 @@ public class FI_GUI extends javax.swing.JPanel {
 
         jLabel2.setText("Storehouse");
 
-        javax.swing.GroupLayout storePanelLayout = new javax.swing.GroupLayout(storePanel);
-        storePanel.setLayout(storePanelLayout);
-        storePanelLayout.setHorizontalGroup(
-            storePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(storePanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(storePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(storePanelLayout.createSequentialGroup()
-                        .addComponent(storeField_1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(storeField_2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(storeField_4, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(storeField_3, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(storeField_5, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(storePanelLayout.createSequentialGroup()
-                        .addGap(104, 104, 104)
-                        .addComponent(jLabel2)))
-                .addContainerGap(36, Short.MAX_VALUE))
-        );
-        storePanelLayout.setVerticalGroup(
-            storePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(storePanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(storePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(storeField_4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(storeField_2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(storeField_1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(storeField_3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(storeField_5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(17, Short.MAX_VALUE))
-        );
+        storeField_1.setEditable(false);
+        storeField_1.setText("Farmer0");
+        storeField_1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                storeField_1ActionPerformed(evt);
+            }
+        });
 
+        standingField_1.setEditable(false);
         standingField_1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 standingField_1ActionPerformed(evt);
             }
         });
 
+        standingField_2.setEditable(false);
         standingField_2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 standingField_2ActionPerformed(evt);
             }
         });
 
+        standingField_3.setEditable(false);
         standingField_3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 standingField_3ActionPerformed(evt);
             }
         });
 
+        standingField_4.setEditable(false);
         standingField_4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 standingField_4ActionPerformed(evt);
             }
         });
 
+        jLabel3.setText("Standing Area");
+
+        standingField_5.setEditable(false);
         standingField_5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 standingField_5ActionPerformed(evt);
             }
         });
 
-        jLabel3.setText("Standing Area");
-
-        javax.swing.GroupLayout standingPanelLayout = new javax.swing.GroupLayout(standingPanel);
-        standingPanel.setLayout(standingPanelLayout);
-        standingPanelLayout.setHorizontalGroup(
-            standingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(standingPanelLayout.createSequentialGroup()
-                .addGroup(standingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(standingPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(standingField_1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(standingField_2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(standingField_4, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(standingField_3, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(standingField_5, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(standingPanelLayout.createSequentialGroup()
-                        .addGap(106, 106, 106)
-                        .addComponent(jLabel3)))
-                .addContainerGap(60, Short.MAX_VALUE))
-        );
-        standingPanelLayout.setVerticalGroup(
-            standingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(standingPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(standingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(standingField_4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(standingField_2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(standingField_1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(standingField_3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(standingField_5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(17, Short.MAX_VALUE))
-        );
-
+        pathField_0_1.setEditable(false);
         pathField_0_1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pathField_0_1ActionPerformed(evt);
             }
         });
 
+        pathField_0_2.setEditable(false);
         pathField_0_2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pathField_0_2ActionPerformed(evt);
             }
         });
 
+        pathField_0_3.setEditable(false);
         pathField_0_3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pathField_0_3ActionPerformed(evt);
             }
         });
 
+        pathField_0_4.setEditable(false);
         pathField_0_4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pathField_0_4ActionPerformed(evt);
             }
         });
 
-        pathField_0_5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                pathField_0_5ActionPerformed(evt);
-            }
-        });
-
         jLabel4.setText("Path");
 
+        pathField_1_1.setEditable(false);
         pathField_1_1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pathField_1_1ActionPerformed(evt);
             }
         });
 
+        pathField_1_2.setEditable(false);
         pathField_1_2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pathField_1_2ActionPerformed(evt);
             }
         });
 
+        pathField_1_4.setEditable(false);
         pathField_1_4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pathField_1_4ActionPerformed(evt);
             }
         });
 
+        pathField_1_3.setEditable(false);
         pathField_1_3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pathField_1_3ActionPerformed(evt);
             }
         });
 
+        pathField_1_5.setEditable(false);
         pathField_1_5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pathField_1_5ActionPerformed(evt);
             }
         });
 
+        pathField_2_4.setEditable(false);
         pathField_2_4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pathField_2_4ActionPerformed(evt);
             }
         });
 
+        pathField_2_1.setEditable(false);
         pathField_2_1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pathField_2_1ActionPerformed(evt);
             }
         });
 
+        pathField_2_2.setEditable(false);
         pathField_2_2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pathField_2_2ActionPerformed(evt);
             }
         });
 
+        pathField_2_3.setEditable(false);
         pathField_2_3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pathField_2_3ActionPerformed(evt);
             }
         });
 
+        pathField_2_5.setEditable(false);
         pathField_2_5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pathField_2_5ActionPerformed(evt);
             }
         });
 
+        pathField_4_1.setEditable(false);
         pathField_4_1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pathField_4_1ActionPerformed(evt);
             }
         });
 
+        pathField_4_2.setEditable(false);
         pathField_4_2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pathField_4_2ActionPerformed(evt);
             }
         });
 
+        pathField_4_4.setEditable(false);
         pathField_4_4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pathField_4_4ActionPerformed(evt);
             }
         });
 
+        pathField_4_3.setEditable(false);
         pathField_4_3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pathField_4_3ActionPerformed(evt);
             }
         });
 
+        pathField_4_5.setEditable(false);
         pathField_4_5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pathField_4_5ActionPerformed(evt);
             }
         });
 
+        pathField_3_1.setEditable(false);
         pathField_3_1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pathField_3_1ActionPerformed(evt);
             }
         });
 
+        pathField_5_4.setEditable(false);
         pathField_5_4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pathField_5_4ActionPerformed(evt);
             }
         });
 
+        pathField_3_2.setEditable(false);
         pathField_3_2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pathField_3_2ActionPerformed(evt);
             }
         });
 
+        pathField_5_1.setEditable(false);
         pathField_5_1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pathField_5_1ActionPerformed(evt);
             }
         });
 
+        pathField_3_4.setEditable(false);
         pathField_3_4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pathField_3_4ActionPerformed(evt);
             }
         });
 
+        pathField_5_2.setEditable(false);
         pathField_5_2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pathField_5_2ActionPerformed(evt);
             }
         });
 
+        pathField_3_3.setEditable(false);
         pathField_3_3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pathField_3_3ActionPerformed(evt);
             }
         });
 
+        pathField_5_3.setEditable(false);
         pathField_5_3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pathField_5_3ActionPerformed(evt);
             }
         });
 
+        pathField_3_5.setEditable(false);
         pathField_3_5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pathField_3_5ActionPerformed(evt);
             }
         });
 
+        pathField_5_5.setEditable(false);
         pathField_5_5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pathField_5_5ActionPerformed(evt);
             }
         });
 
+        pathField_7_1.setEditable(false);
         pathField_7_1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pathField_7_1ActionPerformed(evt);
             }
         });
 
+        pathField_7_2.setEditable(false);
         pathField_7_2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pathField_7_2ActionPerformed(evt);
             }
         });
 
+        pathField_7_4.setEditable(false);
         pathField_7_4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pathField_7_4ActionPerformed(evt);
             }
         });
 
+        pathField_7_3.setEditable(false);
         pathField_7_3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pathField_7_3ActionPerformed(evt);
             }
         });
 
+        pathField_7_5.setEditable(false);
         pathField_7_5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pathField_7_5ActionPerformed(evt);
             }
         });
 
+        pathField_6_1.setEditable(false);
         pathField_6_1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pathField_6_1ActionPerformed(evt);
             }
         });
 
+        pathField_8_4.setEditable(false);
         pathField_8_4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pathField_8_4ActionPerformed(evt);
             }
         });
 
+        pathField_6_2.setEditable(false);
         pathField_6_2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pathField_6_2ActionPerformed(evt);
             }
         });
 
+        pathField_8_1.setEditable(false);
         pathField_8_1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pathField_8_1ActionPerformed(evt);
             }
         });
 
+        pathField_6_4.setEditable(false);
         pathField_6_4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pathField_6_4ActionPerformed(evt);
             }
         });
 
+        pathField_8_2.setEditable(false);
         pathField_8_2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pathField_8_2ActionPerformed(evt);
             }
         });
 
+        pathField_6_3.setEditable(false);
         pathField_6_3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pathField_6_3ActionPerformed(evt);
             }
         });
 
+        pathField_8_3.setEditable(false);
         pathField_8_3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pathField_8_3ActionPerformed(evt);
             }
         });
 
+        pathField_6_5.setEditable(false);
         pathField_6_5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pathField_6_5ActionPerformed(evt);
             }
         });
 
+        pathField_8_5.setEditable(false);
         pathField_8_5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pathField_8_5ActionPerformed(evt);
             }
         });
 
+        pathField_9_4.setEditable(false);
         pathField_9_4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pathField_9_4ActionPerformed(evt);
             }
         });
 
+        pathField_9_1.setEditable(false);
         pathField_9_1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pathField_9_1ActionPerformed(evt);
             }
         });
 
+        pathField_9_2.setEditable(false);
         pathField_9_2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pathField_9_2ActionPerformed(evt);
             }
         });
 
+        pathField_9_3.setEditable(false);
         pathField_9_3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pathField_9_3ActionPerformed(evt);
             }
         });
 
+        pathField_9_5.setEditable(false);
         pathField_9_5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pathField_9_5ActionPerformed(evt);
+            }
+        });
+
+        pathField_0_5.setEditable(false);
+        pathField_0_5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pathField_0_5ActionPerformed(evt);
             }
         });
 
@@ -551,121 +537,126 @@ public class FI_GUI extends javax.swing.JPanel {
         standingPanel1.setLayout(standingPanel1Layout);
         standingPanel1Layout.setHorizontalGroup(
             standingPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, standingPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(118, 118, 118))
             .addGroup(standingPanel1Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(standingPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(standingPanel1Layout.createSequentialGroup()
-                        .addComponent(pathField_0_1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(pathField_0_2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(pathField_0_3, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(pathField_0_4, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(pathField_0_5, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap()
+                        .addGroup(standingPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(standingPanel1Layout.createSequentialGroup()
+                                .addComponent(pathField_3_1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(pathField_3_2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(pathField_3_3, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(pathField_3_4, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(pathField_3_5, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(standingPanel1Layout.createSequentialGroup()
+                                .addComponent(pathField_4_1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(pathField_4_2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(pathField_4_3, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(pathField_4_4, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(pathField_4_5, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(standingPanel1Layout.createSequentialGroup()
+                                .addComponent(pathField_5_1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(pathField_5_2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(pathField_5_3, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(pathField_5_4, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(pathField_5_5, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(standingPanel1Layout.createSequentialGroup()
+                                .addComponent(pathField_6_1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(pathField_6_2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(pathField_6_3, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(pathField_6_4, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(pathField_6_5, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(standingPanel1Layout.createSequentialGroup()
+                                .addComponent(pathField_7_1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(pathField_7_2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(pathField_7_3, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(pathField_7_4, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(pathField_7_5, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(standingPanel1Layout.createSequentialGroup()
+                                .addComponent(pathField_8_1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(pathField_8_2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(pathField_8_3, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(pathField_8_4, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(pathField_8_5, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(standingPanel1Layout.createSequentialGroup()
+                                .addComponent(pathField_9_1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(pathField_9_2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(pathField_9_3, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(pathField_9_4, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(pathField_9_5, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(standingPanel1Layout.createSequentialGroup()
+                                .addComponent(pathField_2_1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(pathField_2_2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(pathField_2_3, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(pathField_2_4, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(pathField_2_5, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(standingPanel1Layout.createSequentialGroup()
+                                .addGroup(standingPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(standingPanel1Layout.createSequentialGroup()
+                                        .addComponent(pathField_0_1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(pathField_0_2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(pathField_0_3, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(pathField_0_4, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(standingPanel1Layout.createSequentialGroup()
+                                        .addComponent(pathField_1_1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(pathField_1_2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(pathField_1_3, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(pathField_1_4, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(18, 18, 18)
+                                .addGroup(standingPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(pathField_0_5, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(pathField_1_5, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(standingPanel1Layout.createSequentialGroup()
-                        .addComponent(pathField_1_1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(pathField_1_2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(pathField_1_3, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(pathField_1_4, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(pathField_1_5, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(standingPanel1Layout.createSequentialGroup()
-                        .addComponent(pathField_2_1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(pathField_2_2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(pathField_2_3, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(pathField_2_4, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(pathField_2_5, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(standingPanel1Layout.createSequentialGroup()
-                        .addComponent(pathField_3_1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(pathField_3_2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(pathField_3_3, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(pathField_3_4, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(pathField_3_5, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(standingPanel1Layout.createSequentialGroup()
-                        .addComponent(pathField_4_1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(pathField_4_2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(pathField_4_3, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(pathField_4_4, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(pathField_4_5, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(standingPanel1Layout.createSequentialGroup()
-                        .addComponent(pathField_5_1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(pathField_5_2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(pathField_5_3, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(pathField_5_4, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(pathField_5_5, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(standingPanel1Layout.createSequentialGroup()
-                        .addComponent(pathField_6_1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(pathField_6_2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(pathField_6_3, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(pathField_6_4, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(pathField_6_5, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(standingPanel1Layout.createSequentialGroup()
-                        .addComponent(pathField_7_1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(pathField_7_2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(pathField_7_3, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(pathField_7_4, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(pathField_7_5, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(standingPanel1Layout.createSequentialGroup()
-                        .addComponent(pathField_8_1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(pathField_8_2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(pathField_8_3, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(pathField_8_4, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(pathField_8_5, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(standingPanel1Layout.createSequentialGroup()
-                        .addComponent(pathField_9_1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(pathField_9_2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(pathField_9_3, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(pathField_9_4, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(pathField_9_5, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(178, 178, 178)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        standingPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {pathField_0_1, pathField_0_2, pathField_0_3, pathField_0_4, pathField_0_5, pathField_1_1, pathField_1_2, pathField_1_3, pathField_1_4, pathField_1_5, pathField_2_1, pathField_2_2, pathField_2_3, pathField_2_4, pathField_2_5, pathField_3_1, pathField_3_2, pathField_3_3, pathField_3_4, pathField_3_5, pathField_4_1, pathField_4_2, pathField_4_3, pathField_4_4, pathField_4_5, pathField_5_1, pathField_5_2, pathField_5_3, pathField_5_4, pathField_5_5, pathField_6_1, pathField_6_2, pathField_6_3, pathField_6_4, pathField_6_5, pathField_7_1, pathField_7_2, pathField_7_3, pathField_7_4, pathField_7_5, pathField_8_1, pathField_8_2, pathField_8_3, pathField_8_4, pathField_8_5, pathField_9_1, pathField_9_2, pathField_9_3, pathField_9_4, pathField_9_5});
+
         standingPanel1Layout.setVerticalGroup(
             standingPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(standingPanel1Layout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(12, 12, 12)
                 .addGroup(standingPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(pathField_0_3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(pathField_0_2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -738,33 +729,38 @@ public class FI_GUI extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        granaryField_1.setEditable(false);
         granaryField_1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 granaryField_1ActionPerformed(evt);
             }
         });
 
+        granaryField_2.setEditable(false);
         granaryField_2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 granaryField_2ActionPerformed(evt);
             }
         });
 
-        standingField_8.addActionListener(new java.awt.event.ActionListener() {
+        granaryField_4.setEditable(false);
+        granaryField_4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                standingField_8ActionPerformed(evt);
+                granaryField_4ActionPerformed(evt);
             }
         });
 
-        standingField_9.addActionListener(new java.awt.event.ActionListener() {
+        granaryField_3.setEditable(false);
+        granaryField_3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                standingField_9ActionPerformed(evt);
+                granaryField_3ActionPerformed(evt);
             }
         });
 
-        standingField_10.addActionListener(new java.awt.event.ActionListener() {
+        granaryField_5.setEditable(false);
+        granaryField_5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                standingField_10ActionPerformed(evt);
+                granaryField_5ActionPerformed(evt);
             }
         });
 
@@ -779,17 +775,23 @@ public class FI_GUI extends javax.swing.JPanel {
                 .addComponent(granaryField_1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(granaryField_2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
                 .addGroup(standingPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5)
                     .addGroup(standingPanel2Layout.createSequentialGroup()
-                        .addComponent(standingField_9, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(standingField_8, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(standingField_10, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(36, Short.MAX_VALUE))
+                        .addGap(33, 33, 33)
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, standingPanel2Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(granaryField_3, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)))
+                .addComponent(granaryField_4, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(granaryField_5, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
+
+        standingPanel2Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {granaryField_1, granaryField_2, granaryField_3, granaryField_4, granaryField_5});
+
         standingPanel2Layout.setVerticalGroup(
             standingPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(standingPanel2Layout.createSequentialGroup()
@@ -797,12 +799,104 @@ public class FI_GUI extends javax.swing.JPanel {
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(standingPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(standingField_9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(granaryField_3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(granaryField_2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(granaryField_1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(standingField_8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(standingField_10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(17, Short.MAX_VALUE))
+                    .addComponent(granaryField_4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(granaryField_5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout standingPanelLayout = new javax.swing.GroupLayout(standingPanel);
+        standingPanel.setLayout(standingPanelLayout);
+        standingPanelLayout.setHorizontalGroup(
+            standingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(standingPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(standingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, standingPanelLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel3)
+                        .addGap(154, 154, 154))
+                    .addComponent(standingPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(standingPanelLayout.createSequentialGroup()
+                        .addComponent(standingPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, standingPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(standingField_1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(standingField_2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(standingField_4, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(standingField_3, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(standingField_5, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        standingPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {standingField_1, standingField_2, standingField_3, standingField_4, standingField_5});
+
+        standingPanelLayout.setVerticalGroup(
+            standingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(standingPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(standingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(standingField_4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(standingField_2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(standingField_1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(standingField_3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(standingField_5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(standingPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(standingPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout storePanelLayout = new javax.swing.GroupLayout(storePanel);
+        storePanel.setLayout(storePanelLayout);
+        storePanelLayout.setHorizontalGroup(
+            storePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, storePanelLayout.createSequentialGroup()
+                .addGap(0, 6, Short.MAX_VALUE)
+                .addComponent(standingPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, storePanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(storePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel2)
+                    .addGroup(storePanelLayout.createSequentialGroup()
+                        .addComponent(storeField_1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(storeField_2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(storeField_4, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addComponent(storeField_3, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(storeField_5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        storePanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {storeField_1, storeField_2, storeField_3, storeField_4, storeField_5});
+
+        storePanelLayout.setVerticalGroup(
+            storePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(storePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(storePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(storeField_4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(storeField_2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(storeField_3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(storeField_5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(storeField_1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(standingPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -810,19 +904,13 @@ public class FI_GUI extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(131, 131, 131)
+                .addContainerGap(11, Short.MAX_VALUE)
+                .addComponent(storePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(23, 23, 23)
                 .addComponent(jLabel1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(40, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(standingPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(standingPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(standingPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(storePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -830,13 +918,7 @@ public class FI_GUI extends javax.swing.JPanel {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(storePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(standingPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(standingPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(standingPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         getAccessibleContext().setAccessibleName("Farm Infrastructure");
@@ -1090,93 +1172,93 @@ public class FI_GUI extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_granaryField_2ActionPerformed
 
-    private void standingField_8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_standingField_8ActionPerformed
+    private void granaryField_4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_granaryField_4ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_standingField_8ActionPerformed
+    }//GEN-LAST:event_granaryField_4ActionPerformed
 
-    private void standingField_9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_standingField_9ActionPerformed
+    private void granaryField_3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_granaryField_3ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_standingField_9ActionPerformed
+    }//GEN-LAST:event_granaryField_3ActionPerformed
 
-    private void standingField_10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_standingField_10ActionPerformed
+    private void granaryField_5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_granaryField_5ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_standingField_10ActionPerformed
+    }//GEN-LAST:event_granaryField_5ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField granaryField_1;
-    private javax.swing.JTextField granaryField_2;
+    public javax.swing.JTextField granaryField_1;
+    public javax.swing.JTextField granaryField_2;
+    public javax.swing.JTextField granaryField_3;
+    public javax.swing.JTextField granaryField_4;
+    public javax.swing.JTextField granaryField_5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JTextField pathField_0_1;
-    private javax.swing.JTextField pathField_0_2;
-    private javax.swing.JTextField pathField_0_3;
-    private javax.swing.JTextField pathField_0_4;
-    private javax.swing.JTextField pathField_0_5;
-    private javax.swing.JTextField pathField_1_1;
-    private javax.swing.JTextField pathField_1_2;
-    private javax.swing.JTextField pathField_1_3;
-    private javax.swing.JTextField pathField_1_4;
-    private javax.swing.JTextField pathField_1_5;
-    private javax.swing.JTextField pathField_2_1;
-    private javax.swing.JTextField pathField_2_2;
-    private javax.swing.JTextField pathField_2_3;
-    private javax.swing.JTextField pathField_2_4;
-    private javax.swing.JTextField pathField_2_5;
-    private javax.swing.JTextField pathField_3_1;
-    private javax.swing.JTextField pathField_3_2;
-    private javax.swing.JTextField pathField_3_3;
-    private javax.swing.JTextField pathField_3_4;
-    private javax.swing.JTextField pathField_3_5;
-    private javax.swing.JTextField pathField_4_1;
-    private javax.swing.JTextField pathField_4_2;
-    private javax.swing.JTextField pathField_4_3;
-    private javax.swing.JTextField pathField_4_4;
-    private javax.swing.JTextField pathField_4_5;
-    private javax.swing.JTextField pathField_5_1;
-    private javax.swing.JTextField pathField_5_2;
-    private javax.swing.JTextField pathField_5_3;
-    private javax.swing.JTextField pathField_5_4;
-    private javax.swing.JTextField pathField_5_5;
-    private javax.swing.JTextField pathField_6_1;
-    private javax.swing.JTextField pathField_6_2;
-    private javax.swing.JTextField pathField_6_3;
-    private javax.swing.JTextField pathField_6_4;
-    private javax.swing.JTextField pathField_6_5;
-    private javax.swing.JTextField pathField_7_1;
-    private javax.swing.JTextField pathField_7_2;
-    private javax.swing.JTextField pathField_7_3;
-    private javax.swing.JTextField pathField_7_4;
-    private javax.swing.JTextField pathField_7_5;
-    private javax.swing.JTextField pathField_8_1;
-    private javax.swing.JTextField pathField_8_2;
-    private javax.swing.JTextField pathField_8_3;
-    private javax.swing.JTextField pathField_8_4;
-    private javax.swing.JTextField pathField_8_5;
-    private javax.swing.JTextField pathField_9_1;
-    private javax.swing.JTextField pathField_9_2;
-    private javax.swing.JTextField pathField_9_3;
-    private javax.swing.JTextField pathField_9_4;
-    private javax.swing.JTextField pathField_9_5;
-    private javax.swing.JTextField standingField_1;
-    private javax.swing.JTextField standingField_10;
-    private javax.swing.JTextField standingField_2;
-    private javax.swing.JTextField standingField_3;
-    private javax.swing.JTextField standingField_4;
-    private javax.swing.JTextField standingField_5;
-    private javax.swing.JTextField standingField_8;
-    private javax.swing.JTextField standingField_9;
+    public javax.swing.JTextField pathField_0_1;
+    public javax.swing.JTextField pathField_0_2;
+    public javax.swing.JTextField pathField_0_3;
+    public javax.swing.JTextField pathField_0_4;
+    public javax.swing.JTextField pathField_0_5;
+    public javax.swing.JTextField pathField_1_1;
+    public javax.swing.JTextField pathField_1_2;
+    public javax.swing.JTextField pathField_1_3;
+    public javax.swing.JTextField pathField_1_4;
+    public javax.swing.JTextField pathField_1_5;
+    public javax.swing.JTextField pathField_2_1;
+    public javax.swing.JTextField pathField_2_2;
+    public javax.swing.JTextField pathField_2_3;
+    public javax.swing.JTextField pathField_2_4;
+    public javax.swing.JTextField pathField_2_5;
+    public javax.swing.JTextField pathField_3_1;
+    public javax.swing.JTextField pathField_3_2;
+    public javax.swing.JTextField pathField_3_3;
+    public javax.swing.JTextField pathField_3_4;
+    public javax.swing.JTextField pathField_3_5;
+    public javax.swing.JTextField pathField_4_1;
+    public javax.swing.JTextField pathField_4_2;
+    public javax.swing.JTextField pathField_4_3;
+    public javax.swing.JTextField pathField_4_4;
+    public javax.swing.JTextField pathField_4_5;
+    public javax.swing.JTextField pathField_5_1;
+    public javax.swing.JTextField pathField_5_2;
+    public javax.swing.JTextField pathField_5_3;
+    public javax.swing.JTextField pathField_5_4;
+    public javax.swing.JTextField pathField_5_5;
+    public javax.swing.JTextField pathField_6_1;
+    public javax.swing.JTextField pathField_6_2;
+    public javax.swing.JTextField pathField_6_3;
+    public javax.swing.JTextField pathField_6_4;
+    public javax.swing.JTextField pathField_6_5;
+    public javax.swing.JTextField pathField_7_1;
+    public javax.swing.JTextField pathField_7_2;
+    public javax.swing.JTextField pathField_7_3;
+    public javax.swing.JTextField pathField_7_4;
+    public javax.swing.JTextField pathField_7_5;
+    public javax.swing.JTextField pathField_8_1;
+    public javax.swing.JTextField pathField_8_2;
+    public javax.swing.JTextField pathField_8_3;
+    public javax.swing.JTextField pathField_8_4;
+    public javax.swing.JTextField pathField_8_5;
+    public javax.swing.JTextField pathField_9_1;
+    public javax.swing.JTextField pathField_9_2;
+    public javax.swing.JTextField pathField_9_3;
+    public javax.swing.JTextField pathField_9_4;
+    public javax.swing.JTextField pathField_9_5;
+    public javax.swing.JTextField standingField_1;
+    public javax.swing.JTextField standingField_2;
+    public javax.swing.JTextField standingField_3;
+    public javax.swing.JTextField standingField_4;
+    public javax.swing.JTextField standingField_5;
     private javax.swing.JPanel standingPanel;
     private javax.swing.JPanel standingPanel1;
     private javax.swing.JPanel standingPanel2;
-    private javax.swing.JTextField storeField_1;
-    private javax.swing.JTextField storeField_2;
-    private javax.swing.JTextField storeField_3;
-    private javax.swing.JTextField storeField_4;
-    private javax.swing.JTextField storeField_5;
+    public javax.swing.JTextField storeField_1;
+    public javax.swing.JTextField storeField_2;
+    public javax.swing.JTextField storeField_3;
+    public javax.swing.JTextField storeField_4;
+    public javax.swing.JTextField storeField_5;
     private javax.swing.JPanel storePanel;
     // End of variables declaration//GEN-END:variables
 }

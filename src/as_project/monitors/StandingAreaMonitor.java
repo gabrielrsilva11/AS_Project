@@ -10,11 +10,13 @@ import as_project.threads.FarmerThread;
 import static as_project.util.Constants.DELAY_BETWEEN_LOCKS;
 import static as_project.util.Constants.ROWS;
 import as_project.util.PositionAlgorithm;
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JTextField;
 
 /**
  *
@@ -27,12 +29,15 @@ public class StandingAreaMonitor {
     private final Lock rel;
     private final Condition conditionToWait;
     private String[] positions;
+    private ArrayList<JTextField> standingAreaFields;
     
-    public StandingAreaMonitor(Lock rel) {
+    public StandingAreaMonitor(Lock rel, ArrayList<JTextField> standingAreaFields) {
         this.rel = rel;
         numberOfFarmers = 0;
         conditionToWait = rel.newCondition();
         positions = new String[ROWS];
+        
+        this.standingAreaFields = standingAreaFields;
     }
     
     public void enterStandingArea(FarmerThread farmer) {
@@ -40,7 +45,9 @@ public class StandingAreaMonitor {
         try {
             Thread.sleep(new Random().nextInt(DELAY_BETWEEN_LOCKS));
             numberOfFarmers++;
-            positions[getFarmerPosition()] = farmer.getName();
+            int pos = getFarmerPosition();
+            positions[pos] = farmer.getName();
+            standingAreaFields.get(pos).setText(farmer.getName());
             if(numberOfFarmers == totalFarmers) {
                 replyCC();
                 // The positions contains the array with farmers to fill the GUI
@@ -50,6 +57,7 @@ public class StandingAreaMonitor {
             conditionToWait.signal();
             for(int i = 0; i < positions.length; i++) {
                 if(farmer.getName().equals(positions[i])) {
+                    standingAreaFields.get(i).setText(farmer.getName());
                     positions[i] = null;
                     numberOfFarmers--;
                 }

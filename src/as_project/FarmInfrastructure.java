@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package as_project;
+import static as_project.util.Constants.*;
 import as_project.GUI.FI_GUI;
 import as_project.monitors.GranaryMonitor;
 import as_project.monitors.PathMonitor;
@@ -19,9 +20,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.locks.ReentrantLock;
 import javax.swing.JFrame;
-import java.util.concurrent.locks.Condition;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.swing.JTextField;
 /**
  *
  * @author gabri
@@ -33,23 +32,26 @@ public class FarmInfrastructure extends Thread{
     private int numWorkers;
     private int numSteps;
     private int timeout;
-
+    ArrayList<JTextField> storeFields;
+    ArrayList<JTextField> standingFields;
+    ArrayList<ArrayList<JTextField>> pathFields;
+    ArrayList<JTextField> granaryFields;    
     
     public FarmInfrastructure(){
         fi = new FI_GUI();
         gui = new JFrame();
         gui.setVisible(true);
-        gui.setSize(379, 581);
-        gui.setResizable(true);
+        gui.setSize(450, 560);
+        gui.setResizable(false);
         gui.add(fi);
-        
+        getGUIFields();
     }
     
     @Override
     public void run(){
         sock = new Sockets();
         sock.startServer(5000);
-        getMessages();
+        handleMessages();
     }
     
     public int getNumWorkers(){
@@ -59,62 +61,10 @@ public class FarmInfrastructure extends Thread{
     public int getNumSteps(){
         return numSteps;
     }
-//    public static void main(String[] args) {
-//        FarmInfrastructure farm = new FarmInfrastructure();
-        
-        
-        //Aqui recebe a chamada da gui com o número de farmers e cria um numero de threads
-        //int nFarmers = 3;
-        //Recebe o número de steps que cada um vai andar
-        //int nSteps = 2;
-        //FarmInfrastructure farm = new FarmInfrastructure();
-                
-        //Lock rel = new ReentrantLock();
-        //Lock rel1 = new ReentrantLock();
-        //Lock rel2 = new ReentrantLock();
-        //Lock rel3 = new ReentrantLock();
-        //StoreHouseMonitor storeHouseMonitor = new StoreHouseMonitor(rel);
-        //StandingAreaMonitor standingAreaMonitor = new StandingAreaMonitor(rel1, nFarmers);
-        //PathMonitor pathMonitor = new PathMonitor(rel2, nSteps, nFarmers);
-        //GranaryMonitor granaryMonitor = new GranaryMonitor(rel3, nFarmers);
-       
-        
-        //Initialize selectionBox
-        //SelectionAlgorithm selectionAlgorithm = new SelectionAlgorithm(nFarmers, nSteps);
-        //for(int n = 1; n <= 5; n++) {
-        //    FarmerThread farmer = new FarmerThread(storeHouseMonitor, standingAreaMonitor, pathMonitor, granaryMonitor);
-        //    farmer.setName("Farmer" + n);
-        //    farmer.start();
-        //}
-        
-          
-    //}
-//        ReentrantLock rel = new ReentrantLock();
-//        StoreHouseMonitor storeHouseMonitor = new StoreHouseMonitor(rel);
-//        StandingAreaMonitor standingAreaMonitor = new StandingAreaMonitor(rel);
-//        PathMonitor pathMonitor = new PathMonitor(rel);
-//        GranaryMonitor granaryMonitor = new GranaryMonitor(rel);
-//        
-//        //Aqui recebe a chamada da gui com o número de farmers e cria um numero de threads
-//        int nFarmers = 5;
-//        //Recebe o número de steps que cada um vai andar
-//        int nSteps = 2;
-//        
-//        //Initialize selectionBox
-//        SelectionAlgorithm selectionAlgorithm = new SelectionAlgorithm(nFarmers, nSteps);
-//        for(int n = 1; n <= nFarmers; n++) {
-//            FarmerThread farmer = new FarmerThread(storeHouseMonitor, standingAreaMonitor, pathMonitor, granaryMonitor);
-//            farmer.setName("Farmer" + n);
-//            farmer.start();
-//        }
-//        
-//        storeHouseMonitor.readyToContinue();
-          
-//    }
-    public void getMessages() {
+
+    public void handleMessages() {
         ReentrantLock rel = new ReentrantLock();
         ExecutorService executor = Executors.newFixedThreadPool(2);
-        Condition conditionToWait = rel.newCondition();
         StoreHouseMonitor storeHouseMonitor = null;
         StandingAreaMonitor standingAreaMonitor = null;
         PathMonitor pathMonitor = null;
@@ -138,10 +88,10 @@ public class FarmInfrastructure extends Thread{
                         numSteps = Integer.parseInt(splitMessage[1]);
                         timeout = Integer.parseInt(splitMessage[2]);
                         
-                        storeHouseMonitor = new StoreHouseMonitor(rel);
-                        standingAreaMonitor = new StandingAreaMonitor(rel);
+                        storeHouseMonitor = new StoreHouseMonitor(rel, storeFields);
+                        standingAreaMonitor = new StandingAreaMonitor(rel, standingFields);
                         standingAreaMonitor.setTotalFarmers(numWorkers);
-                        pathMonitor = new PathMonitor(rel);
+                        pathMonitor = new PathMonitor(rel, pathFields);
                         pathMonitor.setTotalFarmers(numWorkers);
                         pathMonitor.setNumberOfSteps(numSteps);
                         granaryMonitor = new GranaryMonitor(rel);
@@ -192,5 +142,77 @@ public class FarmInfrastructure extends Thread{
         sock.startClient("127.0.0.1", 5001);
         sock.sendMessage("terminado");
         sock.closeClientConnection();
+    }
+    
+    private void getGUIFields(){
+        storeFields = new ArrayList<JTextField>();
+        standingFields = new ArrayList<JTextField>();
+        pathFields = new ArrayList<ArrayList<JTextField>>();
+        ArrayList <JTextField> paths_column1 = new ArrayList<JTextField>();
+        ArrayList <JTextField> paths_column2 = new ArrayList<JTextField>();
+        ArrayList <JTextField> paths_column3 = new ArrayList<JTextField>();
+        ArrayList <JTextField> paths_column4 = new ArrayList<JTextField>();
+        ArrayList <JTextField> paths_column5 = new ArrayList<JTextField>();
+        granaryFields = new ArrayList<JTextField>();
+        
+        storeFields.add(fi.storeField_1);
+        storeFields.add(fi.storeField_2);
+        storeFields.add(fi.storeField_3);
+        storeFields.add(fi.storeField_4);
+        storeFields.add(fi.storeField_5);
+        
+        standingFields.add(fi.standingField_1);
+        standingFields.add(fi.standingField_2);
+        standingFields.add(fi.standingField_3);
+        standingFields.add(fi.standingField_4);
+        standingFields.add(fi.standingField_5);
+        
+        granaryFields.add(fi.granaryField_1);
+        granaryFields.add(fi.granaryField_2);
+        granaryFields.add(fi.granaryField_3);
+        granaryFields.add(fi.granaryField_4);
+        granaryFields.add(fi.granaryField_5);
+        
+        paths_column1.add(fi.pathField_0_1);
+        paths_column1.add(fi.pathField_0_2);
+        paths_column1.add(fi.pathField_0_3);
+        paths_column1.add(fi.pathField_0_4);
+        paths_column1.add(fi.pathField_0_5);
+        
+        paths_column2.add(fi.pathField_1_1);
+        paths_column2.add(fi.pathField_1_2);
+        paths_column2.add(fi.pathField_1_3);
+        paths_column2.add(fi.pathField_1_4);
+        paths_column2.add(fi.pathField_1_5);
+        
+        paths_column3.add(fi.pathField_2_1);
+        paths_column3.add(fi.pathField_2_2);
+        paths_column3.add(fi.pathField_2_3);
+        paths_column3.add(fi.pathField_2_4);
+        paths_column3.add(fi.pathField_2_5);
+        
+        paths_column3.add(fi.pathField_3_1);
+        paths_column3.add(fi.pathField_3_2);
+        paths_column3.add(fi.pathField_3_3);
+        paths_column3.add(fi.pathField_3_4);
+        paths_column3.add(fi.pathField_3_5);
+        
+        paths_column4.add(fi.pathField_4_1);
+        paths_column4.add(fi.pathField_4_2);
+        paths_column4.add(fi.pathField_4_3);
+        paths_column4.add(fi.pathField_4_4);
+        paths_column4.add(fi.pathField_4_5);
+        
+        paths_column5.add(fi.pathField_5_1);
+        paths_column5.add(fi.pathField_5_2);
+        paths_column5.add(fi.pathField_5_3);
+        paths_column5.add(fi.pathField_5_4);
+        paths_column5.add(fi.pathField_5_5);
+        
+        pathFields.add(paths_column1);
+        pathFields.add(paths_column2);
+        pathFields.add(paths_column3);
+        pathFields.add(paths_column4);
+        pathFields.add(paths_column5);
     }
 }

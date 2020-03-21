@@ -4,34 +4,48 @@
  * and open the template in the editor.
  */
 package as_project;
-import java.io.BufferedInputStream;
-import java.io.DataInputStream;
-import java.io.IOException;
-import javax.swing.JFrame;
+
+import as_project.threads.ControlCenterMessage;
+import javax.swing.JButton;
+import javax.swing.JToggleButton;
+
 /**
  *
  * @author gabriel
  */
-public class ControlCenter {
-    public Sockets serverConnect = null;
-
+public class ControlCenter{
+    private Sockets serverConnect = null;
+    private int port;
+    private String parameters;
     
     public ControlCenter(){
         serverConnect = new Sockets();
         serverConnect.startClient("127.0.0.1", 5000);
+        port = 5001;
     }
     
-    public void waitForMessage(){
-        serverConnect.startServer(5001);
-        try{
-            DataInputStream input = null;
-            input = new DataInputStream(new BufferedInputStream(serverConnect.getSocketServer().getInputStream()));
-            String message = "";
-            message = input.readUTF();
-            System.out.println("Operacao terminada");
-        
-        }catch(IOException i){
-            System.out.println(i);
-        }     
+    public void setParameters(String parameters){
+        this.parameters=parameters;
     }
+    
+    public void sendMessage(String message, JToggleButton button1, JButton button2){
+        serverConnect.sendMessage(message);
+        if(message == "prepare"){
+            serverConnect.sendMessage(parameters);
+        }
+        ControlCenterMessage await = new ControlCenterMessage(button1, button2, port);
+        await.start();
+    }
+    
+    public void Exit(String message){
+        serverConnect.sendMessage(message);
+        ControlCenterMessage await = new ControlCenterMessage(port);
+        await.start();
+        while(!await.isAlive()){
+            System.out.println("End of Simulation");
+            System.exit(0);
+        }
+    }
+    
 }
+

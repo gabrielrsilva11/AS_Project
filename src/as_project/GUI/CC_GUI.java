@@ -20,7 +20,7 @@ public class CC_GUI extends javax.swing.JPanel {
     public CC_GUI() {
         initComponents();
         setAllButtons(false);
-        Button_Configure.setEnabled(true);
+        Button_Prepare.setEnabled(true);
         Button_Stop.setEnabled(true);
         Text_Collected.setEditable(false);
         cc = new ControlCenter(); 
@@ -49,7 +49,6 @@ public class CC_GUI extends javax.swing.JPanel {
         jLabel5 = new javax.swing.JLabel();
         Text_Collected = new javax.swing.JTextField();
         Button_Exit = new javax.swing.JButton();
-        Button_Configure = new javax.swing.JButton();
 
         setName("Control Center"); // NOI18N
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -136,7 +135,7 @@ public class CC_GUI extends javax.swing.JPanel {
         add(Button_Stop, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 130, 80, -1));
 
         jLabel5.setText("Corn Cobs Collected");
-        add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 170, -1, -1));
+        add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 90, -1, -1));
 
         Text_Collected.setText("0");
         Text_Collected.addActionListener(new java.awt.event.ActionListener() {
@@ -144,7 +143,7 @@ public class CC_GUI extends javax.swing.JPanel {
                 Text_CollectedActionPerformed(evt);
             }
         });
-        add(Text_Collected, new org.netbeans.lib.awtextra.AbsoluteConstraints(188, 190, 80, -1));
+        add(Text_Collected, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 90, 80, -1));
 
         Button_Exit.setText("Exit");
         Button_Exit.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -157,15 +156,7 @@ public class CC_GUI extends javax.swing.JPanel {
                 Button_ExitActionPerformed(evt);
             }
         });
-        add(Button_Exit, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 220, 60, -1));
-
-        Button_Configure.setText("Configure");
-        Button_Configure.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                Button_ConfigureMouseClicked(evt);
-            }
-        });
-        add(Button_Configure, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 90, 90, -1));
+        add(Button_Exit, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 180, 60, -1));
 
         getAccessibleContext().setAccessibleName("Control Center");
     }// </editor-fold>//GEN-END:initComponents
@@ -223,67 +214,35 @@ public class CC_GUI extends javax.swing.JPanel {
     private void Button_StartMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Button_StartMouseClicked
         Button_Start.setEnabled(false);
         Button_Stop.setEnabled(false);
-        cc.serverConnect.sendMessage("start");
-        cc.waitForMessage();
-        cc.serverConnect.closeServerConnection();
-        Button_Collect.setEnabled(true);
-        Button_Stop.setEnabled(true);
+        cc.sendMessage("start", Button_Collect, Button_Stop);
     }//GEN-LAST:event_Button_StartMouseClicked
 
     private void Button_PrepareMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Button_PrepareMouseClicked
-
+        cc.setParameters(getDropdownValues());
         Button_Prepare.setEnabled(false);
-        cc.serverConnect.sendMessage("prepare");
-        cc.waitForMessage();
-        cc.serverConnect.closeServerConnection();
-        Button_Start.setEnabled(true);
-        Button_Stop.setEnabled(true);
+        cc.sendMessage("prepare", Button_Start, Button_Stop);
     }//GEN-LAST:event_Button_PrepareMouseClicked
 
     private void Button_CollectMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Button_CollectMouseClicked
         Button_Collect.setEnabled(false);
         Button_Stop.setEnabled(false);
-        cc.serverConnect.sendMessage("collect");
-        cc.waitForMessage();
-        cc.serverConnect.closeServerConnection();
-        Button_Return.setEnabled(true);
-        Button_Stop.setEnabled(true);
+        cc.sendMessage("collect", Button_Return, Button_Stop);
     }//GEN-LAST:event_Button_CollectMouseClicked
 
     private void Button_ReturnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Button_ReturnMouseClicked
         Button_Return.setEnabled(false);
         Button_Stop.setEnabled(false);
-        cc.serverConnect.sendMessage("return");
-        cc.waitForMessage();
-        cc.serverConnect.closeServerConnection();
-        Button_Prepare.setEnabled(true);
+        cc.sendMessage("return", Button_Prepare, Button_Stop);
         setAllDropdowns(true);
-        Button_Stop.setEnabled(true);
     }//GEN-LAST:event_Button_ReturnMouseClicked
 
     private void Button_ExitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Button_ExitMouseClicked
-        cc.serverConnect.sendMessage("exit");
-        cc.waitForMessage();
-        System.out.println("End of Simulation");
-        System.exit(0);
+        cc.Exit("exit");
     }//GEN-LAST:event_Button_ExitMouseClicked
-
-    private void Button_ConfigureMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Button_ConfigureMouseClicked
-        setAllDropdowns(false);
-        Button_Stop.setEnabled(false);
-        Button_Configure.setEnabled(false);
-        cc.serverConnect.sendMessage("initial");
-        cc.serverConnect.sendMessage(getDropdownValues());
-        cc.waitForMessage();
-        cc.serverConnect.closeServerConnection();
-        Button_Prepare.setEnabled(true);
-        Button_Stop.setEnabled(true);
-    }//GEN-LAST:event_Button_ConfigureMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton Button_Collect;
-    private javax.swing.JButton Button_Configure;
     private javax.swing.JButton Button_Exit;
     private javax.swing.JToggleButton Button_Prepare;
     private javax.swing.JToggleButton Button_Return;
