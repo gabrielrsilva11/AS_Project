@@ -53,12 +53,12 @@ public class MonitorLauncher implements Runnable{
                 break;
             case "collect":
                 System.out.println("Caso collect");
-                paMonitor.proceedToTheGranary();
+                grMonitor.collect();
                 replyCC();
                 break;
             case "return":
                 System.out.println("Caso return");
-                grMonitor.collect();
+                grMonitor.returnToTheBeginning();
                 break;
         }
     }

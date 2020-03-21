@@ -20,6 +20,7 @@ public class FarmerThread extends Thread {
     private final StandingAreaMonitor standingAreaMonitor;
     private final PathMonitor pathMonitor;
     private final GranaryMonitor granaryMonitor;
+    private boolean stopped;
 
     public FarmerThread(StoreHouseMonitor storeHouse, StandingAreaMonitor standingAreaMonitor, PathMonitor pathMonitor, GranaryMonitor granaryMonitor) {
         this.storeHouse = storeHouse;
@@ -27,17 +28,33 @@ public class FarmerThread extends Thread {
         this.pathMonitor = pathMonitor;
         this.granaryMonitor = granaryMonitor;
         this.current = new Thread(this);
+        this.stopped = false;
     }
 
     @Override
     public void run() {
         while(!Thread.interrupted()) {
+            stopped = false;
             storeHouse.goToStoreHouse(this);
+            if (stopped)
+                continue;
             standingAreaMonitor.enterStandingArea(this);
+            if (stopped)
+                continue;
             pathMonitor.walkToThePath(this);
+            if (stopped)
+                continue;
             granaryMonitor.enterTheGranary(this);
+            if (stopped)
+                continue;
             granaryMonitor.collectTheCorn(this);
+            if (stopped)
+                continue;
             pathMonitor.walkToThePathReverse(this);
         }
+    }
+    
+    public void setStopped(boolean stopped) {
+        this.stopped = stopped;
     }
 }
