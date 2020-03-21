@@ -15,7 +15,7 @@ import as_project.monitors.StoreHouseMonitor;
  * @author manuelcura
  */
 public class FarmerThread extends Thread {
-
+    public Thread current;
     private final StoreHouseMonitor storeHouse;
     private final StandingAreaMonitor standingAreaMonitor;
     private final PathMonitor pathMonitor;
@@ -26,11 +26,12 @@ public class FarmerThread extends Thread {
         this.standingAreaMonitor = standingAreaMonitor;
         this.pathMonitor = pathMonitor;
         this.granaryMonitor = granaryMonitor;
+        this.current = new Thread(this);
     }
 
     @Override
     public void run() {
-        while(true) {
+        while(!Thread.interrupted()) {
             storeHouse.goToStoreHouse(this);
             standingAreaMonitor.enterStandingArea(this);
             pathMonitor.walkToThePath(this);

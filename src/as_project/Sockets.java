@@ -50,8 +50,6 @@ public class Sockets {
         }  
     }
     
-    
-    
     public void sendMessage(String message){
         try{
             output.writeUTF(message);
@@ -79,13 +77,7 @@ public class Sockets {
     }
     
     public void closeAllConnections(){
-        try{
-            socketServer.close();
-            socketClient.close();
-            server.close();
-            output.close();
-        }catch(IOException i){
-            System.out.println(i);
-        }
+        closeClientConnection();
+        closeServerConnection();
     }
 }

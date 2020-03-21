@@ -11,16 +11,17 @@ import as_project.monitors.StandingAreaMonitor;
 import as_project.monitors.StoreHouseMonitor;
 import as_project.threads.FarmerThread;
 import as_project.threads.MonitorLauncher;
-import as_project.util.PositionAlgorithm;
 import java.io.BufferedInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import javax.swing.JFrame;
-
+import java.util.concurrent.locks.Condition;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author gabri
@@ -32,20 +33,24 @@ public class FarmInfrastructure extends Thread{
     private int numWorkers;
     private int numSteps;
     private int timeout;
+
     
-    /**
     public FarmInfrastructure(){
         fi = new FI_GUI();
         gui = new JFrame();
         gui.setVisible(true);
-        gui.setSize(450, 700);
+        gui.setSize(379, 581);
         gui.setResizable(true);
         gui.add(fi);
+        
+    }
+    
+    @Override
+    public void run(){
         sock = new Sockets();
         sock.startServer(5000);
-        numSteps = 1;
-        //getMessages();
-    }*/
+        getMessages();
+    }
     
     public int getNumWorkers(){
         return numWorkers;
@@ -54,38 +59,36 @@ public class FarmInfrastructure extends Thread{
     public int getNumSteps(){
         return numSteps;
     }
-    public static void main(String[] args) {
-        //FarmInfrastructure farm = new FarmInfrastructure();
+//    public static void main(String[] args) {
+//        FarmInfrastructure farm = new FarmInfrastructure();
         
         
         //Aqui recebe a chamada da gui com o número de farmers e cria um numero de threads
-        int nFarmers = 3;
+        //int nFarmers = 3;
         //Recebe o número de steps que cada um vai andar
-        int nSteps = 2;
-        FarmInfrastructure farm = new FarmInfrastructure();
+        //int nSteps = 2;
+        //FarmInfrastructure farm = new FarmInfrastructure();
                 
-        Lock rel = new ReentrantLock();
-        Lock rel1 = new ReentrantLock();
-        Lock rel2 = new ReentrantLock();
-        Lock rel3 = new ReentrantLock();
-        StoreHouseMonitor storeHouseMonitor = new StoreHouseMonitor(rel);
-        StandingAreaMonitor standingAreaMonitor = new StandingAreaMonitor(rel1, nFarmers);
-        PathMonitor pathMonitor = new PathMonitor(rel2, nSteps, nFarmers);
-        GranaryMonitor granaryMonitor = new GranaryMonitor(rel3, nFarmers);
+        //Lock rel = new ReentrantLock();
+        //Lock rel1 = new ReentrantLock();
+        //Lock rel2 = new ReentrantLock();
+        //Lock rel3 = new ReentrantLock();
+        //StoreHouseMonitor storeHouseMonitor = new StoreHouseMonitor(rel);
+        //StandingAreaMonitor standingAreaMonitor = new StandingAreaMonitor(rel1, nFarmers);
+        //PathMonitor pathMonitor = new PathMonitor(rel2, nSteps, nFarmers);
+        //GranaryMonitor granaryMonitor = new GranaryMonitor(rel3, nFarmers);
        
         
         //Initialize selectionBox
         //SelectionAlgorithm selectionAlgorithm = new SelectionAlgorithm(nFarmers, nSteps);
-        for(int n = 1; n <= 5; n++) {
-            FarmerThread farmer = new FarmerThread(storeHouseMonitor, standingAreaMonitor, pathMonitor, granaryMonitor);
-            farmer.setName("Farmer" + n);
-            farmer.start();
-        }
+        //for(int n = 1; n <= 5; n++) {
+        //    FarmerThread farmer = new FarmerThread(storeHouseMonitor, standingAreaMonitor, pathMonitor, granaryMonitor);
+        //    farmer.setName("Farmer" + n);
+        //    farmer.start();
+        //}
         
           
-    }
-}
-    /*
+    //}
 //        ReentrantLock rel = new ReentrantLock();
 //        StoreHouseMonitor storeHouseMonitor = new StoreHouseMonitor(rel);
 //        StandingAreaMonitor standingAreaMonitor = new StandingAreaMonitor(rel);
@@ -108,14 +111,15 @@ public class FarmInfrastructure extends Thread{
 //        storeHouseMonitor.readyToContinue();
           
 //    }
-    public void getMessages(){
+    public void getMessages() {
         ReentrantLock rel = new ReentrantLock();
-        StoreHouseMonitor storeHouseMonitor = new StoreHouseMonitor(rel);
-        StandingAreaMonitor standingAreaMonitor = new StandingAreaMonitor(rel, numWorkers);
-        PathMonitor pathMonitor = new PathMonitor(rel);
-        GranaryMonitor granaryMonitor = new GranaryMonitor(rel);
-        
         ExecutorService executor = Executors.newFixedThreadPool(2);
+        Condition conditionToWait = rel.newCondition();
+        StoreHouseMonitor storeHouseMonitor = null;
+        StandingAreaMonitor standingAreaMonitor = null;
+        PathMonitor pathMonitor = null;
+        GranaryMonitor granaryMonitor = null;
+        ArrayList<FarmerThread> Farmers_Array = new ArrayList<FarmerThread>();
         
         try{
         DataInputStream input = null;
@@ -127,25 +131,51 @@ public class FarmInfrastructure extends Thread{
                 System.out.println(message);
                 switch(message){
                     //Prepare
-                    case "prepare":
+                    case "initial":
                         message = input.readUTF();
                         String[] splitMessage = message.split(",");
                         numWorkers = Integer.parseInt(splitMessage[0]);
                         numSteps = Integer.parseInt(splitMessage[1]);
                         timeout = Integer.parseInt(splitMessage[2]);
-                        System.out.println("Num workers: " + numWorkers);
-                        for(int n = 1; n <= numWorkers; n++) {
+                        
+                        storeHouseMonitor = new StoreHouseMonitor(rel);
+                        standingAreaMonitor = new StandingAreaMonitor(rel, numWorkers);
+                        pathMonitor = new PathMonitor(rel, numWorkers, numSteps);
+                        granaryMonitor = new GranaryMonitor(rel, numWorkers);
+                        replyCC();
+                        break;
+                    case "prepare":
+                        for(int n = 1; n <= 5; n++) {
                             FarmerThread farmer = new FarmerThread(storeHouseMonitor, standingAreaMonitor, pathMonitor, granaryMonitor);
+                            Farmers_Array.add(farmer);
                             farmer.setName("Farmer" + n);
                             farmer.start();
                         }
-                        MonitorLauncher ml = new MonitorLauncher("prepare", storeHouseMonitor,numWorkers);
-                        executor.execute(ml);
-                        break;
+                        MonitorLauncher mlPrepare = new MonitorLauncher("prepare",storeHouseMonitor,numWorkers);
+                        executor.execute(mlPrepare);
+                        break; 
                     case "start":
-                        System.out.println("Caso start");
-                        MonitorLauncher ml2 = new MonitorLauncher("start", standingAreaMonitor);
-                        executor.execute(ml2);
+                        MonitorLauncher mlStart = new MonitorLauncher("start", standingAreaMonitor);
+                        executor.execute(mlStart);
+                        break;
+                    case "collect":
+                        MonitorLauncher mlCollect = new MonitorLauncher("collect", pathMonitor);
+                        executor.execute(mlCollect);
+                        break;
+                    case "return":
+                        MonitorLauncher mlReturn = new MonitorLauncher("return", granaryMonitor);
+                        executor.execute(mlReturn);
+                        break;
+                    case "stop":
+                        break;
+                    case "exit":
+                        if(!Farmers_Array.isEmpty()){
+                            for(FarmerThread farmer: Farmers_Array){
+                                farmer.current.interrupt();
+                            }
+                        }
+                        System.out.println("End of Farmer");
+                        replyCC();
                         break;
                 }
             }
@@ -153,5 +183,10 @@ public class FarmInfrastructure extends Thread{
         }catch(IOException i){
             System.out.println(i);
         }     
-    } */
-
+    }
+    private void replyCC(){
+        sock.startClient("127.0.0.1", 5001);
+        sock.sendMessage("terminado");
+        sock.closeClientConnection();
+    }
+}

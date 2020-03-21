@@ -36,7 +36,6 @@ public class StandingAreaMonitor {
     }
     
     public void enterStandingArea(FarmerThread farmer) {
-
         rel.lock();
         try {
             numberOfFarmers++;
