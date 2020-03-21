@@ -5,7 +5,6 @@
  */
 package as_project.threads;
 import as_project.monitors.*;
-import as_project.Sockets;
 /**
  *
  * @author gabri
@@ -44,29 +43,19 @@ public class MonitorLauncher implements Runnable{
             case "prepare":
                 System.out.println("Caso prepare");
                 shMonitor.prepare(numFarmers);
-                replyCC();
                 break;
             case "start":
                 System.out.println("Caso start");
                 saMonitor.proceedToThePath();
-                replyCC();
                 break;
             case "collect":
                 System.out.println("Caso collect");
                 grMonitor.collect();
-                replyCC();
                 break;
             case "return":
                 System.out.println("Caso return");
                 grMonitor.returnToTheBeginning();
                 break;
         }
-    }
-    
-    private void replyCC(){
-        Sockets sock = new Sockets();
-        sock.startClient("127.0.0.1", 5001);
-        sock.sendMessage("terminado");
-        sock.closeAllConnections();
     }
 }

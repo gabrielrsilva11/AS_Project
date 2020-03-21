@@ -5,6 +5,7 @@
  */
 package as_project.monitors;
 
+import as_project.Sockets;
 import as_project.threads.FarmerThread;
 import static as_project.util.Constants.*;
 import as_project.util.PositionAlgorithm;
@@ -189,5 +190,12 @@ public class PathMonitor {
         }
         System.out.println("Steps: " + (positionHorizontal - previousHorizontalPosition));
        return array;
+    }
+    
+    private void replyCC(){
+        Sockets sock = new Sockets();
+        sock.startClient("127.0.0.1", 5001);
+        sock.sendMessage("terminado");
+        sock.closeClientConnection();
     }
 }

@@ -5,6 +5,7 @@
  */
 package as_project.monitors;
 
+import as_project.Sockets;
 import as_project.threads.FarmerThread;
 import static as_project.util.Constants.ROWS;
 import as_project.util.PositionAlgorithm;
@@ -43,9 +44,9 @@ public class StandingAreaMonitor {
             System.out.println(numberOfFarmers);
             positions[getFarmerPosition()] = farmer.getName();
             if(numberOfFarmers == totalFarmers) {
-                // signal the CC to enable the start button
+                replyCC();
                 // The positions contains the array with farmers to fill the GUI
-                proceedToThePath();
+                //proceedToThePath();
             }
             conditionToWait.await();
             conditionToWait.signal();
@@ -84,5 +85,12 @@ public class StandingAreaMonitor {
            position = PositionAlgorithm.getVerticalPosition();
        } while(positions[position] != null);
        return position;
+    }
+    
+    private void replyCC(){
+        Sockets sock = new Sockets();
+        sock.startClient("127.0.0.1", 5001);
+        sock.sendMessage("terminado");
+        sock.closeClientConnection();
     }
 }

@@ -5,6 +5,7 @@
  */
 package as_project.monitors;
 
+import as_project.Sockets;
 import as_project.threads.FarmerThread;
 import static as_project.util.Constants.*;
 import as_project.util.PositionAlgorithm;
@@ -51,9 +52,9 @@ private int numberOfFarmers;
             positions[getFarmerPosition()] = farmer.getName();
             System.out.println("One go stage 4");
             if(numberOfFarmers == totalFarmers) {
-                // signal the CC to enable the collect button
+                replyCC();
                 // The positions contains the array with farmers to fill the GUI
-                collect();
+                //collect();
             }
             conditionToWait.await();
             conditionToWait.signal();
@@ -138,5 +139,12 @@ private int numberOfFarmers;
            position = PositionAlgorithm.getVerticalPosition();
        } while(positions[position] != null);
        return position;
+    }
+    
+    private void replyCC(){
+        Sockets sock = new Sockets();
+        sock.startClient("127.0.0.1", 5001);
+        sock.sendMessage("terminado");
+        sock.closeClientConnection();
     }
 }

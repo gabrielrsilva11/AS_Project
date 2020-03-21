@@ -5,6 +5,7 @@
  */
 package as_project.monitors;
 
+import as_project.Sockets;
 import as_project.threads.FarmerThread;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
@@ -50,9 +51,10 @@ public class StoreHouseMonitor {
             if(storeCorn) {
                 storedCornCobs += CORN_COBS;
             }
+            
             if(numberOfFarmers == ROWS) {
-                // signal the CC to enable the Prepare button
-                prepare(3);
+                replyCC();
+                //prepare(3);
             }
             conditionToWait.await();
             System.out.println("Corn cobs: " + storedCornCobs);
@@ -95,5 +97,12 @@ public class StoreHouseMonitor {
            position = PositionAlgorithm.getVerticalPosition();
        } while(positions[position] != null);
        return position;
+    }
+    
+    private void replyCC(){
+        Sockets sock = new Sockets();
+        sock.startClient("127.0.0.1", 5001);
+        sock.sendMessage("terminado");
+        sock.closeClientConnection();
     }
 }
