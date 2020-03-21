@@ -7,9 +7,7 @@ package as_project.monitors;
 
 import as_project.Sockets;
 import as_project.threads.FarmerThread;
-import static as_project.util.Constants.*;
 import as_project.util.PositionAlgorithm;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -18,14 +16,17 @@ import java.util.concurrent.locks.Lock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static as_project.util.Constants.*;
+
 /**
  *
  * @author manuelcura
  */
 public class GranaryMonitor {
     
-private int numberOfFarmers;
+    private int numberOfFarmers;
     private int totalFarmers;
+    private int timeout;
     private final Lock rel;
     private final Condition conditionToWait;
     private final Condition collectConditionToWait;
@@ -60,7 +61,7 @@ private int numberOfFarmers;
                 }
             }
         } catch (InterruptedException ex) {
-            Logger.getLogger(StoreHouseMonitor.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GranaryMonitor.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             rel.unlock();
         }
@@ -75,6 +76,7 @@ private int numberOfFarmers;
             collectedCornCob.put(farmerName, 0);
             while(true) {
                 collectedCornCob.put(farmerName, collectedCornCob.get(farmerName)+1);
+                Thread.sleep(timeout);
                 if(collectedCornCob.get(farmerName) == CORN_COBS) {
                     break;
                 }
@@ -91,7 +93,7 @@ private int numberOfFarmers;
             numberOfFarmers--;
             collectedCornCob.remove(farmerName);
         } catch (InterruptedException ex) {
-            Logger.getLogger(StoreHouseMonitor.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GranaryMonitor.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             rel.unlock();
         }
@@ -103,7 +105,7 @@ private int numberOfFarmers;
             Thread.sleep(new Random().nextInt(DELAY_BETWEEN_LOCKS));
             conditionToWait.signal();
         } catch(InterruptedException ex) {
-            Logger.getLogger(StoreHouseMonitor.class.getName()).log(Level.SEVERE, null, ex);   
+            Logger.getLogger(GranaryMonitor.class.getName()).log(Level.SEVERE, null, ex);   
         } finally {
             rel.unlock();
         }
@@ -115,7 +117,7 @@ private int numberOfFarmers;
             Thread.sleep(new Random().nextInt(DELAY_BETWEEN_LOCKS));
             collectConditionToWait.signal();
         } catch(InterruptedException ex) {
-            Logger.getLogger(StoreHouseMonitor.class.getName()).log(Level.SEVERE, null, ex);   
+            Logger.getLogger(GranaryMonitor.class.getName()).log(Level.SEVERE, null, ex);   
         } finally {
             rel.unlock();
         }
@@ -123,6 +125,10 @@ private int numberOfFarmers;
     
     public void setTotalFarmers(int totalFarmers) {
         this.totalFarmers = totalFarmers;
+    }
+    
+    public void setTimeout(int timeout) {
+        this.timeout = timeout;
     }
     
     private int getFarmerPosition() {

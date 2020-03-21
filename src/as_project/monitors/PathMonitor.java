@@ -7,7 +7,6 @@ package as_project.monitors;
 
 import as_project.Sockets;
 import as_project.threads.FarmerThread;
-import static as_project.util.Constants.*;
 import as_project.util.PositionAlgorithm;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,6 +18,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JTextField;
 
+import static as_project.util.Constants.*;
+
 /**
  *
  * @author manuelcura
@@ -28,6 +29,7 @@ public class PathMonitor {
     private int numberOfFarmers;
     private int nSteps;
     private int totalFarmers;
+    private int timeout;
     private final Lock rel;
     private final Condition conditionToWait;
     private String[][] positions;
@@ -54,6 +56,7 @@ public class PathMonitor {
             do {
                 farmerName = farmer.getName();
                 farmerPosition = getFarmerPosition(farmerName);
+                Thread.sleep(timeout);
                 if (farmerPosition[1] > COLUMNS-1) {
                     pathFields.get(previousPositions.get(farmerName)[0]).get(previousPositions.get(farmerName)[1]).setText("");
                     positions[previousPositions.get(farmerName)[0]][previousPositions.get(farmerName)[1]] = null;
@@ -64,7 +67,6 @@ public class PathMonitor {
                     pathFields.get(farmerPosition[0]).get(farmerPosition[1]).setText("");
                     positions[farmerPosition[0]][farmerPosition[1]] = farmer.getName();
                 }
-                System.out.println(farmerName);
                 // when the others farmers finish theres no thread to wake the last one, or if theres only one farmer working
                 if (numberOfFarmers == 1) {
                     conditionToWait.signal();
@@ -75,7 +77,7 @@ public class PathMonitor {
             } while(true);
             proceedToTheGranary();
         } catch (InterruptedException ex) {
-            Logger.getLogger(StoreHouseMonitor.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PathMonitor.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             rel.unlock();
         }
@@ -92,6 +94,7 @@ public class PathMonitor {
             do {
                 farmerName = farmer.getName();
                 farmerPosition = getFarmerPositionReverse(farmerName);
+                Thread.sleep(timeout);
                 if (farmerPosition[1] < 0) {
                     positions[previousPositions.get(farmerName)[0]][previousPositions.get(farmerName)[1]] = null;
                     previousPositions.remove(farmerName);
@@ -110,7 +113,7 @@ public class PathMonitor {
             } while(true);
             proceedToTheStoreHouse();
         } catch (InterruptedException ex) {
-            Logger.getLogger(StoreHouseMonitor.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PathMonitor.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             rel.unlock();
         }
@@ -122,7 +125,7 @@ public class PathMonitor {
             Thread.sleep(new Random().nextInt(DELAY_BETWEEN_LOCKS));
             conditionToWait.signal();
         } catch(InterruptedException ex) {
-            Logger.getLogger(StoreHouseMonitor.class.getName()).log(Level.SEVERE, null, ex);   
+            Logger.getLogger(PathMonitor.class.getName()).log(Level.SEVERE, null, ex);   
         } finally {
             rel.unlock();
         }
@@ -134,7 +137,7 @@ public class PathMonitor {
             Thread.sleep(new Random().nextInt(DELAY_BETWEEN_LOCKS));
             conditionToWait.signal();
         } catch(InterruptedException ex) {
-            Logger.getLogger(StoreHouseMonitor.class.getName()).log(Level.SEVERE, null, ex);   
+            Logger.getLogger(PathMonitor.class.getName()).log(Level.SEVERE, null, ex);   
         } finally {
             rel.unlock();
         }
@@ -146,6 +149,10 @@ public class PathMonitor {
     
     public void setNumberOfSteps(int nSteps) {
         this.nSteps = nSteps;
+    }
+    
+    public void setTimeout(int timeout) {
+        this.timeout = timeout;
     }
     
     private int[] getFarmerPosition(String farmerName) {

@@ -13,10 +13,10 @@ import java.util.concurrent.locks.Lock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.Random;
-
-import static as_project.util.Constants.*;
 import java.util.ArrayList;
 import javax.swing.JTextField;
+
+import static as_project.util.Constants.*;
 
 /**
  *

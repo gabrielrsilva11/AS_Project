@@ -7,8 +7,6 @@ package as_project.monitors;
 
 import as_project.Sockets;
 import as_project.threads.FarmerThread;
-import static as_project.util.Constants.DELAY_BETWEEN_LOCKS;
-import static as_project.util.Constants.ROWS;
 import as_project.util.PositionAlgorithm;
 import java.util.ArrayList;
 import java.util.Random;
@@ -17,6 +15,8 @@ import java.util.concurrent.locks.Lock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JTextField;
+
+import static as_project.util.Constants.*;
 
 /**
  *
@@ -63,7 +63,7 @@ public class StandingAreaMonitor {
                 }
             }
         } catch (InterruptedException ex) {
-            Logger.getLogger(StoreHouseMonitor.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(StandingAreaMonitor.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             rel.unlock();
         }
@@ -75,7 +75,7 @@ public class StandingAreaMonitor {
             Thread.sleep(new Random().nextInt(DELAY_BETWEEN_LOCKS));
             conditionToWait.signal();
         } catch(InterruptedException ex) {
-            Logger.getLogger(StoreHouseMonitor.class.getName()).log(Level.SEVERE, null, ex);   
+            Logger.getLogger(StandingAreaMonitor.class.getName()).log(Level.SEVERE, null, ex);   
         } finally {
             rel.unlock();
         }

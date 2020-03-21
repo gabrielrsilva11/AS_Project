@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package as_project;
-import static as_project.util.Constants.*;
 import as_project.GUI.FI_GUI;
 import as_project.monitors.GranaryMonitor;
 import as_project.monitors.PathMonitor;
@@ -21,6 +20,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.locks.ReentrantLock;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
+
 /**
  *
  * @author gabri
@@ -94,6 +94,7 @@ public class FarmInfrastructure extends Thread{
                         pathMonitor = new PathMonitor(rel, pathFields);
                         pathMonitor.setTotalFarmers(numWorkers);
                         pathMonitor.setNumberOfSteps(numSteps);
+                        pathMonitor.setTimeout(timeout);
                         granaryMonitor = new GranaryMonitor(rel);
                         granaryMonitor.setTotalFarmers(numWorkers);
                         replyCC();
