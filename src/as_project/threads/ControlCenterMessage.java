@@ -39,10 +39,18 @@ public class ControlCenterMessage extends Thread{
             input = new DataInputStream(new BufferedInputStream(sock.getSocketServer().getInputStream()));
             String message = "";
             message = input.readUTF();
-            button1.setEnabled(true);
-            button2.setEnabled(true);
+            System.out.println(message);
+            if(!"exit".equals(message))
+            {
+                button1.setEnabled(true);
+                button2.setEnabled(true);
+            }else{
+                System.out.println("Simulação terminada");
+                System.exit(0);
+            }
             sock.closeServerConnection();
-            System.out.println("Mensagem Recebida, Butoes toggled");
+            System.out.println(message);
+            System.out.println("Butoes toggled");
         }catch(IOException i){
             System.out.println(i);
         }     

@@ -17,6 +17,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static as_project.util.Constants.*;
+import java.util.ArrayList;
+import javax.swing.JTextField;
 
 /**
  *
@@ -32,14 +34,16 @@ public class GranaryMonitor {
     private final Condition collectConditionToWait;
     private String[] positions;
     private Map<String, Integer> collectedCornCob;
+    private ArrayList<JTextField> granaryFields;
     
-    public GranaryMonitor(Lock rel) {
+    public GranaryMonitor(Lock rel, ArrayList<JTextField> granaryFields) {
         this.rel = rel;
         numberOfFarmers = 0;
         conditionToWait = rel.newCondition();
         collectConditionToWait = rel.newCondition();
         positions = new String[ROWS];
         collectedCornCob = new HashMap<>();
+        this.granaryFields = granaryFields;
     }
     
     public void enterTheGranary(FarmerThread farmer) {
@@ -48,7 +52,9 @@ public class GranaryMonitor {
         try {
             Thread.sleep(new Random().nextInt(DELAY_BETWEEN_LOCKS));
             numberOfFarmers++;
-            positions[getFarmerPosition()] = farmer.getName();
+            int p = getFarmerPosition();
+            positions[p] = farmer.getName();
+            granaryFields.get(p).setText(farmer.getName());
             if(numberOfFarmers == totalFarmers) {
                 replyCC();
             }
@@ -56,6 +62,7 @@ public class GranaryMonitor {
             conditionToWait.signal();
             for(int i = 0; i < positions.length; i++) {
                 if(farmer.getName().equals(positions[i])) {
+                    granaryFields.get(i).setText(farmer.getName());
                     positions[i] = null;
                     numberOfFarmers--;
                 }

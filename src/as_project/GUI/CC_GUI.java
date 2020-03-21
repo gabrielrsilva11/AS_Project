@@ -181,8 +181,8 @@ public class CC_GUI extends javax.swing.JPanel {
     private String getDropdownValues(){
         String numFarmers = Dropdown_NumFarmers.getSelectedItem().toString();
         String numSteps = Dropdown_NumSteps.getSelectedItem().toString();
-        String timeout = Dropdown_NumSteps.getSelectedItem().toString();
-        
+        String timeout = Dropdown_Timeout.getSelectedItem().toString();
+        System.out.println(timeout);
         String message = numFarmers + ',' + numSteps + ',' + timeout;
         return message;
     }

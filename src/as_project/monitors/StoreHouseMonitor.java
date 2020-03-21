@@ -48,17 +48,19 @@ public class StoreHouseMonitor {
         try {
             Thread.sleep(new Random().nextInt(DELAY_BETWEEN_LOCKS));
             numberOfFarmers++;
-            positions[getFarmerPosition()] = farmer.getName();
+            int p = getFarmerPosition();
+            positions[p] = farmer.getName();
+            storeHouseFields.get(p).setText(farmer.getName());
             if(storeCorn) {
                 storedCornCobs += CORN_COBS;
                 //Reply with the stored corns
-                replyCC();
+                replyCC(Integer.toString(storedCornCobs));
             }
-            
+            /*
             if(numberOfFarmers == ROWS) {
                 //Reply to enable prepare button
                 replyCC();
-            }
+            }*/
             conditionToWait.await();
             for(int i = 0; i < positions.length; i++) {
                 if(farmer.getName().equals(positions[i])) {
@@ -104,10 +106,10 @@ public class StoreHouseMonitor {
        return position;
     }
     
-    private void replyCC(){
+    private void replyCC(String message){
         Sockets sock = new Sockets();
         sock.startClient("127.0.0.1", 5001);
-        sock.sendMessage("terminado");
+        sock.sendMessage(message);
         sock.closeClientConnection();
     }
 }

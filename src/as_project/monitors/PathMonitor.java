@@ -58,13 +58,15 @@ public class PathMonitor {
                 farmerPosition = getFarmerPosition(farmerName);
                 Thread.sleep(timeout);
                 if (farmerPosition[1] > COLUMNS-1) {
-                    pathFields.get(previousPositions.get(farmerName)[0]).get(previousPositions.get(farmerName)[1]).setText("");
+                    pathFields.get(previousPositions.get(farmerName)[1]).get(previousPositions.get(farmerName)[0]).setText("");
+                    pathFields.get(previousPositions.get(farmerName)[1]).get(previousPositions.get(farmerName)[0]).paintImmediately(pathFields.get(previousPositions.get(farmerName)[1]).get(previousPositions.get(farmerName)[0]).getVisibleRect());
                     positions[previousPositions.get(farmerName)[0]][previousPositions.get(farmerName)[1]] = null;
                     previousPositions.remove(farmerName);
                     numberOfFarmers--;
                     break;
                 } else {
-                    pathFields.get(farmerPosition[0]).get(farmerPosition[1]).setText("");
+                    pathFields.get(farmerPosition[1]).get(farmerPosition[0]).setText(farmer.getName());
+                    pathFields.get(farmerPosition[1]).get(farmerPosition[0]).paintImmediately(pathFields.get(farmerPosition[1]).get(farmerPosition[0]).getVisibleRect());
                     positions[farmerPosition[0]][farmerPosition[1]] = farmer.getName();
                 }
                 // when the others farmers finish theres no thread to wake the last one, or if theres only one farmer working
@@ -97,11 +99,15 @@ public class PathMonitor {
                 Thread.sleep(timeout);
                 if (farmerPosition[1] < 0) {
                     positions[previousPositions.get(farmerName)[0]][previousPositions.get(farmerName)[1]] = null;
+                    pathFields.get(previousPositions.get(farmerName)[1]).get(previousPositions.get(farmerName)[0]).setText("");
+                    pathFields.get(previousPositions.get(farmerName)[1]).get(previousPositions.get(farmerName)[0]).paintImmediately(pathFields.get(previousPositions.get(farmerName)[1]).get(previousPositions.get(farmerName)[0]).getVisibleRect());
                     previousPositions.remove(farmerName);
                     numberOfFarmers--;
                     break;
                 } else {
                     positions[farmerPosition[0]][farmerPosition[1]] = farmer.getName();
+                    pathFields.get(farmerPosition[1]).get(farmerPosition[0]).setText(farmer.getName());
+                    pathFields.get(farmerPosition[1]).get(farmerPosition[0]).paintImmediately(pathFields.get(farmerPosition[1]).get(farmerPosition[0]).getVisibleRect());
                 }
                 // when the others farmers finish theres no thread to wake the last one, or if theres only one farmer working
                 if (numberOfFarmers == 1) {
@@ -163,6 +169,8 @@ public class PathMonitor {
        if(previousPositions.containsKey(farmerName)) {
            previousHorizontalPosition = previousPositions.get(farmerName)[1];
            positions[previousPositions.get(farmerName)[0]][previousPositions.get(farmerName)[1]] = null;
+           pathFields.get(previousPositions.get(farmerName)[1]).get(previousPositions.get(farmerName)[0]).setText("");
+           pathFields.get(previousPositions.get(farmerName)[1]).get(previousPositions.get(farmerName)[0]).paintImmediately(pathFields.get(previousPositions.get(farmerName)[1]).get(previousPositions.get(farmerName)[0]).getVisibleRect());       
        }
        else {
            previousHorizontalPosition = -1;
@@ -186,6 +194,9 @@ public class PathMonitor {
        if(previousPositions.containsKey(farmerName)) {
            previousHorizontalPosition = previousPositions.get(farmerName)[1];
            positions[previousPositions.get(farmerName)[0]][previousPositions.get(farmerName)[1]] = null;
+           pathFields.get(previousPositions.get(farmerName)[1]).get(previousPositions.get(farmerName)[0]).setText("");
+           pathFields.get(previousPositions.get(farmerName)[1]).get(previousPositions.get(farmerName)[0]).paintImmediately(pathFields.get(previousPositions.get(farmerName)[1]).get(previousPositions.get(farmerName)[0]).getVisibleRect());       
+       
        }
        else {
            previousHorizontalPosition = 10;

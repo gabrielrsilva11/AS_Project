@@ -20,6 +20,7 @@ public class MonitorLauncher implements Runnable{
     public MonitorLauncher(String message, StoreHouseMonitor shMonitor, int numFarmers){
         this.message = message;
         this.shMonitor = shMonitor;
+        this.numFarmers = numFarmers;
     }
     
     public MonitorLauncher(String message, StandingAreaMonitor saMonitor){

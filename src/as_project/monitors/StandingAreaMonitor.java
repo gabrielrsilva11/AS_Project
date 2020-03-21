@@ -57,7 +57,7 @@ public class StandingAreaMonitor {
             conditionToWait.signal();
             for(int i = 0; i < positions.length; i++) {
                 if(farmer.getName().equals(positions[i])) {
-                    standingAreaFields.get(i).setText(farmer.getName());
+                    standingAreaFields.get(i).setText("");
                     positions[i] = null;
                     numberOfFarmers--;
                 }
