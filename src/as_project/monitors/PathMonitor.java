@@ -61,8 +61,6 @@ public class PathMonitor {
                 farmerPosition = getFarmerPosition(farmerName);
                 Thread.sleep(timeout);
                 if (farmerPosition[1] > COLUMNS-1) {
-                    pathFields.get(previousPositions.get(farmerName)[1]).get(previousPositions.get(farmerName)[0]).setText("");
-                    pathFields.get(previousPositions.get(farmerName)[1]).get(previousPositions.get(farmerName)[0]).paintImmediately(pathFields.get(previousPositions.get(farmerName)[1]).get(previousPositions.get(farmerName)[0]).getVisibleRect());
                     positions[previousPositions.get(farmerName)[0]][previousPositions.get(farmerName)[1]] = null;
                     previousPositions.remove(farmerName);
                     numberOfFarmers--;
@@ -235,11 +233,5 @@ public class PathMonitor {
         }
        return array;
     }
-    
-    private void replyCC(){
-        Sockets sock = new Sockets();
-        sock.startClient("127.0.0.1", 5001);
-        sock.sendMessage("terminado");
-        sock.closeClientConnection();
-    }
+   
 }

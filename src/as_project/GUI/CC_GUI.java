@@ -41,14 +41,14 @@ public class CC_GUI extends javax.swing.JPanel {
         Dropdown_NumSteps = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
         Dropdown_Timeout = new javax.swing.JComboBox<>();
-        Button_Prepare = new javax.swing.JToggleButton();
-        Button_Start = new javax.swing.JToggleButton();
-        Button_Collect = new javax.swing.JToggleButton();
-        Button_Return = new javax.swing.JToggleButton();
         Button_Stop = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         Text_Collected = new javax.swing.JTextField();
         Button_Exit = new javax.swing.JButton();
+        Button_Prepare = new javax.swing.JButton();
+        Button_Start = new javax.swing.JButton();
+        Button_Collect = new javax.swing.JButton();
+        Button_Return = new javax.swing.JButton();
 
         setName("Control Center"); // NOI18N
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -78,58 +78,6 @@ public class CC_GUI extends javax.swing.JPanel {
 
         Dropdown_Timeout.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0", "100", "250", "500", "1000" }));
         add(Dropdown_Timeout, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 50, -1, -1));
-
-        Button_Prepare.setText("Prepare");
-        Button_Prepare.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                Button_PrepareMouseClicked(evt);
-            }
-        });
-        Button_Prepare.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Button_PrepareActionPerformed(evt);
-            }
-        });
-        add(Button_Prepare, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 130, 80, -1));
-
-        Button_Start.setText("Start");
-        Button_Start.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                Button_StartMouseClicked(evt);
-            }
-        });
-        Button_Start.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Button_StartActionPerformed(evt);
-            }
-        });
-        add(Button_Start, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 130, 80, -1));
-
-        Button_Collect.setText("Collect");
-        Button_Collect.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                Button_CollectMouseClicked(evt);
-            }
-        });
-        Button_Collect.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Button_CollectActionPerformed(evt);
-            }
-        });
-        add(Button_Collect, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 130, 80, -1));
-
-        Button_Return.setText("Return");
-        Button_Return.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                Button_ReturnMouseClicked(evt);
-            }
-        });
-        Button_Return.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Button_ReturnActionPerformed(evt);
-            }
-        });
-        add(Button_Return, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 130, 80, -1));
 
         Button_Stop.setText("Stop");
         Button_Stop.addActionListener(new java.awt.event.ActionListener() {
@@ -164,6 +112,38 @@ public class CC_GUI extends javax.swing.JPanel {
         });
         add(Button_Exit, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 180, 60, -1));
 
+        Button_Prepare.setText("Prepare");
+        Button_Prepare.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Button_PrepareActionPerformed(evt);
+            }
+        });
+        add(Button_Prepare, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 130, -1, -1));
+
+        Button_Start.setText("Start");
+        Button_Start.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Button_StartActionPerformed(evt);
+            }
+        });
+        add(Button_Start, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 130, 70, -1));
+
+        Button_Collect.setText("Collect");
+        Button_Collect.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Button_CollectActionPerformed(evt);
+            }
+        });
+        add(Button_Collect, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 130, 80, -1));
+
+        Button_Return.setText("Return");
+        Button_Return.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Button_ReturnActionPerformed(evt);
+            }
+        });
+        add(Button_Return, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 130, 80, -1));
+
         getAccessibleContext().setAccessibleName("Control Center");
     }// </editor-fold>//GEN-END:initComponents
 
@@ -193,6 +173,23 @@ public class CC_GUI extends javax.swing.JPanel {
         return message;
     }
     
+    private void Text_CollectedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Text_CollectedActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Text_CollectedActionPerformed
+
+    private void Button_StopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_StopActionPerformed
+        cc.sendMessage("stop", Button_Prepare, Button_Exit);
+    }//GEN-LAST:event_Button_StopActionPerformed
+
+    private void Button_ExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_ExitActionPerformed
+        Button_Exit.setEnabled(false);
+        cc.Exit("exit");
+    }//GEN-LAST:event_Button_ExitActionPerformed
+
+    private void Button_ExitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Button_ExitMouseClicked
+
+    }//GEN-LAST:event_Button_ExitMouseClicked
+
     private void Button_PrepareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_PrepareActionPerformed
         setAllDropdowns(false);
         cc.setParameters(getDropdownValues());
@@ -206,46 +203,6 @@ public class CC_GUI extends javax.swing.JPanel {
         cc.sendMessage("start", Button_Collect, Button_Stop);
     }//GEN-LAST:event_Button_StartActionPerformed
 
-    private void Button_ReturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_ReturnActionPerformed
-        Button_Return.setEnabled(false);
-        Button_Stop.setEnabled(false);
-        cc.sendMessage("return", Button_Prepare, Button_Stop);
-        setAllDropdowns(true);
-    }//GEN-LAST:event_Button_ReturnActionPerformed
-
-    private void Text_CollectedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Text_CollectedActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_Text_CollectedActionPerformed
-
-    private void Button_StopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_StopActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_Button_StopActionPerformed
-
-    private void Button_ExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_ExitActionPerformed
-        Button_Exit.setEnabled(false);
-        cc.Exit("exit");
-    }//GEN-LAST:event_Button_ExitActionPerformed
-
-    private void Button_StartMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Button_StartMouseClicked
-
-    }//GEN-LAST:event_Button_StartMouseClicked
-
-    private void Button_PrepareMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Button_PrepareMouseClicked
-
-    }//GEN-LAST:event_Button_PrepareMouseClicked
-
-    private void Button_CollectMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Button_CollectMouseClicked
-
-    }//GEN-LAST:event_Button_CollectMouseClicked
-
-    private void Button_ReturnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Button_ReturnMouseClicked
-
-    }//GEN-LAST:event_Button_ReturnMouseClicked
-
-    private void Button_ExitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Button_ExitMouseClicked
-
-    }//GEN-LAST:event_Button_ExitMouseClicked
-
     private void Button_CollectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_CollectActionPerformed
         Button_Collect.setEnabled(false);
         Button_Stop.setEnabled(false);
@@ -253,13 +210,20 @@ public class CC_GUI extends javax.swing.JPanel {
         cc.sendMessage("collect", Button_Return, Button_Stop);
     }//GEN-LAST:event_Button_CollectActionPerformed
 
+    private void Button_ReturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_ReturnActionPerformed
+        Button_Return.setEnabled(false);
+        Button_Stop.setEnabled(false);
+        cc.sendMessage("return", Button_Prepare, Button_Stop);
+        setAllDropdowns(true);
+    }//GEN-LAST:event_Button_ReturnActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JToggleButton Button_Collect;
+    private javax.swing.JButton Button_Collect;
     private javax.swing.JButton Button_Exit;
-    private javax.swing.JToggleButton Button_Prepare;
-    private javax.swing.JToggleButton Button_Return;
-    private javax.swing.JToggleButton Button_Start;
+    private javax.swing.JButton Button_Prepare;
+    private javax.swing.JButton Button_Return;
+    private javax.swing.JButton Button_Start;
     private javax.swing.JButton Button_Stop;
     private javax.swing.JComboBox<String> Dropdown_NumFarmers;
     private javax.swing.JComboBox<String> Dropdown_NumSteps;

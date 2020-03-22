@@ -31,6 +31,7 @@ public class StoreHouseMonitor {
     private final Condition conditionToWait;
     private String[] positions;
     private ArrayList<JTextField> storeHouseFields;
+    private int port;
     
     public StoreHouseMonitor(Lock rel,  ArrayList<JTextField> storeHouseFields) {
         this.rel = rel;
@@ -53,13 +54,13 @@ public class StoreHouseMonitor {
             storeHouseFields.get(p).setText(farmer.getName());
             if(storeCorn) {
                 storedCornCobs += CORN_COBS;
-                replyCCCorn(Integer.toString(storedCornCobs));
-            }
-            /*
-            if(numberOfFarmers == ROWS) {
+                //System.out.println(storedCornCobs);
+                if(numberOfFarmers == ROWS) {
                 //Reply to enable prepare button
-                replyCC();
-            }*/
+                //replyCC();
+                    replyCCCorn(Integer.toString(storedCornCobs));
+                }
+            }
             conditionToWait.await();
             for(int i = 0; i < positions.length; i++) {
                 if(farmer.getName().equals(positions[i])) {
@@ -97,6 +98,9 @@ public class StoreHouseMonitor {
         this.storedCornCobs = 0;
     }
     
+    public void setPort(int port){
+        this.port = port;
+    }
     private int getFarmerPosition() {
        int position;
        do {
@@ -105,16 +109,9 @@ public class StoreHouseMonitor {
        return position;
     }
     
-    private void replyCC(String message){
-        Sockets sock = new Sockets();
-        sock.startClient("127.0.0.1", 5001);
-        sock.sendMessage(message);
-        sock.closeClientConnection();
-    }
-    
     private void replyCCCorn(String numero){
         Sockets sock = new Sockets();
-        sock.startClient("127.0.0.1", 5001);
+        sock.startClient("127.0.0.1", port);
         sock.sendMessage("coletar");
         sock.sendMessage(numero);
     }

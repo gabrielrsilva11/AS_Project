@@ -31,11 +31,10 @@ public class Sockets {
     public void startServer(int port){
         try{
             server = new ServerSocket(port);
-
             socketServer = server.accept();
         }catch(IOException e){
             System.out.println(e);
-        }       
+        }
     }
     
     public void startClient(String ip, int port){
