@@ -20,15 +20,16 @@ import javax.swing.SwingWorker;
  */
 public class ControlCenter{
     private Sockets serverConnect = null;
-    private final int port;
     private String parameters;
     private JTextField corn;
     private int numFarmers;
+    private int port;
     
     public ControlCenter(){
         serverConnect = new Sockets();
         serverConnect.startClient("127.0.0.1", 5000);
-        port = 5001;
+        System.out.println("Client Started");
+        port = 5000;
     }
     
     public void setCorn(JTextField corn){
@@ -42,24 +43,27 @@ public class ControlCenter{
         this.parameters=parameters;
     }
     
-    public void sendMessage(String message, JToggleButton button1, JButton button2){
-        System.out.println("Message to send: " + message);
+    public void sendMessage(String message, JButton button1, JButton button2){
         serverConnect.sendMessage(message);
-        if(message == "prepare"){
+        if("prepare".equals(message)){
             serverConnect.sendMessage(parameters);
         }
-        startWorkerThread(button1, button2);
+        port +=1;
+        Sockets sock = new Sockets();
+        sock.startServer(port);
+        startWorkerThread(sock,button1, button2);
 
     }
     
     public void Exit(String message){
+        Sockets sock = new Sockets();
+        sock.startServer(port);
         serverConnect.sendMessage(message);
-        startWorkerThread(new JToggleButton(), new JButton());
+        serverConnect.sendMessage(Integer.toString(port));
+        startWorkerThread(sock, new JButton(), new JButton());
     }
     
-    public void startWorkerThread(JToggleButton button1, JButton button2){
-        Sockets sock = new Sockets();
-        sock.startServer(5001);
+    public void startWorkerThread(Sockets sock, JButton button1, JButton button2){
         SwingWorker sw1 = new SwingWorker(){
             @Override
             protected String doInBackground() throws Exception{

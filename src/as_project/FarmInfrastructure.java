@@ -36,6 +36,7 @@ public class FarmInfrastructure extends Thread{
     ArrayList<JTextField> standingFields;
     ArrayList<ArrayList<JTextField>> pathFields;
     ArrayList<JTextField> granaryFields;    
+    private int port;
     
     public FarmInfrastructure(){
         fi = new FI_GUI();
@@ -44,6 +45,7 @@ public class FarmInfrastructure extends Thread{
         gui.setSize(450, 560);
         gui.setResizable(false);
         gui.add(fi);
+        port = 5000;
         getGUIFields();
     }
     
@@ -84,6 +86,7 @@ public class FarmInfrastructure extends Thread{
             
             String message = "";
             while(!message.equals("0")){
+                port += 1;
                 message = input.readUTF();
                 System.out.println("Case:" + message);
                 switch(message){
@@ -99,19 +102,22 @@ public class FarmInfrastructure extends Thread{
                         pathMonitor.setNumberOfSteps(numSteps);
                         pathMonitor.setTimeout(timeout);
                         granaryMonitor.setTotalFarmers(numWorkers);
-                        
+                        standingAreaMonitor.setPort(port);
                         MonitorLauncher mlPrepare = new MonitorLauncher("prepare",storeHouseMonitor,numWorkers);
                         executor.execute(mlPrepare);
                         break;
                     case "start":
+                        granaryMonitor.setPort(port);
                         MonitorLauncher mlStart = new MonitorLauncher("start", standingAreaMonitor);
                         executor.execute(mlStart);
                         break;
                     case "collect":
+                        granaryMonitor.setPort(port);
                         MonitorLauncher mlCollect = new MonitorLauncher("collect", granaryMonitor);
                         executor.execute(mlCollect);
                         break;
                     case "return":
+                        storeHouseMonitor.setPort(port);
                         MonitorLauncher mlReturn = new MonitorLauncher("return", granaryMonitor);
                         executor.execute(mlReturn);
                         break;
@@ -127,7 +133,7 @@ public class FarmInfrastructure extends Thread{
                             }
                         }
                         System.out.println("End of Farmer");
-                        replyCC("exit");
+                        replyCC("exit", port);
                         break;
                 }
             }
@@ -136,7 +142,7 @@ public class FarmInfrastructure extends Thread{
             System.out.println(i);
         }     
     }
-    private void replyCC(String message){
+    private void replyCC(String message, int port){
         sock.startClient("127.0.0.1", 5001);
         sock.sendMessage(message);
         sock.closeClientConnection();

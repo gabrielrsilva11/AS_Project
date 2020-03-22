@@ -36,6 +36,7 @@ public class GranaryMonitor {
     private String[] positions;
     private Map<String, Integer> collectedCornCob;
     private ArrayList<JTextField> granaryFields;
+    private int port;
     
     public GranaryMonitor(Lock rel, ArrayList<JTextField> granaryFields) {
         this.rel = rel;
@@ -151,7 +152,9 @@ public class GranaryMonitor {
     public void setTotalFarmers(int totalFarmers) {
         this.totalFarmers = totalFarmers;
     }
-    
+    public void setPort(int port){
+        this.port = port;
+    }
     public void setTimeout(int timeout) {
         this.timeout = timeout;
     }
@@ -177,7 +180,7 @@ public class GranaryMonitor {
     
     private void replyCC(String message){
         Sockets sock = new Sockets();
-        sock.startClient("127.0.0.1", 5001);
+        sock.startClient("127.0.0.1", port);
         sock.sendMessage(message);
         sock.closeClientConnection();
     }

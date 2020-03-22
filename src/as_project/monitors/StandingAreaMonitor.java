@@ -30,6 +30,7 @@ public class StandingAreaMonitor {
     private final Condition conditionToWait;
     private String[] positions;
     private ArrayList<JTextField> standingAreaFields;
+    private int port;
     
     public StandingAreaMonitor(Lock rel, ArrayList<JTextField> standingAreaFields) {
         this.rel = rel;
@@ -100,6 +101,10 @@ public class StandingAreaMonitor {
         this.totalFarmers = totalFarmers;
     }
     
+    public void setPort(int port){
+        this.port = port;
+    }
+    
     private int getFarmerPosition() {
        int position;
        do {
@@ -110,7 +115,7 @@ public class StandingAreaMonitor {
     
     private void replyCC(String message){
         Sockets sock = new Sockets();
-        sock.startClient("127.0.0.1", 5001);
+        sock.startClient("127.0.0.1", port);
         sock.sendMessage(message);
         sock.closeClientConnection();
     }
