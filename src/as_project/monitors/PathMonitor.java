@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 import javax.swing.JTextField;
 
 import static as_project.util.Constants.*;
+import java.util.Arrays;
 
 /**
  *
@@ -30,6 +31,7 @@ public class PathMonitor {
     private int nSteps;
     private int totalFarmers;
     private int timeout;
+    private boolean stopped;
     private final Lock rel;
     private final Condition conditionToWait;
     private String[][] positions;
@@ -50,6 +52,7 @@ public class PathMonitor {
         rel.lock();
         try {
             Thread.sleep(new Random().nextInt(DELAY_BETWEEN_LOCKS));
+            stopped = false;
             numberOfFarmers = this.totalFarmers;
             int[] farmerPosition;
             String farmerName;
@@ -76,7 +79,7 @@ public class PathMonitor {
                     conditionToWait.signal();
                     conditionToWait.await();
                 }
-            } while(true);
+            } while(!stopped);
             proceedToTheGranary();
         } catch (InterruptedException ex) {
             Logger.getLogger(PathMonitor.class.getName()).log(Level.SEVERE, null, ex);
@@ -90,6 +93,7 @@ public class PathMonitor {
         rel.lock();
         try {
             Thread.sleep(new Random().nextInt(DELAY_BETWEEN_LOCKS));
+            stopped = false;
             numberOfFarmers = this.totalFarmers;
             int[] farmerPosition;
             String farmerName;
@@ -116,7 +120,7 @@ public class PathMonitor {
                     conditionToWait.signal();
                     conditionToWait.await();
                 }
-            } while(true);
+            } while(!stopped);
             proceedToTheStoreHouse();
         } catch (InterruptedException ex) {
             Logger.getLogger(PathMonitor.class.getName()).log(Level.SEVERE, null, ex);
@@ -144,6 +148,26 @@ public class PathMonitor {
             conditionToWait.signal();
         } catch(InterruptedException ex) {
             Logger.getLogger(PathMonitor.class.getName()).log(Level.SEVERE, null, ex);   
+        } finally {
+            rel.unlock();
+        }
+    }
+    
+    public void stopped() {
+        rel.lock();
+        try {
+            Thread.sleep(new Random().nextInt(DELAY_BETWEEN_LOCKS));
+            stopped = true;
+            for(Map.Entry<String, int[]> entry : previousPositions.entrySet()) {
+                positions[entry.getValue()[0]][entry.getValue()[1]] = null;
+                pathFields.get(entry.getValue()[1]).get(entry.getValue()[0]).setText("");
+                pathFields.get(entry.getValue()[1]).get(entry.getValue()[0]).paintImmediately(pathFields.get(entry.getValue()[1]).get(entry.getValue()[0]).getVisibleRect());
+            }
+            Arrays.fill(positions, null);
+            previousPositions.clear();
+            conditionToWait.signalAll();
+        } catch(InterruptedException ex) {
+            Logger.getLogger(StandingAreaMonitor.class.getName()).log(Level.SEVERE, null, ex);   
         } finally {
             rel.unlock();
         }

@@ -81,6 +81,19 @@ public class StandingAreaMonitor {
         }
     }
     
+    public void stopped() {
+        rel.lock();
+        try {
+            Thread.sleep(new Random().nextInt(DELAY_BETWEEN_LOCKS));
+            numberOfFarmers = 0;
+            conditionToWait.signalAll();
+        } catch(InterruptedException ex) {
+            Logger.getLogger(StandingAreaMonitor.class.getName()).log(Level.SEVERE, null, ex);   
+        } finally {
+            rel.unlock();
+        }
+    }
+    
     public void setTotalFarmers(int totalFarmers) {
         this.totalFarmers = totalFarmers;
     }

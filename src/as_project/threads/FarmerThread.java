@@ -56,6 +56,11 @@ public class FarmerThread extends Thread {
     
     public void setStopped(boolean stopped) {
         this.stopped = stopped;
+        //Reset stored corn when stopped?
         storeHouse.setStoreCorn();
+        standingAreaMonitor.stopped();
+        pathMonitor.stopped();
+        granaryMonitor.stopped();
+
     }
 }

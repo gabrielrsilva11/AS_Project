@@ -77,7 +77,6 @@ public class StoreHouseMonitor {
     }
     
     public void prepare(int nFarmers) {
-        // Evoke when the prepare button is used
         rel.lock();
         try {
             Thread.sleep(new Random().nextInt(DELAY_BETWEEN_LOCKS));
@@ -95,6 +94,7 @@ public class StoreHouseMonitor {
     
     public void setStoreCorn() {
         this.storeCorn = false;
+        //When we stop the stored corn cob resets?
         this.storedCornCobs = 0;
     }
     

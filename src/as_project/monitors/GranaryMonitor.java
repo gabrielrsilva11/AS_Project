@@ -29,6 +29,7 @@ public class GranaryMonitor {
     private int numberOfFarmers;
     private int totalFarmers;
     private int timeout;
+    private boolean stopped;
     private final Lock rel;
     private final Condition conditionToWait;
     private final Condition collectConditionToWait;
@@ -39,6 +40,7 @@ public class GranaryMonitor {
     public GranaryMonitor(Lock rel, ArrayList<JTextField> granaryFields) {
         this.rel = rel;
         numberOfFarmers = 0;
+        stopped = false;
         conditionToWait = rel.newCondition();
         collectConditionToWait = rel.newCondition();
         positions = new String[ROWS];
@@ -79,9 +81,10 @@ public class GranaryMonitor {
         rel.lock();
         try {
             Thread.sleep(new Random().nextInt(DELAY_BETWEEN_LOCKS));
+            stopped = false;
             String farmerName = farmer.getName();
             collectedCornCob.put(farmerName, 0);
-            while(true) {
+            while(!stopped) {
                 collectedCornCob.put(farmerName, collectedCornCob.get(farmerName)+1);
                 Thread.sleep(timeout);
                 if(collectedCornCob.get(farmerName) == CORN_COBS) {
@@ -93,6 +96,8 @@ public class GranaryMonitor {
             numberOfFarmers++;
             collectConditionToWait.signal();
             if(numberOfFarmers == totalFarmers) {
+                
+                //Signal the CC that the return button can be enable
                 returnToTheBeginning();
             }
             collectConditionToWait.await();
@@ -125,6 +130,20 @@ public class GranaryMonitor {
             collectConditionToWait.signal();
         } catch(InterruptedException ex) {
             Logger.getLogger(GranaryMonitor.class.getName()).log(Level.SEVERE, null, ex);   
+        } finally {
+            rel.unlock();
+        }
+    }
+    
+    public void stopped() {
+        rel.lock();
+        try {
+            Thread.sleep(new Random().nextInt(DELAY_BETWEEN_LOCKS));
+            stopped = true;
+            conditionToWait.signalAll();
+            collectConditionToWait.signalAll();
+        } catch(InterruptedException ex) {
+            Logger.getLogger(StandingAreaMonitor.class.getName()).log(Level.SEVERE, null, ex);   
         } finally {
             rel.unlock();
         }
