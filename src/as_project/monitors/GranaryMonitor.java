@@ -58,7 +58,7 @@ public class GranaryMonitor {
             positions[p] = farmer.getName();
             granaryFields.get(p).setText(farmer.getName());
             if(numberOfFarmers == totalFarmers) {
-                replyCC();
+                replyCC("Start terminado");
             }
             conditionToWait.await();
             conditionToWait.signal();
@@ -96,9 +96,9 @@ public class GranaryMonitor {
             numberOfFarmers++;
             collectConditionToWait.signal();
             if(numberOfFarmers == totalFarmers) {
-                
+                replyCC("Collect Terminado");
                 //Signal the CC that the return button can be enable
-                returnToTheBeginning();
+                //returnToTheBeginning();
             }
             collectConditionToWait.await();
             collectConditionToWait.signal();
@@ -165,10 +165,10 @@ public class GranaryMonitor {
        return position;
     }
     
-    private void replyCC(){
+    private void replyCC(String message){
         Sockets sock = new Sockets();
         sock.startClient("127.0.0.1", 5001);
-        sock.sendMessage("terminado");
+        sock.sendMessage(message);
         sock.closeClientConnection();
     }
 }

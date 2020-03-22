@@ -111,6 +111,11 @@ public class CC_GUI extends javax.swing.JPanel {
                 Button_CollectMouseClicked(evt);
             }
         });
+        Button_Collect.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Button_CollectActionPerformed(evt);
+            }
+        });
         add(Button_Collect, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 130, 80, -1));
 
         Button_Return.setText("Return");
@@ -239,6 +244,10 @@ public class CC_GUI extends javax.swing.JPanel {
     private void Button_ExitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Button_ExitMouseClicked
         cc.Exit("exit");
     }//GEN-LAST:event_Button_ExitMouseClicked
+
+    private void Button_CollectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_CollectActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Button_CollectActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

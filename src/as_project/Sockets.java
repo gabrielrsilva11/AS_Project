@@ -39,7 +39,6 @@ public class Sockets {
     }
     
     public void startClient(String ip, int port){
-        System.out.println("Starting Client");
         try{
             socketClient = new Socket(ip, port);
             output = new DataOutputStream(socketClient.getOutputStream());

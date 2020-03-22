@@ -48,8 +48,9 @@ public class StandingAreaMonitor {
             int pos = getFarmerPosition();
             positions[pos] = farmer.getName();
             standingAreaFields.get(pos).setText(farmer.getName());
+            standingAreaFields.get(pos).paintImmediately(standingAreaFields.get(pos).getVisibleRect());
             if(numberOfFarmers == totalFarmers) {
-                replyCC();
+                replyCC("Standing terminado");
                 // The positions contains the array with farmers to fill the GUI
                 //proceedToThePath();
             }
@@ -58,6 +59,7 @@ public class StandingAreaMonitor {
             for(int i = 0; i < positions.length; i++) {
                 if(farmer.getName().equals(positions[i])) {
                     standingAreaFields.get(i).setText("");
+                    standingAreaFields.get(i).paintImmediately(standingAreaFields.get(i).getVisibleRect());
                     positions[i] = null;
                     numberOfFarmers--;
                 }
@@ -106,10 +108,10 @@ public class StandingAreaMonitor {
        return position;
     }
     
-    private void replyCC(){
+    private void replyCC(String message){
         Sockets sock = new Sockets();
         sock.startClient("127.0.0.1", 5001);
-        sock.sendMessage("terminado");
+        sock.sendMessage(message);
         sock.closeClientConnection();
     }
 }

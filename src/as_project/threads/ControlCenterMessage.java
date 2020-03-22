@@ -39,7 +39,6 @@ public class ControlCenterMessage extends Thread{
             input = new DataInputStream(new BufferedInputStream(sock.getSocketServer().getInputStream()));
             String message = "";
             message = input.readUTF();
-            System.out.println(message);
             if(!"exit".equals(message))
             {
                 button1.setEnabled(true);

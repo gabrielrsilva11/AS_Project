@@ -63,7 +63,6 @@ public class FarmInfrastructure extends Thread{
     }
 
     public void handleMessages() {
-        System.out.println(pathFields.size());
         ReentrantLock rel = new ReentrantLock();
         ExecutorService executor = Executors.newFixedThreadPool(2);
         StoreHouseMonitor storeHouseMonitor = new StoreHouseMonitor(rel, storeFields);
@@ -86,7 +85,7 @@ public class FarmInfrastructure extends Thread{
             String message = "";
             while(!message.equals("0")){
                 message = input.readUTF();
-                System.out.println(message);
+                System.out.println("Case:" + message);
                 switch(message){
                     //Prepare
                     case "prepare":
@@ -95,7 +94,6 @@ public class FarmInfrastructure extends Thread{
                         numWorkers = Integer.parseInt(splitMessage[0]);
                         numSteps = Integer.parseInt(splitMessage[1]);
                         timeout = Integer.parseInt(splitMessage[2]);
-                        System.out.println("Timeout: " + timeout);
                         standingAreaMonitor.setTotalFarmers(numWorkers);
                         pathMonitor.setTotalFarmers(numWorkers);
                         pathMonitor.setNumberOfSteps(numSteps);
@@ -110,7 +108,7 @@ public class FarmInfrastructure extends Thread{
                         executor.execute(mlStart);
                         break;
                     case "collect":
-                        MonitorLauncher mlCollect = new MonitorLauncher("collect", pathMonitor);
+                        MonitorLauncher mlCollect = new MonitorLauncher("collect", granaryMonitor);
                         executor.execute(mlCollect);
                         break;
                     case "return":
@@ -118,6 +116,9 @@ public class FarmInfrastructure extends Thread{
                         executor.execute(mlReturn);
                         break;
                     case "stop":
+                        for(FarmerThread farmer: Farmers_Array){
+                                farmer.setStopped(true);
+                        }
                         break;
                     case "exit":
                         if(!Farmers_Array.isEmpty()){

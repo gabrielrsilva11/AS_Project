@@ -13,7 +13,6 @@ public class MonitorLauncher implements Runnable{
     private String message = null;
     private StoreHouseMonitor shMonitor = null;
     private StandingAreaMonitor saMonitor = null;
-    private PathMonitor paMonitor = null;
     private GranaryMonitor grMonitor = null;
     private int numFarmers;
     
@@ -27,12 +26,7 @@ public class MonitorLauncher implements Runnable{
         this.message = message;
         this.saMonitor = saMonitor;
     }
-    
-    public MonitorLauncher(String message, PathMonitor paMonitor){
-        this.message = message;
-        this.paMonitor = paMonitor;
-    }
-    
+
     public MonitorLauncher(String message, GranaryMonitor grMonitor){
         this.message = message;
         this.grMonitor = grMonitor;
@@ -42,19 +36,15 @@ public class MonitorLauncher implements Runnable{
     public void run(){
         switch(message){
             case "prepare":
-                System.out.println("Caso prepare");
                 shMonitor.prepare(numFarmers);
                 break;
             case "start":
-                System.out.println("Caso start");
                 saMonitor.proceedToThePath();
                 break;
             case "collect":
-                System.out.println("Caso collect");
                 grMonitor.collect();
                 break;
             case "return":
-                System.out.println("Caso return");
                 grMonitor.returnToTheBeginning();
                 break;
         }

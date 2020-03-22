@@ -29,6 +29,7 @@ public class ControlCenter{
     }
     
     public void sendMessage(String message, JToggleButton button1, JButton button2){
+        System.out.println("Message to send: " + message);
         serverConnect.sendMessage(message);
         if(message == "prepare"){
             serverConnect.sendMessage(parameters);
