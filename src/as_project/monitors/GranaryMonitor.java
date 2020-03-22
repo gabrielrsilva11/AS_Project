@@ -57,6 +57,7 @@ public class GranaryMonitor {
             int p = getFarmerPosition();
             positions[p] = farmer.getName();
             granaryFields.get(p).setText(farmer.getName());
+            System.out.println(numberOfFarmers);
             if(numberOfFarmers == totalFarmers) {
                 replyCC("Start terminado");
             }
@@ -170,7 +171,6 @@ public class GranaryMonitor {
                 granaryFields.get(i).setText("");
                 granaryFields.get(i).paintImmediately(granaryFields.get(i).getVisibleRect());
                 positions[i] = null;
-                numberOfFarmers--;
             }
         }
     }
