@@ -97,6 +97,7 @@ public class StoreHouseMonitor {
         this.storeCorn = false;
         //When we stop the stored corn cob resets?
         this.storedCornCobs = 0;
+        replyCCCorn(Integer.toString(storedCornCobs));
     }
     
     public void setPort(int port){

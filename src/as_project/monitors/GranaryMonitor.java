@@ -21,13 +21,25 @@ import java.util.ArrayList;
 import javax.swing.JTextField;
 
 /**
- *
- * @author manuelcura
- */
+* GranaryMonitor - monitor that controls all the granary processes
+* 
+* @author Gabriel Silva
+* @author Manuel Marcos
+* 
+*/
 public class GranaryMonitor {
-    
+    /**
+    * The number of farmers that are currently in the granary
+    */
     private int numberOfFarmers;
+    /**
+    * The total number of farmers that are in this iteration
+    */
     private int totalFarmers;
+    /**
+    * The timeout defined by GUI to wait to simulate the time each farmer needs
+    * to collect one corn cob
+    */
     private int timeout;
     private boolean stopped;
     private final Lock rel;
