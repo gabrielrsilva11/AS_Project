@@ -62,14 +62,10 @@ public class GranaryMonitor {
             }
             conditionToWait.await();
             conditionToWait.signal();
-            for(int i = 0; i < positions.length; i++) {
-                if(farmer.getName().equals(positions[i])) {
-                    granaryFields.get(i).setText("");
-                    granaryFields.get(i).paintImmediately(granaryFields.get(i).getVisibleRect());
-                    positions[i] = null;
-                    numberOfFarmers--;
-                }
+            if(stopped) {
+                clearPositions(farmer.getName()); 
             }
+            numberOfFarmers--;
         } catch (InterruptedException ex) {
             Logger.getLogger(GranaryMonitor.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
@@ -90,20 +86,21 @@ public class GranaryMonitor {
                 Thread.sleep(timeout);
                 if(collectedCornCob.get(farmerName) == CORN_COBS) {
                     break;
+                } if (numberOfFarmers == 0) {
+                    collectConditionToWait.signal();
                 }
-                collectConditionToWait.signal();
-                collectConditionToWait.await();
+                collectConditionToWait.await();   
             }
             numberOfFarmers++;
             if(numberOfFarmers == totalFarmers) {
                 replyCC("Collect Terminado");
-                //Signal the CC that the return button can be enable
             } else {
                 collectConditionToWait.signal();
             }
             collectConditionToWait.await();
             collectConditionToWait.signal();
             numberOfFarmers--;
+            clearPositions(farmer.getName());
             collectedCornCob.remove(farmerName);
         } catch (InterruptedException ex) {
             Logger.getLogger(GranaryMonitor.class.getName()).log(Level.SEVERE, null, ex);
@@ -143,6 +140,7 @@ public class GranaryMonitor {
             stopped = true;
             conditionToWait.signalAll();
             collectConditionToWait.signalAll();
+
         } catch(InterruptedException ex) {
             Logger.getLogger(StandingAreaMonitor.class.getName()).log(Level.SEVERE, null, ex);   
         } finally {
@@ -164,6 +162,17 @@ public class GranaryMonitor {
            position = PositionAlgorithm.getVerticalPosition();
        } while(positions[position] != null);
        return position;
+    }
+    
+    private void clearPositions(String farmerName) {
+        for(int i = 0; i < positions.length; i++) {
+            if(farmerName.equals(positions[i])) {
+                granaryFields.get(i).setText("");
+                granaryFields.get(i).paintImmediately(granaryFields.get(i).getVisibleRect());
+                positions[i] = null;
+                numberOfFarmers--;
+            }
+        }
     }
     
     private void replyCC(String message){
