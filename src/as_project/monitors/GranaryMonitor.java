@@ -41,15 +41,46 @@ public class GranaryMonitor {
     * to collect one corn cob
     */
     private int timeout;
+    /**
+    * The stopped boolean alerts the monitor that this iteration for some reason 
+    * has been stopped
+    */
     private boolean stopped;
+    /**
+    * The ReentratLock that defines the critical region where the threads operate
+    */
     private final Lock rel;
+    /**
+    * Condition to make the threads operate inside de critical region
+    */
     private final Condition conditionToWait;
+    /**
+    * Condition to make the threads operate inside de critical region
+    */
     private final Condition collectConditionToWait;
+    /**
+    * Array that contains the positions of the farmers in the granary
+    */
     private String[] positions;
+    /**
+    * HasMap with the farmer name and the corn cobs collected
+    */
     private Map<String, Integer> collectedCornCob;
+    /**
+    * Array that contains the positions of the farmers in the granary GUI
+    */
     private ArrayList<JTextField> granaryFields;
+    /**
+    * Port to send socket response
+    */
     private int port;
     
+    /**
+     * Granary class constructor
+     * 
+     * @param rel ReentratLock that defines the critical region
+     * @param granaryFields positions of the granary GUI
+     */
     public GranaryMonitor(Lock rel, ArrayList<JTextField> granaryFields) {
         this.rel = rel;
         numberOfFarmers = 0;
@@ -61,6 +92,12 @@ public class GranaryMonitor {
         this.granaryFields = granaryFields;
     }
     
+    /**
+     * Method to stop the farmers and signal the Control Center when they 
+     * are all inside the granary
+     * 
+     * @param farmer farmer thread
+     */
     public void enterTheGranary(FarmerThread farmer) {
 
         rel.lock();
@@ -87,6 +124,12 @@ public class GranaryMonitor {
         }
     }
     
+    /**
+     * Method to collect the corn and signal the Control Center when they 
+     * all finish
+     * 
+     * @param farmer farmer thread
+     */
     public void collectTheCorn(FarmerThread farmer) {
         
         rel.lock();
@@ -123,6 +166,10 @@ public class GranaryMonitor {
         }
     }
     
+    /**
+     * Method to release the farmers from the condition
+     * 
+     */
     public void collect() {
         rel.lock();
         try {
@@ -134,7 +181,11 @@ public class GranaryMonitor {
             rel.unlock();
         }
     }
-    
+
+    /** 
+     * Method to release the farmers from the condition
+     * 
+     */
     public void returnToTheBeginning() {
         rel.lock();
         try {
@@ -146,7 +197,11 @@ public class GranaryMonitor {
             rel.unlock();
         }
     }
-    
+
+    /** 
+     * Method to stop operations and release the threads from the conditions
+     * 
+     */
     public void stopped() {
         rel.lock();
         try {
@@ -162,16 +217,38 @@ public class GranaryMonitor {
         }
     }
     
+    /**
+     * Method to set the totalFarmers variable
+     * 
+     * @param totalFarmers total number of farmers in the current iteration
+     */
     public void setTotalFarmers(int totalFarmers) {
         this.totalFarmers = totalFarmers;
     }
+    
+    /**
+     * Method to set the port variable
+     * 
+     * @param port port to send the response
+     */
     public void setPort(int port){
         this.port = port;
     }
+    
+    /**
+     * Method to set the timeout variable
+     * 
+     * @param timeout defined by GUI
+     */
     public void setTimeout(int timeout) {
         this.timeout = timeout;
     }
     
+    /**
+     * Method to find a empty position for the farmer
+     * 
+     * @return an empty position
+     */
     private int getFarmerPosition() {
        int position;
        do {
@@ -180,6 +257,11 @@ public class GranaryMonitor {
        return position;
     }
     
+    /**
+     * Method to clear all the positions occupied by the farmers
+     * 
+     * @param farmerName name of the farmer
+     */
     private void clearPositions(String farmerName) {
         for(int i = 0; i < positions.length; i++) {
             if(farmerName.equals(positions[i])) {
@@ -190,6 +272,11 @@ public class GranaryMonitor {
         }
     }
     
+    /**
+     * Method to send the message to the ControlCenter
+     * 
+     * @param message message to send
+     */
     private void replyCC(String message){
         Sockets sock = new Sockets();
         sock.startClient("127.0.0.1", port);
