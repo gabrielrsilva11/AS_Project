@@ -125,6 +125,7 @@ public class FarmInfrastructure extends Thread{
                         for(FarmerThread farmer: Farmers_Array){
                                 farmer.setStopped(true);
                         }
+                        replyCC("stop", port);
                         break;
                     case "exit":
                         if(!Farmers_Array.isEmpty()){
@@ -143,7 +144,7 @@ public class FarmInfrastructure extends Thread{
         }     
     }
     private void replyCC(String message, int port){
-        sock.startClient("127.0.0.1", 5001);
+        sock.startClient("127.0.0.1", port);
         sock.sendMessage(message);
         sock.closeClientConnection();
     }

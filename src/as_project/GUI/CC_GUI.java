@@ -6,6 +6,7 @@
 package as_project.GUI;
 
 import as_project.ControlCenter;
+import as_project.threads.CCWorker;
 
 /**
  *
@@ -178,12 +179,16 @@ public class CC_GUI extends javax.swing.JPanel {
     }//GEN-LAST:event_Text_CollectedActionPerformed
 
     private void Button_StopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_StopActionPerformed
-        cc.sendMessage("stop", Button_Prepare, Button_Exit);
+        cc.sendMessage("stop");
+        new CCWorker(Button_Prepare, Button_Stop, cc.getPort()).execute();
+        setAllButtons(false);
+        setAllDropdowns(true);
     }//GEN-LAST:event_Button_StopActionPerformed
 
     private void Button_ExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_ExitActionPerformed
         Button_Exit.setEnabled(false);
-        cc.Exit("exit");
+        cc.sendMessage("exit");
+        new CCWorker(Button_Exit, Button_Exit, cc.getPort()).execute();
     }//GEN-LAST:event_Button_ExitActionPerformed
 
     private void Button_ExitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Button_ExitMouseClicked
@@ -194,27 +199,33 @@ public class CC_GUI extends javax.swing.JPanel {
         setAllDropdowns(false);
         cc.setParameters(getDropdownValues());
         Button_Prepare.setEnabled(false);
-        cc.sendMessage("prepare", Button_Start, Button_Stop);
+        Button_Stop.setEnabled(false);
+        cc.sendMessage("prepare");
+        new CCWorker(Button_Start, Button_Stop, cc.getPort()).execute();
     }//GEN-LAST:event_Button_PrepareActionPerformed
 
     private void Button_StartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_StartActionPerformed
         Button_Start.setEnabled(false);
         Button_Stop.setEnabled(false);
-        cc.sendMessage("start", Button_Collect, Button_Stop);
+        cc.sendMessage("start");
+        new CCWorker(Button_Collect, Button_Stop, cc.getPort()).execute();
     }//GEN-LAST:event_Button_StartActionPerformed
 
     private void Button_CollectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_CollectActionPerformed
         Button_Collect.setEnabled(false);
         Button_Stop.setEnabled(false);
         cc.setCorn(Text_Collected);
-        cc.sendMessage("collect", Button_Return, Button_Stop);
+        cc.sendMessage("collect");
+        new CCWorker(Button_Return, Button_Stop, cc.getPort()).execute();
     }//GEN-LAST:event_Button_CollectActionPerformed
 
     private void Button_ReturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_ReturnActionPerformed
         Button_Return.setEnabled(false);
         Button_Stop.setEnabled(false);
-        cc.sendMessage("return", Button_Prepare, Button_Stop);
+        cc.sendMessage("return");
         setAllDropdowns(true);
+        new CCWorker(Button_Prepare, Button_Stop, cc.getPort(), Text_Collected).execute();
+        
     }//GEN-LAST:event_Button_ReturnActionPerformed
 
 

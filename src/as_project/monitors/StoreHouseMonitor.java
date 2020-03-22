@@ -53,6 +53,7 @@ public class StoreHouseMonitor {
             positions[p] = farmer.getName();
             storeHouseFields.get(p).setText(farmer.getName());
             storeHouseFields.get(p).paintImmediately(storeHouseFields.get(p).getVisibleRect());
+            System.out.println(storeCorn);
             if(storeCorn) {
                 storedCornCobs += CORN_COBS;
                 //System.out.println(storedCornCobs);
@@ -97,7 +98,6 @@ public class StoreHouseMonitor {
         this.storeCorn = false;
         //When we stop the stored corn cob resets?
         this.storedCornCobs = 0;
-        replyCCCorn(Integer.toString(storedCornCobs));
     }
     
     public void setPort(int port){

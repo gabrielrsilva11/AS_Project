@@ -5,14 +5,8 @@
  */
 package as_project;
 
-import as_project.threads.ControlCenterMessage;
-import java.io.BufferedInputStream;
-import java.io.DataInputStream;
-import java.io.IOException;
-import javax.swing.JButton;
 import javax.swing.JTextField;
-import javax.swing.JToggleButton;
-import javax.swing.SwingWorker;
+
 
 /**
  *
@@ -42,63 +36,26 @@ public class ControlCenter{
     public void setParameters(String parameters){
         this.parameters=parameters;
     }
+    public int getPort(){
+        return port;
+    }
     
-    public void sendMessage(String message, JButton button1, JButton button2){
+    public void sendMessage(String message){
+        port +=1;
         serverConnect.sendMessage(message);
         if("prepare".equals(message)){
             serverConnect.sendMessage(parameters);
         }
-        port +=1;
-        Sockets sock = new Sockets();
-        sock.startServer(port);
-        startWorkerThread(sock,button1, button2);
-
     }
     
+    
     public void Exit(String message){
+        port += 1;
         Sockets sock = new Sockets();
         sock.startServer(port);
         serverConnect.sendMessage(message);
         serverConnect.sendMessage(Integer.toString(port));
-        startWorkerThread(sock, new JButton(), new JButton());
-    }
-    
-    public void startWorkerThread(Sockets sock, JButton button1, JButton button2){
-        SwingWorker sw1 = new SwingWorker(){
-            @Override
-            protected String doInBackground() throws Exception{
-                try{
-                    DataInputStream input;
-                    input = new DataInputStream(new BufferedInputStream(sock.getSocketServer().getInputStream()));
-                    String message = "";
-                    message = input.readUTF();
-                    System.out.println(message);
-                    if("exit".equals(message))
-                    {
-                        System.out.println("Simulação terminada");
-                        System.exit(0);
-                    }
-                    else if("coletar".equals(message)){
-                        String message2=input.readUTF();
-                        corn.setText(message2);
-                        button1.setEnabled(true);
-                        button2.setEnabled(true);
-                    }else{
-                        button1.setEnabled(true);
-                        button2.setEnabled(true);
-                    }
-                }catch(IOException i){
-                    System.out.println(i);
-                }
-                sock.closeServerConnection();
-                return "worker done";
-            }
-            @Override
-            protected void done(){
-                System.out.println("Butoes toggled");
-            }
-        };
-        sw1.execute();
+        
     }
 }
 
