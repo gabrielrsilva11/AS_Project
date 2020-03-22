@@ -94,11 +94,11 @@ public class GranaryMonitor {
                 collectConditionToWait.await();
             }
             numberOfFarmers++;
-            collectConditionToWait.signal();
             if(numberOfFarmers == totalFarmers) {
                 replyCC("Collect Terminado");
                 //Signal the CC that the return button can be enable
-                //returnToTheBeginning();
+            } else {
+                collectConditionToWait.signal();
             }
             collectConditionToWait.await();
             collectConditionToWait.signal();
