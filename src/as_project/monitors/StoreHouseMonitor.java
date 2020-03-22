@@ -52,6 +52,7 @@ public class StoreHouseMonitor {
             int p = getFarmerPosition();
             positions[p] = farmer.getName();
             storeHouseFields.get(p).setText(farmer.getName());
+            storeHouseFields.get(p).paintImmediately(storeHouseFields.get(p).getVisibleRect());
             if(storeCorn) {
                 storedCornCobs += CORN_COBS;
                 //System.out.println(storedCornCobs);
