@@ -50,7 +50,7 @@ public class Sockets {
     }
     
     public void sendMessage(String message){
-        try{
+        try{    
             output.writeUTF(message);
         }catch(IOException i){
             System.out.println(i);

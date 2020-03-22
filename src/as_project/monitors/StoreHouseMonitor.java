@@ -53,8 +53,7 @@ public class StoreHouseMonitor {
             storeHouseFields.get(p).setText(farmer.getName());
             if(storeCorn) {
                 storedCornCobs += CORN_COBS;
-                //Reply with the stored corns
-                replyCC(Integer.toString(storedCornCobs));
+                replyCCCorn(Integer.toString(storedCornCobs));
             }
             /*
             if(numberOfFarmers == ROWS) {
@@ -111,5 +110,12 @@ public class StoreHouseMonitor {
         sock.startClient("127.0.0.1", 5001);
         sock.sendMessage(message);
         sock.closeClientConnection();
+    }
+    
+    private void replyCCCorn(String numero){
+        Sockets sock = new Sockets();
+        sock.startClient("127.0.0.1", 5001);
+        sock.sendMessage("coletar");
+        sock.sendMessage(numero);
     }
 }

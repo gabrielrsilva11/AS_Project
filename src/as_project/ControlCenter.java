@@ -6,8 +6,13 @@
 package as_project;
 
 import as_project.threads.ControlCenterMessage;
+import java.io.BufferedInputStream;
+import java.io.DataInputStream;
+import java.io.IOException;
 import javax.swing.JButton;
+import javax.swing.JTextField;
 import javax.swing.JToggleButton;
+import javax.swing.SwingWorker;
 
 /**
  *
@@ -15,8 +20,10 @@ import javax.swing.JToggleButton;
  */
 public class ControlCenter{
     private Sockets serverConnect = null;
-    private int port;
+    private final int port;
     private String parameters;
+    private JTextField corn;
+    private int numFarmers;
     
     public ControlCenter(){
         serverConnect = new Sockets();
@@ -24,6 +31,13 @@ public class ControlCenter{
         port = 5001;
     }
     
+    public void setCorn(JTextField corn){
+        this.corn = corn;
+    }
+    
+    public void setNumFarmers(int numFarmers){
+        this.numFarmers = numFarmers;
+    }
     public void setParameters(String parameters){
         this.parameters=parameters;
     }
@@ -34,19 +48,53 @@ public class ControlCenter{
         if(message == "prepare"){
             serverConnect.sendMessage(parameters);
         }
-        ControlCenterMessage await = new ControlCenterMessage(button1, button2, port);
-        await.start();
+        startWorkerThread(button1, button2);
+
     }
     
     public void Exit(String message){
         serverConnect.sendMessage(message);
-        ControlCenterMessage await = new ControlCenterMessage(port);
-        await.start();
-        while(!await.isAlive()){
-            System.out.println("End of Simulation");
-            System.exit(0);
-        }
+        startWorkerThread(new JToggleButton(), new JButton());
     }
     
+    public void startWorkerThread(JToggleButton button1, JButton button2){
+        Sockets sock = new Sockets();
+        sock.startServer(5001);
+        SwingWorker sw1 = new SwingWorker(){
+            @Override
+            protected String doInBackground() throws Exception{
+                try{
+                    DataInputStream input;
+                    input = new DataInputStream(new BufferedInputStream(sock.getSocketServer().getInputStream()));
+                    String message = "";
+                    message = input.readUTF();
+                    System.out.println(message);
+                    if("exit".equals(message))
+                    {
+                        System.out.println("Simulação terminada");
+                        System.exit(0);
+                    }
+                    else if("coletar".equals(message)){
+                        String message2=input.readUTF();
+                        corn.setText(message2);
+                        button1.setEnabled(true);
+                        button2.setEnabled(true);
+                    }else{
+                        button1.setEnabled(true);
+                        button2.setEnabled(true);
+                    }
+                }catch(IOException i){
+                    System.out.println(i);
+                }
+                sock.closeServerConnection();
+                return "worker done";
+            }
+            @Override
+            protected void done(){
+                System.out.println("Butoes toggled");
+            }
+        };
+        sw1.execute();
+    }
 }
 

@@ -10,6 +10,7 @@ import java.io.BufferedInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
 import javax.swing.JButton;
+import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 
 /**
@@ -20,6 +21,7 @@ public class ControlCenterMessage extends Thread{
     private Sockets sock = null;
     private JToggleButton button1;
     private JButton button2;
+    private JTextField corn;
     
     public ControlCenterMessage(JToggleButton button1, JButton button2, int port){
         sock = new Sockets();
@@ -32,6 +34,10 @@ public class ControlCenterMessage extends Thread{
         sock.startServer(port);
     }
     
+    public void setCorn(JTextField corn){
+        this.corn = corn;
+    }
+    
     @Override
     public void run(){
         try{
@@ -39,13 +45,19 @@ public class ControlCenterMessage extends Thread{
             input = new DataInputStream(new BufferedInputStream(sock.getSocketServer().getInputStream()));
             String message = "";
             message = input.readUTF();
-            if(!"exit".equals(message))
+            if("exit".equals(message))
             {
-                button1.setEnabled(true);
-                button2.setEnabled(true);
-            }else{
                 System.out.println("Simulação terminada");
                 System.exit(0);
+            }
+            else if("".equals(message)){
+                String message2=input.readUTF();
+                int a = Integer.parseInt(message2);
+                int b = Integer.parseInt(corn.getText());
+                corn.setText(Integer.toString(a+b));
+            }else{
+                button1.setEnabled(true);
+                button2.setEnabled(true);
             }
             sock.closeServerConnection();
             System.out.println(message);

@@ -142,6 +142,7 @@ public class CC_GUI extends javax.swing.JPanel {
         jLabel5.setText("Corn Cobs Collected");
         add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 90, -1, -1));
 
+        Text_Collected.setEditable(false);
         Text_Collected.setText("0");
         Text_Collected.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -185,23 +186,31 @@ public class CC_GUI extends javax.swing.JPanel {
     
     private String getDropdownValues(){
         String numFarmers = Dropdown_NumFarmers.getSelectedItem().toString();
+        cc.setNumFarmers(Integer.parseInt(Dropdown_NumFarmers.getSelectedItem().toString()));
         String numSteps = Dropdown_NumSteps.getSelectedItem().toString();
         String timeout = Dropdown_Timeout.getSelectedItem().toString();
-        System.out.println(timeout);
         String message = numFarmers + ',' + numSteps + ',' + timeout;
         return message;
     }
     
     private void Button_PrepareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_PrepareActionPerformed
-
+        setAllDropdowns(false);
+        cc.setParameters(getDropdownValues());
+        Button_Prepare.setEnabled(false);
+        cc.sendMessage("prepare", Button_Start, Button_Stop);
     }//GEN-LAST:event_Button_PrepareActionPerformed
 
     private void Button_StartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_StartActionPerformed
-        
+        Button_Start.setEnabled(false);
+        Button_Stop.setEnabled(false);
+        cc.sendMessage("start", Button_Collect, Button_Stop);
     }//GEN-LAST:event_Button_StartActionPerformed
 
     private void Button_ReturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_ReturnActionPerformed
-
+        Button_Return.setEnabled(false);
+        Button_Stop.setEnabled(false);
+        cc.sendMessage("return", Button_Prepare, Button_Stop);
+        setAllDropdowns(true);
     }//GEN-LAST:event_Button_ReturnActionPerformed
 
     private void Text_CollectedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Text_CollectedActionPerformed
@@ -213,40 +222,35 @@ public class CC_GUI extends javax.swing.JPanel {
     }//GEN-LAST:event_Button_StopActionPerformed
 
     private void Button_ExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_ExitActionPerformed
-        // TODO add your handling code here:
+        Button_Exit.setEnabled(false);
+        cc.Exit("exit");
     }//GEN-LAST:event_Button_ExitActionPerformed
 
     private void Button_StartMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Button_StartMouseClicked
-        Button_Start.setEnabled(false);
-        Button_Stop.setEnabled(false);
-        cc.sendMessage("start", Button_Collect, Button_Stop);
+
     }//GEN-LAST:event_Button_StartMouseClicked
 
     private void Button_PrepareMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Button_PrepareMouseClicked
-        cc.setParameters(getDropdownValues());
-        Button_Prepare.setEnabled(false);
-        cc.sendMessage("prepare", Button_Start, Button_Stop);
+
     }//GEN-LAST:event_Button_PrepareMouseClicked
 
     private void Button_CollectMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Button_CollectMouseClicked
-        Button_Collect.setEnabled(false);
-        Button_Stop.setEnabled(false);
-        cc.sendMessage("collect", Button_Return, Button_Stop);
+
     }//GEN-LAST:event_Button_CollectMouseClicked
 
     private void Button_ReturnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Button_ReturnMouseClicked
-        Button_Return.setEnabled(false);
-        Button_Stop.setEnabled(false);
-        cc.sendMessage("return", Button_Prepare, Button_Stop);
-        setAllDropdowns(true);
+
     }//GEN-LAST:event_Button_ReturnMouseClicked
 
     private void Button_ExitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Button_ExitMouseClicked
-        cc.Exit("exit");
+
     }//GEN-LAST:event_Button_ExitMouseClicked
 
     private void Button_CollectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_CollectActionPerformed
-        // TODO add your handling code here:
+        Button_Collect.setEnabled(false);
+        Button_Stop.setEnabled(false);
+        cc.setCorn(Text_Collected);
+        cc.sendMessage("collect", Button_Return, Button_Stop);
     }//GEN-LAST:event_Button_CollectActionPerformed
 
 

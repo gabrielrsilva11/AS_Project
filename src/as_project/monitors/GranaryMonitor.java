@@ -64,7 +64,8 @@ public class GranaryMonitor {
             conditionToWait.signal();
             for(int i = 0; i < positions.length; i++) {
                 if(farmer.getName().equals(positions[i])) {
-                    granaryFields.get(i).setText(farmer.getName());
+                    granaryFields.get(i).setText("");
+                    granaryFields.get(i).paintImmediately(granaryFields.get(i).getVisibleRect());
                     positions[i] = null;
                     numberOfFarmers--;
                 }
