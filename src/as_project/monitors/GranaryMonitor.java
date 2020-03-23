@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package as_project.monitors;
 
 import as_project.Sockets;
@@ -15,10 +10,10 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import static as_project.util.Constants.*;
 import java.util.ArrayList;
 import javax.swing.JTextField;
+
+import static as_project.util.Constants.*;
 
 /**
 * GranaryMonitor - monitor that controls all the granary processes
@@ -41,6 +36,10 @@ public class GranaryMonitor {
     * to collect one corn cob
     */
     private int timeout;
+    /**
+    * Port to send socket response
+    */
+    private int port;
     /**
     * The stopped boolean alerts the monitor that this iteration for some reason 
     * has been stopped
@@ -70,13 +69,9 @@ public class GranaryMonitor {
     * Array that contains the positions of the farmers in the granary GUI
     */
     private ArrayList<JTextField> granaryFields;
-    /**
-    * Port to send socket response
-    */
-    private int port;
     
     /**
-     * Granary class constructor
+     * GranaryMonitor class constructor
      * 
      * @param rel ReentratLock that defines the critical region
      * @param granaryFields positions of the granary GUI

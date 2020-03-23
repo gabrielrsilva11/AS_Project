@@ -1,11 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package as_project.monitors;
 
-import as_project.Sockets;
 import as_project.threads.FarmerThread;
 import as_project.util.PositionAlgorithm;
 import java.util.ArrayList;
@@ -22,22 +16,63 @@ import static as_project.util.Constants.*;
 import java.util.Arrays;
 
 /**
- *
- * @author manuelcura
- */
+* PathMonitor - monitor that controls all the path processes
+* 
+* @author Gabriel Silva
+* @author Manuel Marcos
+* 
+*/
 public class PathMonitor {
     
+    /**
+    * The number of farmers that are currently in the path area
+    */
     private int numberOfFarmers;
+    /**
+    * The maximum number of steps each farmer can walk forward at once
+    */
     private int nSteps;
+    /**
+    * The total number of farmers that are in this iteration
+    */
     private int totalFarmers;
+    /**
+    * The timeout defined by GUI to wait to simulate the time each farmer needs
+    * to walk nSteps 
+    */
     private int timeout;
+    /**
+    * The stopped boolean alerts the monitor that this iteration for some reason 
+    * has been stopped
+    */
     private boolean stopped;
+    /**
+    * The ReentratLock that defines the critical region where the threads operate
+    */
     private final Lock rel;
+    /**
+    * Condition to make the threads operate inside de critical region
+    */
     private final Condition conditionToWait;
+    /**
+    * Array that contains the positions of the farmers in the path
+    */
     private String[][] positions;
+    /**
+    * HasMap with the farmer name and the previous position occupied by the farmer
+    */
     private Map<String, int[]> previousPositions;
+    /**
+    * Array that contains the positions of the farmers in the path GUI
+    */
     private ArrayList<ArrayList<JTextField>> pathFields;
     
+    /**
+     * PathMonitor class constructor
+     * 
+     * @param rel ReentratLock that defines the critical region
+     * @param pathFields positions of the path GUI
+     */
     public PathMonitor(Lock rel, ArrayList<ArrayList<JTextField>> pathFields) {
         this.rel = rel;
         this.previousPositions = new HashMap<>();
@@ -47,6 +82,11 @@ public class PathMonitor {
         this.pathFields = pathFields;
     }
     
+    /**
+     * Method for each farmer walk through the path
+     * 
+     * @param farmer farmer thread
+     */
     public void walkToThePath(FarmerThread farmer) {
 
         rel.lock();
@@ -86,6 +126,11 @@ public class PathMonitor {
         }
     }
         
+    /**
+     * Method for each farmer walk through the path in a reverse order
+     * 
+     * @param farmer farmer thread
+     */
     public void walkToThePathReverse(FarmerThread farmer) {
 
         rel.lock();
@@ -127,6 +172,10 @@ public class PathMonitor {
         }
     }
     
+    /**
+     * Method to release the farmers from the condition
+     * 
+     */
     public void proceedToTheGranary() {
         rel.lock();
         try {
@@ -139,6 +188,10 @@ public class PathMonitor {
         }
     }
     
+    /**
+     * Method to release the farmers from the condition
+     * 
+     */
     public void proceedToTheStoreHouse() {
         rel.lock();
         try {
@@ -151,6 +204,11 @@ public class PathMonitor {
         }
     }
     
+    /** 
+     * Method to stop operations and release the threads from the conditions
+     * it also cleans some data for another iteration
+     * 
+     */
     public void stopped() {
         rel.lock();
         try {
@@ -171,18 +229,39 @@ public class PathMonitor {
         }
     }
     
+    /**
+     * Method to set the totalFarmers variable
+     * 
+     * @param totalFarmers total number of farmers in the current iteration
+     */
     public void setTotalFarmers(int totalFarmers) {
         this.totalFarmers = totalFarmers;
     }
     
+    /**
+     * Method to set the nSteps variable
+     * 
+     * @param nSteps maximum number of steps each farmer can wall at once
+     */
     public void setNumberOfSteps(int nSteps) {
         this.nSteps = nSteps;
     }
     
+    /**
+     * Method to set the timeout variable
+     * 
+     * @param timeout defined by GUI
+     */
     public void setTimeout(int timeout) {
         this.timeout = timeout;
     }
     
+    /**
+     * Method to find a empty position for the farmer
+     * 
+     * @param farmerName name of the farmer that is asking for a position
+     * @return an empty position
+     */
     private int[] getFarmerPosition(String farmerName) {
        int positionVertical;
        int positionHorizontal;
@@ -208,6 +287,12 @@ public class PathMonitor {
        return array;
     }
     
+    /**
+     * Method to find a empty position for the farmer in a reverse path order
+     * 
+     * @param farmerName name of the farmer that is asking for a position
+     * @return an empty position
+     */
     private int[] getFarmerPositionReverse(String farmerName) {
        int positionVertical;
        int positionHorizontal;
