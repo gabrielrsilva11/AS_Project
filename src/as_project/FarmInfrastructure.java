@@ -162,7 +162,10 @@ public class FarmInfrastructure extends Thread{
                         break;
                     case "stop":
                         for(FarmerThread farmer: Farmers_Array){
-                                farmer.setStopped(true);
+                            farmer.setStopped(true);
+                        }
+                        for(FarmerThread farmer: Farmers_Array){
+                            farmer.stopMonitors();
                         }
                         replyCC("stop", port);
                         break;
