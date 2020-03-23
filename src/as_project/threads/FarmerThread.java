@@ -60,7 +60,6 @@ public class FarmerThread extends Thread {
     @Override
     public void run() {
         while(!Thread.interrupted()) {
-            stopped = false;
             storeHouse.goToStoreHouse(this);
             if (stopped)
                 continue;
@@ -68,8 +67,6 @@ public class FarmerThread extends Thread {
             if (stopped)
                 continue;
             pathMonitor.walkToThePath(this);
-            if (stopped)
-                continue;
             granaryMonitor.enterTheGranary(this);
             if (stopped)
                 continue;
@@ -77,6 +74,7 @@ public class FarmerThread extends Thread {
             if (stopped)
                 continue;
             pathMonitor.walkToThePathReverse(this);
+            storeHouse.setStoreCorn(true);
         }
     }
      /** 
@@ -86,14 +84,14 @@ public class FarmerThread extends Thread {
     public void setStopped(boolean stopped) {
         this.stopped = stopped;
         //Reset stored corn when stopped?
-
-
     }
+    
     public void stopMonitors(){
-        storeHouse.setStoreCorn();
-        standingAreaMonitor.stopped();
+        storeHouse.setStoreCorn(false);
+        //storeHouse.resetStoredCornCobs();
         //pathMonitor.stopped();
         granaryMonitor.stopped();
+        standingAreaMonitor.stopped();
         stopped = false;
     }
 }

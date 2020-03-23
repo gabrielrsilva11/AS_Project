@@ -87,8 +87,8 @@ public class StoreHouseMonitor {
             positions[p] = farmer.getName();
             storeHouseFields.get(p).setText(farmer.getName());
             storeHouseFields.get(p).paintImmediately(storeHouseFields.get(p).getVisibleRect());
-            System.out.println(storeCorn);
             if(storeCorn) {
+                System.out.println("hello");
                 storedCornCobs += CORN_COBS;
                 //System.out.println(storedCornCobs);
                 if(numberOfFarmers == ROWS) {
@@ -121,10 +121,9 @@ public class StoreHouseMonitor {
         rel.lock();
         try {
             Thread.sleep(new Random().nextInt(DELAY_BETWEEN_LOCKS));
-            storeCorn = true;
             do {
-                nFarmers--;
                 conditionToWait.signal();
+                nFarmers--;
             } while(nFarmers > 0);
         } catch(InterruptedException ex) {
             Logger.getLogger(StoreHouseMonitor.class.getName()).log(Level.SEVERE, null, ex);   
@@ -134,11 +133,20 @@ public class StoreHouseMonitor {
     }
     
     /**
-     * Method to reset the stored corn variables
+     * Method to set the store corn flag
+     * 
+     * @param storeCorn flag to indicate if we want to store corns
+     */
+    public void setStoreCorn(boolean storeCorn) {
+        this.storeCorn = storeCorn;
+
+    }
+    
+    /**
+     * Method to reset the stored corn variable
      * 
      */
-    public void setStoreCorn() {
-        this.storeCorn = false;
+    public void resetStoredCornCobs() {
         //When we stop the stored corn cob resets?
         this.storedCornCobs = 0;
     }
