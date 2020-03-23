@@ -101,12 +101,15 @@ public class FarmInfrastructure extends Thread{
      * This method will launch a thread to answer each request.
      */
     public void handleMessages() {
-        ReentrantLock rel = new ReentrantLock();
+        ReentrantLock rel1 = new ReentrantLock();
+        ReentrantLock rel2 = new ReentrantLock();
+        ReentrantLock rel3 = new ReentrantLock();
+        ReentrantLock rel4 = new ReentrantLock();
         ExecutorService executor = Executors.newFixedThreadPool(2);
-        StoreHouseMonitor storeHouseMonitor = new StoreHouseMonitor(rel, storeFields);
-        StandingAreaMonitor standingAreaMonitor = new StandingAreaMonitor(rel, standingFields);
-        PathMonitor pathMonitor = new PathMonitor(rel, pathFields);
-        GranaryMonitor granaryMonitor = new GranaryMonitor(rel, granaryFields);
+        StoreHouseMonitor storeHouseMonitor = new StoreHouseMonitor(rel1, storeFields);
+        StandingAreaMonitor standingAreaMonitor = new StandingAreaMonitor(rel2, standingFields);
+        PathMonitor pathMonitor = new PathMonitor(rel3, pathFields);
+        GranaryMonitor granaryMonitor = new GranaryMonitor(rel4, granaryFields);
         ArrayList<FarmerThread> Farmers_Array = new ArrayList<FarmerThread>();
         
         for(int n = 1; n <= 5; n++) {
