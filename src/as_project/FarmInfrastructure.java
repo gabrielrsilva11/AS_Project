@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package as_project;
 import as_project.GUI.FI_GUI;
 import as_project.monitors.GranaryMonitor;
@@ -22,22 +17,65 @@ import javax.swing.JFrame;
 import javax.swing.JTextField;
 
 /**
- *
- * @author gabri
- */
+* Farm Infrastructure - Answers and processes control center requests.
+* 
+* @author Gabriel Silva
+* @author Manuel Marcos
+* 
+*/
 public class FarmInfrastructure extends Thread{
+    /**
+    * variable to store the GUI
+    */
     FI_GUI fi = null;
+    /**
+    * Sockets class to make the server connect to receive Control center requests
+    */
     Sockets sock = null;
+    /**
+    * JFrame to display the GUI
+    */
     private JFrame gui = null;
+    /**
+    * Number of farmers that have to work
+    */
     private int numWorkers;
+    /**
+    * Maximum number of steps allowed by each farmer
+    */
     private int numSteps;
+    /**
+    * Timeout between locks
+    */
     private int timeout;
+    /**
+    * JTextField array containing all the Store House text fields
+    */
     ArrayList<JTextField> storeFields;
+    /**
+    * JTextField array containing all the Standing Fields text fields
+    */
     ArrayList<JTextField> standingFields;
+    /**
+    * Array of JTextField arrays containing all the Path text fields
+    */
     ArrayList<ArrayList<JTextField>> pathFields;
+    /**
+    * JTextField array containing all the Granary text fields
+    */
     ArrayList<JTextField> granaryFields;    
+    /**
+    * Port variable that starts at 5000 and increments by 1 every time we receive a message to make sure
+    * several requests can be handled at the same time.
+    */
     private int port;
     
+    /**
+    * Farm Infrastructure class constructor
+    * 
+    * Initiates the server connection and starts the GUI
+    * 
+    */
     public FarmInfrastructure(){
         fi = new FI_GUI();
         gui = new JFrame();
@@ -49,21 +87,19 @@ public class FarmInfrastructure extends Thread{
         getGUIFields();
     }
     
+    /**
+    * {@inheritDoc}
+    */
     @Override
     public void run(){
         sock = new Sockets();
         sock.startServer(5000);
         handleMessages();
     }
-    
-    public int getNumWorkers(){
-        return numWorkers;
-    }
-    
-    public int getNumSteps(){
-        return numSteps;
-    }
-
+    /**
+     * Method to handle requests from the Control Center
+     * This method will launch a thread to answer each request.
+     */
     public void handleMessages() {
         ReentrantLock rel = new ReentrantLock();
         ExecutorService executor = Executors.newFixedThreadPool(2);
@@ -143,12 +179,19 @@ public class FarmInfrastructure extends Thread{
             System.out.println(i);
         }     
     }
+    /**
+     * Send a reply to the Control Center
+     * @param message message to send to the control center
+     * @param port port in which the control center is awaiting response
+     */
     private void replyCC(String message, int port){
         sock.startClient("127.0.0.1", port);
         sock.sendMessage(message);
         sock.closeClientConnection();
     }
-    
+    /**
+     * Method to initialize the ArrayLists of the text fields
+     */
     private void getGUIFields(){
         storeFields = new ArrayList<JTextField>();
         standingFields = new ArrayList<JTextField>();

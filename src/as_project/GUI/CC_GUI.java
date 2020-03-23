@@ -167,7 +167,6 @@ public class CC_GUI extends javax.swing.JPanel {
     
     private String getDropdownValues(){
         String numFarmers = Dropdown_NumFarmers.getSelectedItem().toString();
-        cc.setNumFarmers(Integer.parseInt(Dropdown_NumFarmers.getSelectedItem().toString()));
         String numSteps = Dropdown_NumSteps.getSelectedItem().toString();
         String timeout = Dropdown_Timeout.getSelectedItem().toString();
         String message = numFarmers + ',' + numSteps + ',' + timeout;
@@ -214,7 +213,6 @@ public class CC_GUI extends javax.swing.JPanel {
     private void Button_CollectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_CollectActionPerformed
         Button_Collect.setEnabled(false);
         Button_Stop.setEnabled(false);
-        cc.setCorn(Text_Collected);
         cc.sendMessage("collect");
         new CCWorker(Button_Return, Button_Stop, cc.getPort()).execute();
     }//GEN-LAST:event_Button_CollectActionPerformed

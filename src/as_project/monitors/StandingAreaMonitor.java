@@ -83,8 +83,6 @@ public class StandingAreaMonitor {
             standingAreaFields.get(pos).paintImmediately(standingAreaFields.get(pos).getVisibleRect());
             if(numberOfFarmers == totalFarmers) {
                 replyCC("Standing terminado");
-                // The positions contains the array with farmers to fill the GUI
-                //proceedToThePath();
             }
             conditionToWait.await();
             conditionToWait.signal();

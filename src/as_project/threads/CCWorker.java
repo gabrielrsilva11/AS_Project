@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package as_project.threads;
 
 import as_project.Sockets;
@@ -14,28 +9,47 @@ import javax.swing.JTextField;
 import javax.swing.SwingWorker;
 
 /**
- *
- * @author gabri
- */
+* CCWorker - Waits and handles the Farm Infrastructure responses
+* 
+* 
+* @author Gabriel Silva
+* @author Manuel Marcos
+* 
+*/
 public class CCWorker extends SwingWorker<Integer, Integer>{
     JButton b1;
     JButton b2;
     int port;
     JTextField corn;
-    
+    /**
+     * CCWorker class constructor
+     * @param b1 button to enable after the FI response
+     * @param b2 button to enable after the FI response
+     * @param port port in which to wait for the reply
+     */
     public CCWorker(JButton b1, JButton b2, int port){
         this.b1 = b1;
         this.b2 = b2;
         this.port = port;
     }
-    
+    /**
+     * CCWorker class constructor with corn parameter
+     * @param b1 button to enable after the FI response
+     * @param b2 button to enable after the FI response
+     * @param port port in which to wait for the reply
+     * @param corn Text area to set the number of collected corn cobs
+     */
     public CCWorker(JButton b1, JButton b2, int port, JTextField corn){
         this.b1 = b1;
         this.b2 = b2;
         this.port = port;
         this.corn = corn;
     }
-    
+    /**
+     * Method to wait and handle the farm infrastructure response
+     * @return successful execution
+     * @throws Exception 
+     */
     @Override
     protected Integer doInBackground() throws Exception{
         Sockets sock = new Sockets();
@@ -66,7 +80,9 @@ public class CCWorker extends SwingWorker<Integer, Integer>{
                 sock.closeServerConnection();
         return 1;
     }
-    
+    /**
+     * Method that is executed when {@link doInBackground} finishes
+    */
     @Override
     protected void done(){
         System.out.println("Butoes toggled");

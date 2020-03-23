@@ -1,19 +1,20 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package as_project;
 
 import as_project.GUI.CC_GUI;
 import javax.swing.JFrame;
 
 /**
- *
- * @author gabri
- */
+* Run - Starts the program and puts the control center and the Farm Infrastructure in different threads
+* 
+* @author Gabriel Silva
+* @author Manuel Marcos
+* 
+*/
 public class Run {
-    
+        /**
+         * Method to run the program, starts the FI and the CC
+         * @param args arguments used when running the program
+         */
         public static void main(String[] args) {
             FarmInfrastructure fi = new FarmInfrastructure();
             fi.start();
