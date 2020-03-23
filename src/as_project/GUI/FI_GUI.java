@@ -1,14 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package as_project.GUI;
 
 /**
- *
- * @author gabri
- */
+* FI_GUI - Farm Infrastructure GUI class
+* 
+* @author Gabriel Silva
+* @author Manuel Marcos
+* 
+*/
 public class FI_GUI extends javax.swing.JPanel {
     /**
      * Creates new form FI_GUI

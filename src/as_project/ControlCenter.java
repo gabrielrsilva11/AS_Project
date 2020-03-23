@@ -1,5 +1,9 @@
 package as_project;
 
+import as_project.threads.CCWorker;
+import javax.swing.JButton;
+import javax.swing.JTextField;
+
 
 /**
 * Control Center - Responsible for sending messages to the Farm Infrastructure
@@ -56,13 +60,33 @@ public class ControlCenter{
      * Method to send a message to the Farm Infrastructure
      * 
      * @param message message to send over
+     * @param b1 button to enable
+     * @param b2 button to enable
      */
-    public void sendMessage(String message){
+    public void sendMessage(String message, JButton b1, JButton b2){
         port +=1;
         serverConnect.sendMessage(message);
         if("prepare".equals(message)){
             serverConnect.sendMessage(parameters);
         }
+        new CCWorker(b1, b2, port).execute();
+    }
+    
+     /**
+     * Method to send a message to the Farm Infrastructure
+     * 
+     * @param message message to send over
+     * @param b1 button to enable
+     * @param b2 button to enable
+     * @param corn field to set the amount of corn collected
+     */
+    public void sendMessage(String message, JButton b1, JButton b2, JTextField corn){
+        port +=1;
+        serverConnect.sendMessage(message);
+        if("prepare".equals(message)){
+            serverConnect.sendMessage(parameters);
+        }
+        new CCWorker(b1, b2, port, corn).execute();
     }
 }
 

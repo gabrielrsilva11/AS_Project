@@ -1,17 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package as_project.GUI;
 
 import as_project.ControlCenter;
 import as_project.threads.CCWorker;
 
 /**
- *
- * @author gabri
- */
+* CC_GUI - Control Center GUI class
+* 
+* @author Gabriel Silva
+* @author Manuel Marcos
+* 
+*/
 public class CC_GUI extends javax.swing.JPanel {
     
     private ControlCenter cc = null;
@@ -151,6 +149,11 @@ public class CC_GUI extends javax.swing.JPanel {
     private void Dropdown_NumFarmersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Dropdown_NumFarmersActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_Dropdown_NumFarmersActionPerformed
+    
+    /**
+     * Sets all the buttons in the GUI to a given state
+     * @param estado state to set the buttons
+     */
     private void setAllButtons(boolean estado){
         Button_Collect.setEnabled(estado);
         Button_Prepare.setEnabled(estado);
@@ -159,12 +162,20 @@ public class CC_GUI extends javax.swing.JPanel {
         Button_Stop.setEnabled(estado);
     }
     
+     /**
+     * Sets all the drop downs in the GUI to a given state
+     * @param estado state to set the drop downs
+     */
     private void setAllDropdowns(boolean estado){
         Dropdown_NumFarmers.setEnabled(estado);
         Dropdown_NumSteps.setEnabled(estado);
         Dropdown_Timeout.setEnabled(estado);
     }
     
+    /**
+     * Method to gather and concatenate the values of the drop down menus in a string
+     * @return string containing the drop down values
+     */
     private String getDropdownValues(){
         String numFarmers = Dropdown_NumFarmers.getSelectedItem().toString();
         String numSteps = Dropdown_NumSteps.getSelectedItem().toString();
@@ -178,16 +189,14 @@ public class CC_GUI extends javax.swing.JPanel {
     }//GEN-LAST:event_Text_CollectedActionPerformed
 
     private void Button_StopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_StopActionPerformed
-        cc.sendMessage("stop");
-        new CCWorker(Button_Prepare, Button_Stop, cc.getPort()).execute();
+        cc.sendMessage("stop", Button_Prepare, Button_Stop);
         setAllButtons(false);
         setAllDropdowns(true);
     }//GEN-LAST:event_Button_StopActionPerformed
 
     private void Button_ExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_ExitActionPerformed
         Button_Exit.setEnabled(false);
-        cc.sendMessage("exit");
-        new CCWorker(Button_Exit, Button_Exit, cc.getPort()).execute();
+        cc.sendMessage("exit", Button_Exit, Button_Exit);
     }//GEN-LAST:event_Button_ExitActionPerformed
 
     private void Button_ExitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Button_ExitMouseClicked
@@ -199,31 +208,26 @@ public class CC_GUI extends javax.swing.JPanel {
         cc.setParameters(getDropdownValues());
         Button_Prepare.setEnabled(false);
         Button_Stop.setEnabled(false);
-        cc.sendMessage("prepare");
-        new CCWorker(Button_Start, Button_Stop, cc.getPort()).execute();
+        cc.sendMessage("prepare", Button_Start, Button_Stop);
     }//GEN-LAST:event_Button_PrepareActionPerformed
 
     private void Button_StartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_StartActionPerformed
         Button_Start.setEnabled(false);
         Button_Stop.setEnabled(false);
-        cc.sendMessage("start");
-        new CCWorker(Button_Collect, Button_Stop, cc.getPort()).execute();
+        cc.sendMessage("start", Button_Collect, Button_Stop);
     }//GEN-LAST:event_Button_StartActionPerformed
 
     private void Button_CollectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_CollectActionPerformed
         Button_Collect.setEnabled(false);
         Button_Stop.setEnabled(false);
-        cc.sendMessage("collect");
-        new CCWorker(Button_Return, Button_Stop, cc.getPort()).execute();
+        cc.sendMessage("collect", Button_Return, Button_Stop);
     }//GEN-LAST:event_Button_CollectActionPerformed
 
     private void Button_ReturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_ReturnActionPerformed
         Button_Return.setEnabled(false);
         Button_Stop.setEnabled(false);
-        cc.sendMessage("return");
+        cc.sendMessage("return", Button_Prepare, Button_Stop, Text_Collected);
         setAllDropdowns(true);
-        new CCWorker(Button_Prepare, Button_Stop, cc.getPort(), Text_Collected).execute();
-        
     }//GEN-LAST:event_Button_ReturnActionPerformed
 
 
