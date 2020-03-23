@@ -88,9 +88,7 @@ public class StoreHouseMonitor {
             storeHouseFields.get(p).setText(farmer.getName());
             storeHouseFields.get(p).paintImmediately(storeHouseFields.get(p).getVisibleRect());
             if(storeCorn) {
-                System.out.println("hello");
                 storedCornCobs += CORN_COBS;
-                //System.out.println(storedCornCobs);
                 if(numberOfFarmers == ROWS) {
                 //Reply to enable prepare button
                 //replyCC();

@@ -77,19 +77,23 @@ public class FarmerThread extends Thread {
             storeHouse.setStoreCorn(true);
         }
     }
+    
      /** 
-     * Method to stop operations and set the thread in its initial state
+     * Method to set the stop flag
      * 
+     * @param stopped flag to stop operations
      */
     public void setStopped(boolean stopped) {
         this.stopped = stopped;
         //Reset stored corn when stopped?
     }
-    
+   
+     /** 
+     * Method to stop operations and set the thread in its initial state
+     * 
+     */
     public void stopMonitors(){
         storeHouse.setStoreCorn(false);
-        //storeHouse.resetStoredCornCobs();
-        //pathMonitor.stopped();
         granaryMonitor.stopped();
         standingAreaMonitor.stopped();
         stopped = false;
