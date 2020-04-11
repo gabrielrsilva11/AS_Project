@@ -5,10 +5,6 @@
  */
 package pa2_t1g01;
 
-/**
- *
- * @author gabriel
- */
 public class PA2_T1G01 {
 
     /**
