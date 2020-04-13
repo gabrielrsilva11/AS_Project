@@ -6,12 +6,11 @@
 package pa2_t1g01;
 
 public class PA2_T1G01 {
-
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         System.out.println("Hello");
-    }
+    } 
     
 }
