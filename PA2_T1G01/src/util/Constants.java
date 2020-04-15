@@ -10,5 +10,4 @@ package util;
  * @author manuelcura
  */
 public class Constants {
-    
 }
