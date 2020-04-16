@@ -40,13 +40,13 @@ public class BatchEntity {
         while(true){
             ConsumerRecords<String, Message> records = consumer.poll(100);
             for(ConsumerRecord<String, Message> record : records){
-                System.out.println("Supplier id= " + String.valueOf(record.value().getCarReg()));
+                System.out.println("Car Registration = " + String.valueOf(record.value().getCarReg()));
             }
         }
     }
     
     public static void main(String[] args){
-        BatchEntity batch = new BatchEntity(KafkaProperties.TOPIC);
+        BatchEntity batch = new BatchEntity(KafkaProperties.TOPIC2);
         batch.ConsumeBatch();
     }
 }

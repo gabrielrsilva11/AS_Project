@@ -5,8 +5,7 @@
  */
 package util;
 
-import java.io.UnsupportedEncodingException;
-import java.nio.ByteBuffer;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Map;
 import org.apache.kafka.common.serialization.Serializer;
 
@@ -26,41 +25,21 @@ public class MessageSerializer implements Serializer<Message> {
 
     @Override
     public byte[] serialize(String topic, Message data) {
-        int sizeOfReg, sizeOfExtra;
-        byte[] serializedReg, serializedExtra;
-        ByteBuffer buf = null;
+        byte[] buffer = null;
 
-        if (data == null) {
-            return null;
-        }
+        ObjectMapper objectMapper = new ObjectMapper();
 
         try {
-            serializedReg = data.getCarReg().getBytes(encoding);
-            sizeOfReg = serializedReg.length;
-            serializedExtra = data.getExtraInfo().getBytes(encoding);
-            sizeOfExtra = serializedExtra.length;
-            
-            if (data.getExtraInfo() != null) {
-                //Alarm / Report type message
-                buf = ByteBuffer.allocate(sizeOfReg + 4 + 4 + sizeOfExtra);
-            } else {
-                //Batch type message
-                buf = ByteBuffer.allocate(sizeOfReg + 4 + 4);
-            }
 
-            buf.put(serializedReg);
-            buf.putInt(data.getTs());
-            buf.putInt(data.getType());
+            buffer = objectMapper.writeValueAsString(data).getBytes();
 
-            if (data.getExtraInfo() != null) {
-                buf.put(serializedExtra);
-            }
+        } catch (Exception e) {
 
-        } catch (UnsupportedEncodingException ex) {
-            System.out.println("Error serializing message.");
+            System.out.println("Error serializing object" + e);;
+
         }
-        
-        return buf.array ();
+
+        return buffer;
     }
 
     

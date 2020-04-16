@@ -49,6 +49,20 @@ public class CollectEntity {
         this.topic = topic;
     }
 
+    public void sendRecords(){
+        int messageNum = 1;
+        Message toSend = null;
+        while((toSend = getRecord()) != null){
+            try {
+                producer.send(new ProducerRecord<String, Message>(topic, "test", toSend)).get();
+            } catch (Exception ex) {
+                System.out.println("Error sending record" + ex);
+            }
+        }
+        System.out.println("Producer completed");
+        producer.close();
+    }
+    
     private Message getRecord() {
         Message toSend = null;
         String line;
@@ -72,23 +86,9 @@ public class CollectEntity {
         
         return toSend;
     }
-
-    public void sendRecords(){
-        int messageNum = 1;
-        Message toSend = null;
-        while((toSend = getRecord()) != null){
-            try {
-                producer.send(new ProducerRecord<String, Message>(topic, "test", toSend)).get();
-            } catch (Exception ex) {
-                System.out.println("Error sending record" + ex);
-            }
-        }
-        System.out.println("Producer completed");
-        producer.close();
-    }
     
     public static void main(String[] args){
-        CollectEntity collect = new CollectEntity(KafkaProperties.TOPIC);
+        CollectEntity collect = new CollectEntity(KafkaProperties.TOPIC2);
         collect.sendRecords();
     }
 }

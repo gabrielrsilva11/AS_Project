@@ -9,12 +9,12 @@ package GUI;
  *
  * @author gabriel
  */
-public class AlarmGUI extends javax.swing.JPanel {
+public class ReportGUI extends javax.swing.JPanel {
 
     /**
-     * Creates new form AlarmGUI
+     * Creates new form ReportEntity
      */
-    public AlarmGUI() {
+    public ReportGUI() {
         initComponents();
     }
 
@@ -35,7 +35,7 @@ public class AlarmGUI extends javax.swing.JPanel {
         jTextField2 = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
 
-        jLabel1.setText("Alarm Information");
+        jLabel1.setText("Report Information");
 
         jButton1.setText("Exit");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -46,7 +46,7 @@ public class AlarmGUI extends javax.swing.JPanel {
 
         jLabel2.setText("Last Message");
 
-        jLabel3.setText("Alarm Status");
+        jLabel3.setText("Car Speed");
 
         jButton2.setText("History");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -73,8 +73,8 @@ public class AlarmGUI extends javax.swing.JPanel {
                             .addComponent(jButton2))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField1)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 290, Short.MAX_VALUE))))
+                            .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 290, Short.MAX_VALUE)
+                            .addComponent(jTextField2))))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)

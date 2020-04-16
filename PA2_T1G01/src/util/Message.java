@@ -5,6 +5,9 @@
  */
 package util;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  *
  * @author gabri
@@ -23,12 +26,12 @@ public class Message {
         this.extraInfo = null;
     }
     
-    public Message(String carReg, int ts, int type, String extraInfo) {
-        this.carReg = carReg;
-        this.ts = ts;
-        this.type = type;
-        this.extraInfo = extraInfo;
-    }
+//    public Message(String carReg, int ts, int type, String extraInfo) {
+//        this.carReg = carReg;
+//        this.ts = ts;
+//        this.type = type;
+//        this.extraInfo = extraInfo;
+//    }
 
     public String getCarReg() {
         return carReg;
@@ -61,5 +64,17 @@ public class Message {
     public void setExtra_info(String extraInfo) {
         this.extraInfo = extraInfo;
     }
+    
+    @JsonCreator
+    public Message(@JsonProperty("carReg") String carReg, 
+            @JsonProperty("ts") int ts, 
+            @JsonProperty("type") int type,
+            @JsonProperty("extraInfo") String extraInfo) {
+        super();
+        this.carReg = carReg;
+        this.ts = ts;
+        this.type = type;
+        this.extraInfo = extraInfo;
+}
     
 }
