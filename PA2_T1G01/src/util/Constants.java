@@ -21,9 +21,9 @@ public class Constants {
      */
     public static final String PATH_TO_ALARM = "src/data/ALARM.txt";
     /**
-     * Path to the ALARM.txt file
+     * Path to the REPORT.txt file
      */
-    public static final String PATH_TO_REPORT = "src/data/ALARM.txt";
+    public static final String PATH_TO_REPORT = "src/data/REPORT.txt";
     /**
      * Maximum car speed allowed
      */

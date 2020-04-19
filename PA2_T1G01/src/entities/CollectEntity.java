@@ -52,7 +52,7 @@ public class CollectEntity {
     public CollectEntity() {
         Properties props = new Properties();
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, KafkaProperties.KAFKA_SERVER_URL + ":" + KafkaProperties.KAFKA_SERVER_PORT);
-        props.put(ProducerConfig.CLIENT_ID_CONFIG, "DemoProducer");
+        props.put(ProducerConfig.CLIENT_ID_CONFIG, "CollectEntity");
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, MessageSerializer.class.getName());
 
@@ -80,6 +80,7 @@ public class CollectEntity {
                         producer.send(new ProducerRecord<>(ALARM_TOPIC, "message", toSend)).get();
                         break;
                     case 2:
+                        System.out.println("Report");
                         producer.send(new ProducerRecord<>(REPORT_TOPIC, "message", toSend)).get();
                         break;
                 }
