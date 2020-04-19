@@ -1,6 +1,9 @@
 package entities;
 
+import GUI.AlarmGUI;
 import config.KafkaProperties;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -9,6 +12,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JTextArea;
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -40,7 +46,14 @@ public class AlarmEntity {
     * Structure containing generated alarms
     */
     Map<String, String> generatedAlarms;
-
+    /**
+     * Variable to store the GUI
+     */
+    private AlarmGUI ae_gui = null;
+    /**
+     * JFrame to display the GUI
+     */
+    private JFrame gui = null;
     /**
      * AlarmEntity class constructor
      * 
@@ -56,6 +69,13 @@ public class AlarmEntity {
         generatedAlarms = new HashMap<>();
         consumer = new KafkaConsumer<>(props);
         this.topic = topic;
+        
+        ae_gui = new AlarmGUI();
+        gui = new JFrame();
+        gui.setVisible(true);
+        gui.setResizable(true);
+        gui.add(ae_gui);
+        mapButtonListener();
     }
 
     /**
@@ -72,7 +92,9 @@ public class AlarmEntity {
                     String status = processSpeed(record.value().getCarReg(), Integer.parseInt(record.value().getExtraInfo()));
                     writer.append(String.format("Car registration: %s, Date: %s, Message type: %d, Speed: %s, Status: %s\n",
                             record.value().getCarReg(), new Date(record.value().getTs()), record.value().getType(), record.value().getExtraInfo(), status));
-
+                    
+                    ae_gui.setMessageText(String.format("Car registration: %s Speed: %s\n",record.value().getCarReg(),record.value().getExtraInfo()));
+                    ae_gui.setAlarmText(status);
                 } catch (IOException ex) {
                     System.out.println("Error writing to file: " + PATH_TO_ALARM);
                 }
@@ -101,7 +123,21 @@ public class AlarmEntity {
         }
         return status;
     }
-
+    
+    public void alarmStatusText(){
+        JTextArea alarmArea = ae_gui.getAlarmArea();
+        generatedAlarms.forEach((k, v) -> alarmArea.append(String.format("Car Registration: %s\tStatus:%s", k, v)));
+    }
+    
+    public void mapButtonListener(){
+        JButton alarm = ae_gui.getAlarmButton();
+        
+        ActionListener actionListener = (ActionEvent actionEvent) -> {
+            System.out.println(actionEvent.getActionCommand());
+            alarmStatusText();
+        };
+        alarm.addActionListener(actionListener);
+    }
     /**
      * Method to run the program, starts the AlarmEntity
      * @param args arguments used when running the program

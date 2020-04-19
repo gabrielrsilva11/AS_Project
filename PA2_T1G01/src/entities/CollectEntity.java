@@ -1,5 +1,6 @@
 package entities;
 
+import GUI.CollectGUI;
 import config.KafkaProperties;
 import java.io.BufferedReader;
 import java.io.File;
@@ -16,6 +17,9 @@ import util.Message;
 import util.MessageSerializer;
 
 import static config.KafkaProperties.*;
+import java.util.Date;
+import javax.swing.JFrame;
+import javax.swing.JTextField;
 import static util.Constants.PATH_TO_DATA;
 
 
@@ -59,13 +63,12 @@ public class CollectEntity {
             System.out.println("File not found");
         }
     }
-
+    
     /**
-     * Method send a message to the corresponding destination Kafka topic
+     * Method to send all messages to the corresponding destination Kafka topic
      * 
      */
-    public void sendRecords(){
-        int messageNum = 1;
+    public void sendRecords(JTextField text){
         Message toSend = null;
         while((toSend = getRecord()) != null){
             try {
@@ -84,6 +87,8 @@ public class CollectEntity {
                 System.out.println("Error sending record" + ex);
             }
         }
+        text.setText(String.format("Car registration: %s, Date: %s, Message type: %d\n",
+                            toSend.getCarReg(), new Date(toSend.getTs()), toSend.getType()));
         System.out.println("Producer completed");
         producer.close();
     }
@@ -119,6 +124,11 @@ public class CollectEntity {
      */
     public static void main(String[] args){
         CollectEntity collect = new CollectEntity();
-        collect.sendRecords();
+        CollectGUI cGUI = new CollectGUI(collect);
+        JFrame coll_frame = new JFrame();
+        coll_frame.setVisible(true);
+        coll_frame.setSize(400,150);
+        coll_frame.setResizable(true);
+        coll_frame.add(cGUI);
     }
 }

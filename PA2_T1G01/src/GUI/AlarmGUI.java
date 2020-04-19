@@ -5,19 +5,44 @@
  */
 package GUI;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JTextArea;
+import static util.Constants.PATH_TO_ALARM;
+
 /**
  *
  * @author gabriel
  */
 public class AlarmGUI extends javax.swing.JPanel {
-
+    JFrame history;
     /**
      * Creates new form AlarmGUI
      */
     public AlarmGUI() {
         initComponents();
+        Text_Message.setEditable(false);
+        Text_Alarm.setEditable(false);
+        HistoryPanel.setVisible(false);
     }
-
+    
+    public void setMessageText(String text){
+        Text_Message.setText(text);
+    }
+    public void setAlarmText(String text){
+        Text_Alarm.setText(text);
+    }
+    public JTextArea getAlarmArea(){
+        return Alarm_History;
+    }
+    public JButton getAlarmButton(){
+        return alarmButton;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -27,13 +52,88 @@ public class AlarmGUI extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        HistoryPanel = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        Text_History = new javax.swing.JTextArea();
+        Close_Button = new javax.swing.JButton();
+        AlarmPanel = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        Alarm_History = new javax.swing.JTextArea();
+        Close_Button1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        Text_Message = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        Text_Alarm = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
+        alarmButton = new javax.swing.JButton();
+
+        Text_History.setColumns(20);
+        Text_History.setRows(5);
+        jScrollPane1.setViewportView(Text_History);
+
+        Close_Button.setText("Close");
+        Close_Button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Close_ButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout HistoryPanelLayout = new javax.swing.GroupLayout(HistoryPanel);
+        HistoryPanel.setLayout(HistoryPanelLayout);
+        HistoryPanelLayout.setHorizontalGroup(
+            HistoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(HistoryPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 387, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(HistoryPanelLayout.createSequentialGroup()
+                .addGap(154, 154, 154)
+                .addComponent(Close_Button)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        HistoryPanelLayout.setVerticalGroup(
+            HistoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(HistoryPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(Close_Button))
+        );
+
+        Alarm_History.setColumns(20);
+        Alarm_History.setRows(5);
+        jScrollPane2.setViewportView(Alarm_History);
+
+        Close_Button1.setText("Close");
+        Close_Button1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Close_Button1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout AlarmPanelLayout = new javax.swing.GroupLayout(AlarmPanel);
+        AlarmPanel.setLayout(AlarmPanelLayout);
+        AlarmPanelLayout.setHorizontalGroup(
+            AlarmPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(AlarmPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 387, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(AlarmPanelLayout.createSequentialGroup()
+                .addGap(154, 154, 154)
+                .addComponent(Close_Button1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        AlarmPanelLayout.setVerticalGroup(
+            AlarmPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(AlarmPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(Close_Button1))
+        );
 
         jLabel1.setText("Alarm Information");
 
@@ -55,6 +155,13 @@ public class AlarmGUI extends javax.swing.JPanel {
             }
         });
 
+        alarmButton.setText("Active Alarms");
+        alarmButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                alarmButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -73,13 +180,15 @@ public class AlarmGUI extends javax.swing.JPanel {
                             .addComponent(jButton2))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField1)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 290, Short.MAX_VALUE))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(46, 46, 46)
+                                .addComponent(alarmButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton1)
+                                .addGap(11, 11, 11))
+                            .addComponent(Text_Message)
+                            .addComponent(Text_Alarm, javax.swing.GroupLayout.DEFAULT_SIZE, 290, Short.MAX_VALUE))))
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addGap(17, 17, 17))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -89,35 +198,76 @@ public class AlarmGUI extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(Text_Message, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(49, 49, 49)
+                    .addComponent(Text_Alarm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton2)
                     .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(alarmButton))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        System.exit(0);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        history = new JFrame();
+        history.add(HistoryPanel);
+        history.setVisible(true);
+        history.setResizable(true);
+        BufferedReader br = null;
+        try{
+            br = new BufferedReader(new FileReader(PATH_TO_ALARM));
+            String line;
+            while((line = br.readLine())!= null){
+                Text_History.append(line);
+            }
+        }catch(IOException e){
+            System.out.println("Error opening file" + e);
+        }finally{
+            try {
+                br.close();
+            } catch (IOException e) {
+                System.out.println("Error closing file" + e);
+            }
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void Close_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Close_ButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Close_ButtonActionPerformed
+
+    private void Close_Button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Close_Button1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Close_Button1ActionPerformed
+
+    private void alarmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alarmButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_alarmButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel AlarmPanel;
+    private javax.swing.JTextArea Alarm_History;
+    private javax.swing.JButton Close_Button;
+    private javax.swing.JButton Close_Button1;
+    private javax.swing.JPanel HistoryPanel;
+    private javax.swing.JTextField Text_Alarm;
+    private javax.swing.JTextArea Text_History;
+    private javax.swing.JTextField Text_Message;
+    private javax.swing.JButton alarmButton;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
 }
