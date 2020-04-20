@@ -245,6 +245,6 @@ public class AlarmEntity {
      */
     public static void main(String[] args) {
         AlarmEntity alarm = new AlarmEntity(KafkaProperties.ALARM_TOPIC);
-        //alarm.ConsumeAlarm();
+        alarm.ConsumeAlarm();
     }
 }

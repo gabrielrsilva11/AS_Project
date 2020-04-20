@@ -1,0 +1,8 @@
+[2020-04-20 13:14:08,682] INFO Starting the log cleaner (kafka.log.LogCleaner)
+[2020-04-20 13:14:08,777] INFO [kafka-log-cleaner-thread-0]: Starting (kafka.log.LogCleaner)
+[2020-04-20 13:14:11,587] INFO The cleaning for partition AlarmTopic-0 is aborted and paused (kafka.log.LogCleaner)
+[2020-04-20 13:14:11,589] INFO The cleaning for partition AlarmTopic-0 is aborted (kafka.log.LogCleaner)
+[2020-04-20 13:14:11,650] INFO The cleaning for partition BatchTopic-0 is aborted and paused (kafka.log.LogCleaner)
+[2020-04-20 13:14:11,651] INFO The cleaning for partition BatchTopic-0 is aborted (kafka.log.LogCleaner)
+[2020-04-20 13:14:11,674] INFO The cleaning for partition ReportTopic-0 is aborted and paused (kafka.log.LogCleaner)
+[2020-04-20 13:14:11,674] INFO The cleaning for partition ReportTopic-0 is aborted (kafka.log.LogCleaner)

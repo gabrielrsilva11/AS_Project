@@ -98,6 +98,7 @@ public class ReportEntity {
             }
         }
     }
+    
     /**
      * Method that will create the history panel and set its text
      */
@@ -124,6 +125,7 @@ public class ReportEntity {
             }
         }
     }
+    
     /**
      * Listener method for the History button
      */
@@ -137,6 +139,7 @@ public class ReportEntity {
         
         historyButton.addActionListener(actionListener);
     }
+    
     /**
      * Listener method for the close button on the history panel
      */
@@ -148,6 +151,7 @@ public class ReportEntity {
         };
         closeButton.addActionListener(actionListener);
     }
+    
     /**
      * Method to run the program, starts the BatchEntity
      * @param args arguments used when running the program

@@ -132,6 +132,7 @@ public class CollectEntity {
         Message toSend = null;
         while ((toSend = getRecord()) != null) {
             try {
+                System.out.println("Sending message");
                 RecordMetadata metadata = null;
                 metadata = producer.send(new ProducerRecord<>(BATCH_TOPIC, "message", toSend)).get();
                 switch (toSend.getType()) {
