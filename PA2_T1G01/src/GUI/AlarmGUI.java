@@ -33,9 +33,11 @@ public class AlarmGUI extends javax.swing.JPanel {
     
     public void setMessageText(String text){
         Text_Message.setText(text);
+        Text_Message.paintImmediately(Text_Message.getVisibleRect());
     }
     public void setAlarmText(String text){
         Text_Alarm.setText(text);
+        Text_Alarm.paintImmediately(Text_Alarm.getVisibleRect());
     }
     public JTextArea getAlarmArea(){
         return Alarm_History;

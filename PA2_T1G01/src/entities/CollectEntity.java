@@ -26,8 +26,6 @@ import org.apache.kafka.clients.producer.RecordMetadata;
 import java.util.Date;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JTextField;
-import static config.KafkaProperties.*;
 import static util.Constants.PATH_TO_DATA;
 
 /**
@@ -101,6 +99,7 @@ public class CollectEntity {
         coll_frame.add(cGUI);
         historyButtonListener();
         closeHistoryButtonListener();
+        sendButtonListener();
     }
 
     /**
@@ -147,6 +146,7 @@ public class CollectEntity {
                 }
                 cGUI.getMessageText().setText(String.format("Car registration: %s, Date: %s, Message type: %d\n",
                         toSend.getCarReg(), new Date(toSend.getTs()), toSend.getType()));
+                cGUI.getMessageText().paintImmediately(cGUI.getMessageText().getVisibleRect());
             } catch (InterruptedException | ExecutionException ex) {
                 System.out.println("Error sending record" + ex);
             }
@@ -182,7 +182,10 @@ public class CollectEntity {
         }
         return toSend;
     }
-
+    
+    /**
+     * Method that will create the history panel and set its text
+     */
     private void historyText() {
         history = new JFrame();
         history.add(cGUI.getHistoryPanel());
@@ -206,7 +209,21 @@ public class CollectEntity {
             }
         }
     }
-    
+    /**
+     * Listener method for the Send All button
+     */
+    private void sendButtonListener(){
+        JButton sendButton = cGUI.getSendButton();
+        ActionListener actionListener = (ActionEvent actionEvent) -> {
+            System.out.println("Send");
+            sendRecords();
+            reorderMessage();
+        };
+        sendButton.addActionListener(actionListener);
+    }
+    /**
+     * Listener method for the history button
+     */
     private void historyButtonListener() {
         JButton historyButton = cGUI.getHistoryButton();
         
@@ -216,7 +233,9 @@ public class CollectEntity {
         };
         historyButton.addActionListener(actionListener);
     }
-
+    /**
+     * Listener method for the close button inside the history panel
+     */
     private void closeHistoryButtonListener() {
         JButton closeButton = cGUI.getCloseHistoryButton();
         
@@ -269,7 +288,5 @@ public class CollectEntity {
      */
     public static void main(String[] args) {
         CollectEntity collect = new CollectEntity();
-        collect.sendRecords();
-        collect.reorderMessage();
     }
 }

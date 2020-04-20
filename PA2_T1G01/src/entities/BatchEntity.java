@@ -1,6 +1,5 @@
 package entities;
 
-import GUI.AlarmGUI;
 import GUI.BatchGUI;
 import config.KafkaProperties;
 import java.awt.event.ActionEvent;
@@ -157,6 +156,6 @@ public class BatchEntity {
      */
     public static void main(String[] args) {
         BatchEntity batch = new BatchEntity(KafkaProperties.BATCH_TOPIC);
-        //batch.ConsumeBatch();
+        batch.ConsumeBatch();
     }
 }

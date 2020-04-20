@@ -23,6 +23,7 @@ public class BatchGUI extends javax.swing.JPanel {
     }
     public void setMessageText(String text){
         Text_Message.setText(text);
+        Text_Message.paintImmediately(Text_Message.getVisibleRect());
     }
     public JButton getHistoryButton(){
         return historyButton;

@@ -154,6 +154,6 @@ public class ReportEntity {
      */
     public static void main(String[] args) {
         ReportEntity report = new ReportEntity(KafkaProperties.REPORT_TOPIC);
-        //report.ConsumeReport();
+        report.ConsumeReport();
     }
 }

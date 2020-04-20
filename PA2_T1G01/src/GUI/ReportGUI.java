@@ -23,9 +23,11 @@ public class ReportGUI extends javax.swing.JPanel {
     }
     public void setMessageText(String text){
         Text_Message.setText(text);
+        Text_Message.paintImmediately(Text_Message.getVisibleRect());
     }
     public void setStatusText(String text){
         Text_Speed.setText(text);
+        Text_Speed.paintImmediately(Text_Speed.getVisibleRect());
     }
     public JButton getHistoryButton(){
         return historyButton;
