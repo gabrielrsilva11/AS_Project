@@ -20,4 +20,6 @@ public class KafkaProperties {
     public static final Integer MESSAGE_COUNT = 1000;
     public static final Integer MAX_POLL_RECORDS = 1;        
     public static final Integer MAX_NO_MESSGE_FOUND_COUNT = 100;
+    public static final String ACKS_ALL = "all";
+    public static final String NO_ACKS = "0";
 }

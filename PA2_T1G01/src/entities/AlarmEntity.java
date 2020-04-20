@@ -6,9 +6,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
@@ -21,30 +22,33 @@ import util.MessageDeserializer;
 import static util.Constants.*;
 
 /**
-* AlarmEntity - Kafka consumer entity to receive and process messages from the AlarmTopic
-* 
-* @author Gabriel Silva
-* @author Manuel Marcos
-* 
-*/
+ * AlarmEntity - Kafka consumer entity to receive and process messages from the
+ * AlarmTopic
+ *
+ * @author Gabriel Silva
+ * @author Manuel Marcos
+ *
+ */
 public class AlarmEntity {
 
     /**
-    * Kafka consumer to receive messages
-    */
-    Consumer<String, Message> consumer;
+     * Kafka consumer to receive messages
+     */
+    private Consumer<String, Message> consumer;
     /**
-    * Kafka topic subscribed
-    */
-    String topic;
+     * Kafka topic subscribed
+     */
+    private String topic;
     /**
-    * Structure containing generated alarms
-    */
-    Map<String, String> generatedAlarms;
+     * Structure containing generated alarms
+     */
+    private Map<String, String> generatedAlarms;
+
+    Set<Integer> recievedMessages;
 
     /**
      * AlarmEntity class constructor
-     * 
+     *
      * @param topic Kafka topic subscribed
      */
     public AlarmEntity(String topic) {
@@ -55,14 +59,15 @@ public class AlarmEntity {
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, MessageDeserializer.class.getName());
 
         generatedAlarms = new ConcurrentHashMap<>();
+        recievedMessages = new HashSet<>();
         consumer = new KafkaConsumer<>(props);
         this.topic = topic;
     }
 
     /**
-     * Method to consume messages from the subscribed topic and store them in the 
-     * referred file
-     * 
+     * Method to consume messages from the subscribed topic and store them in
+     * the referred file
+     *
      */
     public void ConsumeAlarm() {
         consumer.subscribe(Arrays.asList(topic));
@@ -70,10 +75,16 @@ public class AlarmEntity {
             ConsumerRecords<String, Message> records = consumer.poll(100);
             for (ConsumerRecord<String, Message> record : records) {
                 try (BufferedWriter writer = new BufferedWriter(new FileWriter(PATH_TO_ALARM, true))) {
-                    String status = processSpeed(record.value().getCarReg(), Integer.parseInt(record.value().getExtraInfo()));
-                    writer.append(String.format("Car registration: %s, Date: %s, Message type: %d, Speed: %s, Status: %s\n",
-                            record.value().getCarReg(), new Date(record.value().getTs()), record.value().getType(), record.value().getExtraInfo(), status));
+                                            System.out.println("fora");
 
+                    // Avoid process messages already processed
+                    if (!recievedMessages.contains(record.value().getTs())) {
+                        System.out.println("ENTROU");
+                        String status = processSpeed(record.value().getCarReg(), Integer.parseInt(record.value().getExtraInfo()));
+                        writer.append(String.format("Car registration: %s, Date: %s, Message type: %d, Speed: %s, Status: %s\n",
+                                record.value().getCarReg(), new Date(record.value().getTs()), record.value().getType(), record.value().getExtraInfo(), status));
+                    }
+                    recievedMessages.add(record.value().getTs());
                 } catch (IOException ex) {
                     System.out.println("Error writing to file: " + PATH_TO_ALARM);
                 }
@@ -82,12 +93,12 @@ public class AlarmEntity {
     }
 
     /**
-     * Method to process the speed of a car and generate an alarm if exceeds the 
+     * Method to process the speed of a car and generate an alarm if exceeds the
      * maximum allowed speed
-     * 
+     *
      * @param regist Car registration number
      * @param speed Car current speed
-     * 
+     *
      */
     private String processSpeed(String regist, int speed) {
         String status;
@@ -105,6 +116,7 @@ public class AlarmEntity {
 
     /**
      * Method to run the program, starts the AlarmEntity
+     *
      * @param args arguments used when running the program
      */
     public static void main(String[] args) {
