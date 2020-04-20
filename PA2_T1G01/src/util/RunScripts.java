@@ -166,6 +166,7 @@ public class RunScripts {
         if (SO.startsWith("Windows")) {
             File dir = new File("src\\scripts\\bin\\windows");
             processBuilder.command("cmd.exe", "/c", "Start", "kafka-topics.bat", "--zookeeper", "localhost:2181", "--delete", "--topic", "'.*'");
+            processBuilder.directory(dir);
         } else {
             processBuilder.command("src/scripts/bin/kafka-topics.sh", "--zookeeper", "localhost:2181", "--delete", "--topic", "'.*'");
         }
