@@ -17,7 +17,6 @@ import java.util.Properties;
 import java.util.Set;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JTextArea;
 import java.util.concurrent.ConcurrentHashMap;
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerConfig;

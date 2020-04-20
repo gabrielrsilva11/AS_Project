@@ -7,8 +7,11 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 /**
+ * CollectGUI - GUI to display data from the CollectEntity and send messages.
  *
- * @author gabriel
+ * @author Gabriel Silva
+ * @author Manuel Marcos
+ *
  */
 public class CollectGUI extends javax.swing.JPanel {
     JFrame history;
@@ -18,24 +21,58 @@ public class CollectGUI extends javax.swing.JPanel {
     public CollectGUI() {
         initComponents();
     }
+    
+    /**
+     * Getter method for the Message Text area
+     * @return Message Text Area 
+     */
     public JTextField getMessageText(){
         return Message_Text;
     }
+    
+    /**
+     * Getter method for the Send Reordered Button
+     * @return Send Reordered button 
+     */
     public JButton getReorderedButton(){
         return reorderedButton;
     }
+       /**
+     * Getter method for the History button
+     * @return history button
+     */
     public JButton getHistoryButton(){
         return historyButton;
     }
+    
+    /**
+     * Getter method for the History Panel
+     * @return history panel
+     */
     public JPanel getHistoryPanel(){
         return HistoryPanel;
     }
+    
+    /**
+     * Getter method for the History text area
+     * @return history text area
+     */
     public JTextArea getHistoryText(){
         return Text_History;
     }
+    
+    /**
+     * Getter method for the close button of the history panel
+     * @return history panel close button
+     */
     public JButton getCloseHistoryButton(){
         return Close_Button;
     }
+    
+    /**
+     * Getter method for the Send All Button
+     * @return Send All button 
+     */
     public JButton getSendButton(){
         return sendButton;
     }
