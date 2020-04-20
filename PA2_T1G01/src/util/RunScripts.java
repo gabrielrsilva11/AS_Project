@@ -32,7 +32,7 @@ public class RunScripts {
         ProcessBuilder processBuilder = new ProcessBuilder();
         if (SO.startsWith("Windows")) {
             File dir = new File("src\\scripts\\bin\\windows\\zookeeper-server-start");
-            processBuilder.command("cmd.exe", "/c", "Start", "zookeeper-server-start.sh", "src\\scripts\\config\\zookeeper.properties");
+            processBuilder.command("cmd.exe", "/c", "Start", "zookeeper-server-start.bat", "src\\scripts\\config\\zookeeper.properties");
             processBuilder.directory(dir);
         } else {
             processBuilder.command("src/scripts/bin/zookeeper-server-start.sh", "src/scripts/config/zookeeper.properties");
@@ -52,7 +52,7 @@ public class RunScripts {
         ProcessBuilder processBuilder = new ProcessBuilder();
         if (SO.startsWith("Windows")) {
             File dir = new File("src\\scripts\\bin\\windows\\zookeeper-server-stop");
-            processBuilder.command("cmd.exe", "/c", "Start", "zookeeper-server-stop.sh");
+            processBuilder.command("cmd.exe", "/c", "Start", "zookeeper-server-stop.bat");
             processBuilder.directory(dir);
         } else {
             processBuilder.command("src/scripts/bin/zookeeper-server-stop.sh");
@@ -72,7 +72,7 @@ public class RunScripts {
         ProcessBuilder processBuilder = new ProcessBuilder();
         if (SO.startsWith("Windows")) {
             File dir = new File("src\\scripts\\bin\\windows\\kafka-server-start");
-            processBuilder.command("cmd.exe", "/c", "Start", "kafka-server-start.sh", "src\\scripts\\config\\server.properties");
+            processBuilder.command("cmd.exe", "/c", "Start", "kafka-server-start.bat", "src\\scripts\\config\\server.properties");
             processBuilder.directory(dir);
         } else {
             processBuilder.command("src/scripts/bin/kafka-server-start.sh", "src/scripts/config/server.properties");
@@ -92,7 +92,7 @@ public class RunScripts {
         ProcessBuilder processBuilder = new ProcessBuilder();
         if (SO.startsWith("Windows")) {
             File dir = new File("src\\scripts\\bin\\windows\\kafka-server-stop");
-            processBuilder.command("cmd.exe", "/c", "Start", "kafka-server-stop.sh");
+            processBuilder.command("cmd.exe", "/c", "Start", "kafka-server-stop.bat");
             processBuilder.directory(dir);
         } else {
             processBuilder.command("src/scripts/bin/kafka-server-stop.sh");
