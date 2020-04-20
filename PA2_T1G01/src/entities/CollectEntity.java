@@ -93,11 +93,11 @@ public class CollectEntity {
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, MessageSerializer.class.getName());
 
-        if (ackProducer) {
+        if (ackProducer) 
             props.put(ProducerConfig.ACKS_CONFIG, KafkaProperties.ACKS_ALL);
-        } else {
+         else 
             props.put(ProducerConfig.ACKS_CONFIG, KafkaProperties.NO_ACKS);
-        }
+        
 
         return new KafkaProducer<>(props);
     }
@@ -105,16 +105,15 @@ public class CollectEntity {
     /**
      * Method to send all messages to the corresponding destination Kafka topic
      * 
+     * @param text GUI text
      */
     public void sendRecords(JTextField text) {
         Message toSend = null;
         while ((toSend = getRecord()) != null) {
             try {
                 RecordMetadata metadata = null;
+                metadata = producer.send(new ProducerRecord<>(BATCH_TOPIC, "message", toSend)).get();
                 switch (toSend.getType()) {
-                    case 0:
-                        metadata = producer.send(new ProducerRecord<>(BATCH_TOPIC, "message", toSend)).get();
-                        break;
                     case 1:
                         metadata = producer.send(new ProducerRecord<>(ALARM_TOPIC, "message", toSend)).get();
                         break;
@@ -148,7 +147,7 @@ public class CollectEntity {
             if (line != null) {
                 lineCount++;
                 fields = line.split(" ");
-                if (fields.length == 7) {
+                if (Integer.parseInt(fields[5]) == 0) {
                     toSend = new Message(fields[1], Integer.parseInt(fields[3]), Integer.parseInt(fields[5]), null);
                 } else {
                     toSend = new Message(fields[1], Integer.parseInt(fields[3]), Integer.parseInt(fields[5]), fields[7]);
@@ -181,9 +180,11 @@ public class CollectEntity {
                 line = lines.skip(lineNumber - 1).findFirst().get();
                 if (line != null) {
                     fields = line.split(" ");
-                    if (fields.length == 7) {
-                        toSend = new Message(fields[1], Integer.parseInt(fields[3]), Integer.parseInt(fields[5]), null);
-                    }
+                if (Integer.parseInt(fields[5]) == 0) {
+                    toSend = new Message(fields[1], Integer.parseInt(fields[3]), Integer.parseInt(fields[5]), null);
+                } else {
+                    toSend = new Message(fields[1], Integer.parseInt(fields[3]), Integer.parseInt(fields[5]), fields[7]);
+                }
                 }
             } catch (IOException ex) {
                 System.out.println("Error reading line from file");
@@ -195,6 +196,17 @@ public class CollectEntity {
             System.out.println("Error sending record" + ex);
         }
         System.out.println("Producer completed");
+    }
+    
+    /**
+     * Method to close producers
+     *
+     */
+    public void closeProducer() {
+        producerACK.flush();
+        producer.flush();
+        producerACK.flush();
+        producer.close();
     }
 
     /**
