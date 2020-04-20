@@ -21,6 +21,9 @@ public class CollectGUI extends javax.swing.JPanel {
     public JTextField getMessageText(){
         return Message_Text;
     }
+    public JButton getReorderedButton(){
+        return reorderedButton;
+    }
     public JButton getHistoryButton(){
         return historyButton;
     }
@@ -55,6 +58,7 @@ public class CollectGUI extends javax.swing.JPanel {
         Message_Text = new javax.swing.JTextField();
         historyButton = new javax.swing.JButton();
         sendButton = new javax.swing.JButton();
+        reorderedButton = new javax.swing.JButton();
 
         Text_History.setColumns(20);
         Text_History.setRows(5);
@@ -114,6 +118,13 @@ public class CollectGUI extends javax.swing.JPanel {
             }
         });
 
+        reorderedButton.setText("Send Reordered");
+        reorderedButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                reorderedButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -134,8 +145,10 @@ public class CollectGUI extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(Message_Text)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(sendButton, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(26, 26, 26)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(reorderedButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(sendButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(18, 18, 18)
                                 .addComponent(historyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(26, 26, 26)
                                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -151,12 +164,18 @@ public class CollectGUI extends javax.swing.JPanel {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Message_Text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(sendButton)
-                    .addComponent(historyButton)
-                    .addComponent(jButton1))
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(historyButton)
+                            .addComponent(jButton1)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(5, 5, 5)
+                        .addComponent(sendButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(reorderedButton)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
     
@@ -196,6 +215,10 @@ public class CollectGUI extends javax.swing.JPanel {
         
     }//GEN-LAST:event_Close_ButtonActionPerformed
 
+    private void reorderedButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reorderedButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_reorderedButtonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Close_Button;
@@ -207,6 +230,7 @@ public class CollectGUI extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton reorderedButton;
     private javax.swing.JButton sendButton;
     // End of variables declaration//GEN-END:variables
 }

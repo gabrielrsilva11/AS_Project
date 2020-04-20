@@ -198,11 +198,9 @@ public class AlarmEntity {
         alarm.setSize(450,400);
         alarm.setResizable(true);
         
-        JTextArea alarmArea = aeGUI.getAlarmArea();
         generatedAlarms.entrySet().forEach((entry) -> {
-            alarmArea.append(String.format("Car Registration: %s\tStatus:%s", entry.getKey(), entry.getValue()));
+            aeGUI.getAlarmArea().append(String.format("Car Registration: %s\tStatus:%s", entry.getKey(), entry.getValue()));
         }); 
-        //generatedAlarms.forEach((k, v) -> alarmArea.append(String.format("Car Registration: %s\tStatus:%s", k, v)));
     }
 
     /**
@@ -247,6 +245,6 @@ public class AlarmEntity {
      */
     public static void main(String[] args) {
         AlarmEntity alarm = new AlarmEntity(KafkaProperties.ALARM_TOPIC);
-        alarm.ConsumeAlarm();
+        //alarm.ConsumeAlarm();
     }
 }

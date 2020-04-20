@@ -99,6 +99,7 @@ public class CollectEntity {
         historyButtonListener();
         closeHistoryButtonListener();
         sendButtonListener();
+        reorderedButtonListener();
     }
 
     /**
@@ -265,7 +266,6 @@ public class CollectEntity {
         ActionListener actionListener = (ActionEvent actionEvent) -> {
             System.out.println("Send");
             sendRecords();
-            reorderMessage();
         };
         sendButton.addActionListener(actionListener);
     }
@@ -294,7 +294,17 @@ public class CollectEntity {
         };
         closeButton.addActionListener(actionListener);
     }
-
+    /**
+     * Listener method for the send reordered button
+     */
+    private void reorderedButtonListener(){
+        JButton reorderedButton = cGUI.getReorderedButton();
+        
+        ActionListener actionListener = (ActionEvent actionEvent) -> {
+            reorderMessage();
+        };
+        reorderedButton.addActionListener(actionListener);
+    }
     /**
      * Method to run the program, starts the BatchEntity
      *

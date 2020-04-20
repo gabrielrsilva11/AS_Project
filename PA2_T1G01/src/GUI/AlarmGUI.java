@@ -14,9 +14,6 @@ public class AlarmGUI extends javax.swing.JPanel {
      */
     public AlarmGUI() {
         initComponents();
-        Text_Message.setEditable(false);
-        Text_Alarm.setEditable(false);
-        HistoryPanel.setVisible(false);
     }
     
     public void setMessageText(String text){
