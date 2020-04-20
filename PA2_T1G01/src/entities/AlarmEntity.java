@@ -1,6 +1,9 @@
 package entities;
 
+import GUI.AlarmGUI;
 import config.KafkaProperties;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -10,6 +13,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JTextArea;
 import java.util.concurrent.ConcurrentHashMap;
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
@@ -29,6 +35,8 @@ import static util.Constants.*;
  * @author Manuel Marcos
  *
  */
+
+
 public class AlarmEntity {
 
     /**
@@ -40,12 +48,22 @@ public class AlarmEntity {
      */
     private String topic;
     /**
-     * Structure containing generated alarms
-     */
+    * Structure containing generated alarms
+    */
     private Map<String, String> generatedAlarms;
-
-    Set<Integer> recievedMessages;
-
+    /**
+    * Structure containing received messages
+    */
+    Set<Integer> receivedMessages;
+    /**
+     * Variable to store the GUI
+     */
+    private AlarmGUI ae_gui = null;
+    /**
+     * JFrame to display the GUI
+     */
+    private JFrame gui = null;
+    
     /**
      * AlarmEntity class constructor
      *
@@ -59,9 +77,16 @@ public class AlarmEntity {
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, MessageDeserializer.class.getName());
 
         generatedAlarms = new ConcurrentHashMap<>();
-        recievedMessages = new HashSet<>();
+        receivedMessages = new HashSet<>();
         consumer = new KafkaConsumer<>(props);
         this.topic = topic;
+
+        ae_gui = new AlarmGUI();
+        gui = new JFrame();
+        gui.setVisible(true);
+        gui.setResizable(true);
+        gui.add(ae_gui);
+        mapButtonListener();
     }
 
     /**
@@ -75,16 +100,16 @@ public class AlarmEntity {
             ConsumerRecords<String, Message> records = consumer.poll(100);
             for (ConsumerRecord<String, Message> record : records) {
                 try (BufferedWriter writer = new BufferedWriter(new FileWriter(PATH_TO_ALARM, true))) {
-                                            System.out.println("fora");
-
                     // Avoid process messages already processed
-                    if (!recievedMessages.contains(record.value().getTs())) {
-                        System.out.println("ENTROU");
+                    if (!receivedMessages.contains(record.value().getTs())) {
                         String status = processSpeed(record.value().getCarReg(), Integer.parseInt(record.value().getExtraInfo()));
                         writer.append(String.format("Car registration: %s, Date: %s, Message type: %d, Speed: %s, Status: %s\n",
                                 record.value().getCarReg(), new Date(record.value().getTs()), record.value().getType(), record.value().getExtraInfo(), status));
+                        ae_gui.setMessageText(String.format("Car registration: %s Speed: %s\n", record.value().getCarReg(), record.value().getExtraInfo()));
+                        ae_gui.setAlarmText(status);
                     }
-                    recievedMessages.add(record.value().getTs());
+                    receivedMessages.add(record.value().getTs());
+
                 } catch (IOException ex) {
                     System.out.println("Error writing to file: " + PATH_TO_ALARM);
                 }
@@ -112,6 +137,21 @@ public class AlarmEntity {
             status = "OFF";
         }
         return status;
+    }
+
+    public void alarmStatusText() {
+        JTextArea alarmArea = ae_gui.getAlarmArea();
+        generatedAlarms.forEach((k, v) -> alarmArea.append(String.format("Car Registration: %s\tStatus:%s", k, v)));
+    }
+
+    public void mapButtonListener() {
+        JButton alarm = ae_gui.getAlarmButton();
+
+        ActionListener actionListener = (ActionEvent actionEvent) -> {
+            System.out.println(actionEvent.getActionCommand());
+            alarmStatusText();
+        };
+        alarm.addActionListener(actionListener);
     }
 
     /**

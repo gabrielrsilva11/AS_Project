@@ -1,5 +1,6 @@
 package entities;
 
+import GUI.CollectGUI;
 import config.KafkaProperties;
 import java.io.BufferedReader;
 import java.io.File;
@@ -14,13 +15,16 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.StringSerializer;
 import util.Message;
 import util.MessageSerializer;
-
-import static config.KafkaProperties.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Random;
 import java.util.stream.Stream;
 import org.apache.kafka.clients.producer.RecordMetadata;
+import java.util.Date;
+import javax.swing.JFrame;
+import javax.swing.JTextField;
+
+import static config.KafkaProperties.*;
 import static util.Constants.PATH_TO_DATA;
 
 /**
@@ -31,6 +35,8 @@ import static util.Constants.PATH_TO_DATA;
  * @author Manuel Marcos
  *
  */
+
+
 public class CollectEntity {
 
     /**
@@ -97,11 +103,10 @@ public class CollectEntity {
     }
 
     /**
-     * Method send a message to the corresponding destination Kafka topic
-     *
+     * Method to send all messages to the corresponding destination Kafka topic
+     * 
      */
-    public void sendRecords() {
-        int messageNum = 1;
+    public void sendRecords(JTextField text) {
         Message toSend = null;
         while ((toSend = getRecord()) != null) {
             try {
@@ -117,6 +122,8 @@ public class CollectEntity {
                         metadata = producerACK.send(new ProducerRecord<>(REPORT_TOPIC, "message", toSend)).get();
                         break;
                 }
+                text.setText(String.format("Car registration: %s, Date: %s, Message type: %d\n",
+                        toSend.getCarReg(), new Date(toSend.getTs()), toSend.getType()));
             } catch (InterruptedException | ExecutionException ex) {
                 System.out.println("Error sending record" + ex);
             }
@@ -159,10 +166,11 @@ public class CollectEntity {
      * @return message to be sent
      */
     private void reorderMessage() {
-        
-        if (lineCount <= 0) 
+
+        if (lineCount <= 0) {
             return;
-        
+        }
+
         int lineNumber;
         String line;
         Message toSend = null;
@@ -196,7 +204,11 @@ public class CollectEntity {
      */
     public static void main(String[] args) {
         CollectEntity collect = new CollectEntity();
-        collect.sendRecords();
-        collect.reorderMessage();
+        CollectGUI cGUI = new CollectGUI(collect);
+        JFrame coll_frame = new JFrame();
+        coll_frame.setVisible(true);
+        coll_frame.setSize(400, 150);
+        coll_frame.setResizable(true);
+        coll_frame.add(cGUI);
     }
 }
