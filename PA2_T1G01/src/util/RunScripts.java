@@ -30,7 +30,7 @@ public class RunScripts {
     public void runZookeeper() {
         ProcessBuilder processBuilder = new ProcessBuilder();
         if (SO.startsWith("Windows"))
-            processBuilder.command("cmd.exe", "/c", "src/scripts/bin/zookeeper-server-start.sh", "src/scripts/config/zookeeper.properties");
+            processBuilder.command("cmd", "/c", "src\\scripts\\bin\\windows\\zookeeper-server-start.sh", "src\\scripts\\config\\zookeeper.properties");
         else
             processBuilder.command("src/scripts/bin/zookeeper-server-start.sh", "src/scripts/config/zookeeper.properties");
         try {
@@ -47,9 +47,9 @@ public class RunScripts {
     public void stopZookeeper() {
         ProcessBuilder processBuilder = new ProcessBuilder();
         if (SO.startsWith("Windows"))
-            processBuilder.command("cmd.exe", "/c", "src/scripts/bin/zookeeper-server-stop.sh");
+            processBuilder.command("cmd", "/c", "src\\scripts\\bin\\windows\\zookeeper-server-stop.sh");
         else
-        processBuilder.command("src/scripts/bin/zookeeper-server-stop.sh");
+            processBuilder.command("src/scripts/bin/zookeeper-server-stop.sh");
         try {
             Process process = processBuilder.start();
         } catch (IOException ex) {
@@ -64,7 +64,7 @@ public class RunScripts {
     public void runKafkaServer() {
         ProcessBuilder processBuilder = new ProcessBuilder();
         if (SO.startsWith("Windows"))
-            processBuilder.command("cmd.exe", "/c", "src/scripts/bin/kafka-server-start.sh", "src/scripts/config/server.properties");
+            processBuilder.command("cmd", "/c", "src\\scripts\\bin\\windows\\kafka-server-start.sh", "src\\scripts\\config\\server.properties");
         else
             processBuilder.command("src/scripts/bin/kafka-server-start.sh", "src/scripts/config/server.properties");
         try {
@@ -81,7 +81,7 @@ public class RunScripts {
     public void stopKafkaServer() {
         ProcessBuilder processBuilder = new ProcessBuilder();
         if (SO.startsWith("Windows"))
-            processBuilder.command("cmd.exe", "/c", "src/scripts/bin/kafka-server-stop.sh");
+            processBuilder.command("cmd", "/c", "src\\scripts\\bin\\windows\\kafka-server-stop.sh");
         else        
             processBuilder.command("src/scripts/bin/kafka-server-stop.sh");
         try {
@@ -98,7 +98,7 @@ public class RunScripts {
     public void createKafkaTopic(String topic) {
         ProcessBuilder processBuilder = new ProcessBuilder();
         if (SO.startsWith("Windows"))
-            processBuilder.command("cmd.exe", "/c", "src/scripts/bin/kafka-topics.sh", "--create", "--zookeeper", "localhost:2181", "--replication-factor 1", "--partitions 1", "--topic " + topic);
+            processBuilder.command("cmd", "/c", "src\\scripts\\bin\\windows\\kafka-topics.sh", "--create", "--zookeeper", "localhost:2181", "--replication-factor 1", "--partitions 1", "--topic " + topic);
         else         
             processBuilder.command("src/scripts/bin/kafka-topics.sh", "--create", "--zookeeper", "localhost:2181", "--replication-factor 1", "--partitions 1", "--topic " + topic);
         try {
@@ -117,7 +117,7 @@ public class RunScripts {
         List<String> output = new ArrayList<>();
         ProcessBuilder processBuilder = new ProcessBuilder();
         if (SO.startsWith("Windows"))
-            processBuilder.command("cmd.exe", "/c", "src/scripts/bin/kafka-topics.sh", "--list", "--zookeeper", "localhost:2181");
+            processBuilder.command("cmd", "/c", "src\\scripts\\bin\\windows\\kafka-topics.bat", "--list", "--zookeeper", "localhost:2181");
         else 
             processBuilder.command("src/scripts/bin/kafka-topics.sh", "--list", "--zookeeper", "localhost:2181");
         try {
@@ -145,7 +145,7 @@ public class RunScripts {
     public void deleteKafkaTopics() {
         ProcessBuilder processBuilder = new ProcessBuilder();
         if (SO.startsWith("Windows"))
-            processBuilder.command("cmd.exe", "/c", "src/scripts/bin/kafka-topics.sh", "--zookeeper", "localhost:2181", "--delete", "--topic", "'.*'");
+            processBuilder.command("cmd", "/c", "src\\scripts\\bin\\windows\\kafka-topics.sh", "--zookeeper", "localhost:2181", "--delete", "--topic", "'.*'");
         else 
             processBuilder.command("src/scripts/bin/kafka-topics.sh", "--zookeeper", "localhost:2181", "--delete", "--topic", "'.*'");
         try {
