@@ -11,9 +11,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
@@ -41,15 +42,19 @@ public class AlarmEntity {
     /**
      * Kafka consumer to receive messages
      */
-    Consumer<String, Message> consumer;
+    private Consumer<String, Message> consumer;
     /**
      * Kafka topic subscribed
      */
-    String topic;
+    private String topic;
     /**
-     * Structure containing generated alarms
-     */
-    Map<String, String> generatedAlarms;
+    * Structure containing generated alarms
+    */
+    private Map<String, String> generatedAlarms;
+    /**
+    * Structure containing received messages
+    */
+    Set<Integer> receivedMessages;
     /**
      * Variable to store the GUI
      */
@@ -58,6 +63,7 @@ public class AlarmEntity {
      * JFrame to display the GUI
      */
     private JFrame gui = null;
+    
     /**
      * JFrame to display the history GUI
      */
@@ -79,6 +85,7 @@ public class AlarmEntity {
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, MessageDeserializer.class.getName());
 
         generatedAlarms = new ConcurrentHashMap<>();
+        receivedMessages = new HashSet<>();
         consumer = new KafkaConsumer<>(props);
         this.topic = topic;
 
@@ -227,6 +234,7 @@ public class AlarmEntity {
         };
         alarmButton.addActionListener(actionListener);
     }
+
     /**
      * Method to run the program, starts the AlarmEntity
      *

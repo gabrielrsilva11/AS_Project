@@ -15,14 +15,19 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.StringSerializer;
 import util.Message;
 import util.MessageSerializer;
-
 import static config.KafkaProperties.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Random;
+import java.util.stream.Stream;
+import org.apache.kafka.clients.producer.RecordMetadata;
 import java.util.Date;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
+import static config.KafkaProperties.*;
 import static util.Constants.PATH_TO_DATA;
 
 /**
@@ -33,10 +38,15 @@ import static util.Constants.PATH_TO_DATA;
  * @author Manuel Marcos
  *
  */
+
 public class CollectEntity {
 
     /**
-     * Kafka producer to produce messages
+     * Kafka producer that don't lose messages
+     */
+    private final KafkaProducer<String, Message> producerACK;
+    /**
+     * Kafka producer that can lose messages
      */
     private final KafkaProducer<String, Message> producer;
     /**
@@ -50,12 +60,48 @@ public class CollectEntity {
     private CollectGUI cGUI;
     private JFrame coll_frame;
     private JFrame history;
+    String topic;
+    /**
+     * Counts the number of rows in a file
+     */
+    int lineCount;
+    /**
+     * Generate random values
+     */
+    private Random random;
 
     /**
      * CollectEntity class constructor
      *
      */
     public CollectEntity() {
+        random = new Random();
+        lineCount = 0;
+        producer = createProducer(false);
+        producerACK = createProducer(true);
+        try {
+            br = new BufferedReader(new FileReader(new File(PATH_TO_DATA)));
+        } catch (FileNotFoundException ex) {
+            System.out.println("File not found");
+        }
+                
+        cGUI = new CollectGUI();
+        coll_frame = new JFrame();
+        coll_frame.setVisible(true);
+        coll_frame.setSize(450, 250);
+        coll_frame.setResizable(true);
+        coll_frame.add(cGUI);
+        historyButtonListener();
+        closeHistoryButtonListener();
+    }
+
+    /**
+     * Creates two producers, one that don't lose any message, and another that
+     * can lost messages
+     *
+     * @return producer created
+     */
+    public KafkaProducer createProducer(boolean ackProducer) {
         Properties props = new Properties();
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, KafkaProperties.KAFKA_SERVER_URL + ":" + KafkaProperties.KAFKA_SERVER_PORT);
         props.put(ProducerConfig.CLIENT_ID_CONFIG, "CollectEntity");
@@ -68,15 +114,14 @@ public class CollectEntity {
         } catch (FileNotFoundException ex) {
             System.out.println("File not found");
         }
-        
-        cGUI = new CollectGUI();
-        coll_frame = new JFrame();
-        coll_frame.setVisible(true);
-        coll_frame.setSize(450, 250);
-        coll_frame.setResizable(true);
-        coll_frame.add(cGUI);
-        historyButtonListener();
-        closeHistoryButtonListener();
+
+        if (ackProducer) {
+            props.put(ProducerConfig.ACKS_CONFIG, KafkaProperties.ACKS_ALL);
+        } else {
+            props.put(ProducerConfig.ACKS_CONFIG, KafkaProperties.NO_ACKS);
+        }
+
+        return new KafkaProducer<>(props);
     }
 
     /**
@@ -87,26 +132,28 @@ public class CollectEntity {
         Message toSend = null;
         while ((toSend = getRecord()) != null) {
             try {
+                RecordMetadata metadata = null;
                 switch (toSend.getType()) {
-                    case 0:                        
-                        producer.send(new ProducerRecord<>(BATCH_TOPIC, "message", toSend)).get();
+                    case 0:
+                        metadata = producer.send(new ProducerRecord<>(BATCH_TOPIC, "message", toSend)).get();
                         break;
                     case 1:
-                        producer.send(new ProducerRecord<>(ALARM_TOPIC, "message", toSend)).get();
+                        metadata = producer.send(new ProducerRecord<>(ALARM_TOPIC, "message", toSend)).get();
                         break;
                     case 2:
-                        System.out.println("Report");
-                        producer.send(new ProducerRecord<>(REPORT_TOPIC, "message", toSend)).get();
+                        metadata = producerACK.send(new ProducerRecord<>(REPORT_TOPIC, "message", toSend)).get();
                         break;
                 }
+                text.setText(String.format("Car registration: %s, Date: %s, Message type: %d\n",
+                        toSend.getCarReg(), new Date(toSend.getTs()), toSend.getType()));
             } catch (InterruptedException | ExecutionException ex) {
                 System.out.println("Error sending record" + ex);
             }
         }
-        text.setText(String.format("Car registration: %s, Date: %s, Message type: %d\n",
-                toSend.getCarReg(), new Date(toSend.getTs()), toSend.getType()));
+        producerACK.flush();
+        producer.flush();
+        producerACK.flush();
         System.out.println("Producer completed");
-        producer.close();
     }
 
     /**
@@ -121,7 +168,8 @@ public class CollectEntity {
         try {
             line = br.readLine();
             if (line != null) {
-                fields = line.split(" ");                
+                lineCount++;
+                fields = line.split(" ");
                 if (fields.length == 7) {
                     toSend = new Message(fields[1], Integer.parseInt(fields[3]), Integer.parseInt(fields[5]), null);
                 } else {
@@ -175,6 +223,41 @@ public class CollectEntity {
             history.setVisible(false);
         };
         closeButton.addActionListener(actionListener);
+    /**
+     * Method to get a random message from the referred file
+     *
+     * @return message to be sent
+     */
+    private void reorderMessage() {
+
+        if (lineCount <= 0) {
+            return;
+        }
+
+        int lineNumber;
+        String line;
+        Message toSend = null;
+        do {
+            lineNumber = random.nextInt(lineCount) + 1;
+            String[] fields;
+            try (Stream<String> lines = Files.lines(Paths.get(PATH_TO_DATA))) {
+                line = lines.skip(lineNumber - 1).findFirst().get();
+                if (line != null) {
+                    fields = line.split(" ");
+                    if (fields.length == 7) {
+                        toSend = new Message(fields[1], Integer.parseInt(fields[3]), Integer.parseInt(fields[5]), null);
+                    }
+                }
+            } catch (IOException ex) {
+                System.out.println("Error reading line from file");
+            }
+        } while (toSend == null);
+        try {
+            RecordMetadata metadata = producer.send(new ProducerRecord<>(BATCH_TOPIC, "message", toSend)).get();
+        } catch (InterruptedException | ExecutionException ex) {
+            System.out.println("Error sending record" + ex);
+        }
+        System.out.println("Producer completed");
     }
 
     /**

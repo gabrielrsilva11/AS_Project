@@ -1,6 +1,5 @@
 package util;
 
-import static config.KafkaProperties.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -19,7 +18,7 @@ import java.util.logging.Logger;
 public class RunScripts {
     
     /**
-     * Method to start zookeeper
+     * Method to start Zookeeper
      * 
      */
     public static void runZookeeper() {
@@ -33,7 +32,7 @@ public class RunScripts {
     }
     
     /**
-     * Method to stop zookeeper
+     * Method to stop Zookeeper
      * 
      */
     public static void stopZookeeper() {
@@ -47,7 +46,7 @@ public class RunScripts {
     }
 
     /**
-     * Method to start kafka server
+     * Method to start Kafka server
      * 
      */
     public static void runKafkaServer() {
@@ -61,7 +60,7 @@ public class RunScripts {
     }
 
     /**
-     * Method to stop kafka server
+     * Method to stop Kafka server
      * 
      */
     public static void stopKafkaServer() {
@@ -75,7 +74,7 @@ public class RunScripts {
     }
 
     /**
-     * Method to create one kafka topic
+     * Method to create one Kafka topic
      * 
      */
     public static void createKafkaTopic(String topic) {
@@ -91,19 +90,15 @@ public class RunScripts {
     /**
      * Method to list all topics and create the one we need if missing
      * 
+     * @return list with all the topics that exist
      */
-    public static void listTopics() {
+    public static List<String> listTopics() {
+        List<String> output = new ArrayList<>();
         ProcessBuilder processBuilder = new ProcessBuilder();
         processBuilder.command("src/scripts/bin/kafka-topics.sh", "--list", "--zookeeper", "localhost:2181");
         try {
 
             Process process = processBuilder.start();
-
-            List<String> output = new ArrayList<>();
-            List<String> topics = new ArrayList<>();
-            topics.add(BATCH_TOPIC);
-            topics.add(REPORT_TOPIC);
-            topics.add(ALARM_TOPIC);
 
             BufferedReader reader = new BufferedReader(
                     new InputStreamReader(process.getInputStream()));
@@ -112,12 +107,22 @@ public class RunScripts {
             while ((line = reader.readLine()) != null) {
                 output.add(line);
             }
-
-            for (String topic : topics) {
-                if (!output.contains(topic)) {
-                    createKafkaTopic(topic);
-                }
-            }
+            
+        } catch (IOException ex) {
+            Logger.getLogger(RunScripts.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return output;
+    }
+    
+    /**
+     * Method to delete all Kafka topics
+     * 
+     */
+    public static void deleteKafkaTopics() {
+        ProcessBuilder processBuilder = new ProcessBuilder();
+        processBuilder.command("src/scripts/bin/kafka-topics.sh", "--zookeeper", "localhost:2181", "--delete", "--topic", "'.*'");
+        try {
+            Process process = processBuilder.start();
         } catch (IOException ex) {
             Logger.getLogger(RunScripts.class.getName()).log(Level.SEVERE, null, ex);
         }
