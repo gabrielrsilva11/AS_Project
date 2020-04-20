@@ -17,7 +17,6 @@ import java.util.Properties;
 import java.util.Set;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JTextArea;
 import java.util.concurrent.ConcurrentHashMap;
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
@@ -198,11 +197,9 @@ public class AlarmEntity {
         alarm.setSize(450,400);
         alarm.setResizable(true);
         
-        JTextArea alarmArea = aeGUI.getAlarmArea();
         generatedAlarms.entrySet().forEach((entry) -> {
-            alarmArea.append(String.format("Car Registration: %s\tStatus:%s", entry.getKey(), entry.getValue()));
+            aeGUI.getAlarmArea().append(String.format("Car Registration: %s\tStatus:%s", entry.getKey(), entry.getValue()));
         }); 
-        //generatedAlarms.forEach((k, v) -> alarmArea.append(String.format("Car Registration: %s\tStatus:%s", k, v)));
     }
 
     /**

@@ -5,8 +5,11 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 /**
+ * AlarmGUI - GUI to display data from the AlarmEntity
  *
- * @author gabriel
+ * @author Gabriel Silva
+ * @author Manuel Marcos
+ *
  */
 public class AlarmGUI extends javax.swing.JPanel {
     /**
@@ -14,40 +17,86 @@ public class AlarmGUI extends javax.swing.JPanel {
      */
     public AlarmGUI() {
         initComponents();
-        Text_Message.setEditable(false);
-        Text_Alarm.setEditable(false);
-        HistoryPanel.setVisible(false);
     }
     
+    /**
+     * Method that will display a message in the Text_Message area.
+     * @param text message to display
+     */
     public void setMessageText(String text){
         Text_Message.setText(text);
         Text_Message.paintImmediately(Text_Message.getVisibleRect());
     }
+    
+    /**
+     * Method that will display a message in the Text_Alarm area.
+     * @param text message to display
+     */
     public void setAlarmText(String text){
         Text_Alarm.setText(text);
         Text_Alarm.paintImmediately(Text_Alarm.getVisibleRect());
     }
+    
+    /**
+     * Getter method for the Alarm text area
+     * @return alarm text area
+     */
     public JTextArea getAlarmArea(){
         return Alarm_History;
     }
+    
+    /**
+     * Getter method for the Alarm Panel
+     * @return alarm panel
+     */
     public JPanel getAlarmPanel(){
         return AlarmPanel;
     }
+    
+    /**
+     * Getter method for the Alarm button
+     * @return alarm button
+     */
     public JButton getAlarmButton(){
         return alarmButton;
     }
+    
+    /**
+     * Getter method for the History button
+     * @return history button
+     */
     public JButton getHistoryButton(){
         return historyButton;
     }
+    
+    /**
+     * Getter method for the History Panel
+     * @return history button
+     */
     public JPanel getHistoryPanel(){
         return HistoryPanel;
     }
+    
+    /**
+     * Getter method for the History Text Area
+     * @return history text area
+     */
     public JTextArea getHistoryText(){
         return Text_History;
     }
+    
+    /**
+     * Getter method for the close button on the history panel
+     * @return history panel close button
+     */
     public JButton getCloseHistoryButton(){
         return Close_Button;
     }
+    
+    /**
+     * Getter method for the close button on the Alarm panel
+     * @return alarm panel close button
+     */
     public JButton getCloseAlarmButton(){
         return Alarm_Close;
     }

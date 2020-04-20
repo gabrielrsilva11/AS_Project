@@ -99,6 +99,7 @@ public class CollectEntity {
         historyButtonListener();
         closeHistoryButtonListener();
         sendButtonListener();
+        reorderedButtonListener();
     }
 
     /**
@@ -131,6 +132,7 @@ public class CollectEntity {
         Message toSend = null;
         while ((toSend = getRecord()) != null) {
             try {
+                System.out.println("Sending message");
                 RecordMetadata metadata = null;
                 metadata = producer.send(new ProducerRecord<>(BATCH_TOPIC, "message", toSend)).get();
                 switch (toSend.getType()) {
@@ -265,7 +267,6 @@ public class CollectEntity {
         ActionListener actionListener = (ActionEvent actionEvent) -> {
             System.out.println("Send");
             sendRecords();
-            reorderMessage();
         };
         sendButton.addActionListener(actionListener);
     }
@@ -294,7 +295,17 @@ public class CollectEntity {
         };
         closeButton.addActionListener(actionListener);
     }
-
+    /**
+     * Listener method for the send reordered button
+     */
+    private void reorderedButtonListener(){
+        JButton reorderedButton = cGUI.getReorderedButton();
+        
+        ActionListener actionListener = (ActionEvent actionEvent) -> {
+            reorderMessage();
+        };
+        reorderedButton.addActionListener(actionListener);
+    }
     /**
      * Method to run the program, starts the BatchEntity
      *

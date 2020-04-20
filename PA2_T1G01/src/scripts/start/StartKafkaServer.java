@@ -1,4 +1,4 @@
-package pa2_t1g01;
+package scripts.start;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,6 +7,15 @@ import util.RunScripts;
 import static config.KafkaProperties.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+/**
+ * StartKafkaServer - Runs scripts to start kafka / zookeeper as well as
+ * create the topics that will be used.
+ * 
+ * @author Gabriel Silva
+ * @author Manuel Marcos
+ *
+ */
 
 public class StartKafkaServer {
 

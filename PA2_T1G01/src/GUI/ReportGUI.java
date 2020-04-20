@@ -5,8 +5,11 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 /**
+ * ReportGUI - GUI to display data from the ReportEntity
  *
- * @author gabriel
+ * @author Gabriel Silva
+ * @author Manuel Marcos
+ *
  */
 public class ReportGUI extends javax.swing.JPanel {
 
@@ -16,23 +19,53 @@ public class ReportGUI extends javax.swing.JPanel {
     public ReportGUI() {
         initComponents();
     }
+    
+    /**
+     * Method that will display a message in the Text_Message area.
+     * @param text message to display
+     */
     public void setMessageText(String text){
         Text_Message.setText(text);
         Text_Message.paintImmediately(Text_Message.getVisibleRect());
     }
+    
+    /**
+     * Method that will display a message in the Text_Speed area.
+     * @param text message to display
+     */
     public void setStatusText(String text){
         Text_Speed.setText(text);
         Text_Speed.paintImmediately(Text_Speed.getVisibleRect());
     }
+    
+    /**
+     * Getter method for the History button
+     * @return history button
+     */
     public JButton getHistoryButton(){
         return historyButton;
     }
+    
+    /**
+     * Getter method for the History Panel
+     * @return history panel
+     */
     public JPanel getHistoryPanel(){
         return HistoryPanel;
     }
+    
+    /**
+     * Getter method for the History text area
+     * @return history text area
+     */
     public JTextArea getHistoryText(){
         return Text_History;
     }
+    
+    /**
+     * Getter method for the close button of the history panel
+     * @return history panel close button
+     */
     public JButton getCloseHistoryButton(){
         return Close_Button;
     }

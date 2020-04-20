@@ -1,9 +1,16 @@
-package pa2_t1g01;
+package scripts.start;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import util.RunScripts;
-
+/**
+ * StopKafkaServer - Runs scripts to stop kafka / zookeeper as well as
+ * deleting the topics created.
+ * 
+ * @author Gabriel Silva
+ * @author Manuel Marcos
+ *
+ */
 public class StopKafkaServer {
     /**
      * @param args the command line arguments
