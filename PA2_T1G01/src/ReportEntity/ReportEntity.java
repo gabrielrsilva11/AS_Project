@@ -1,4 +1,4 @@
-package entities;
+package ReportEntity;
 
 import GUI.ReportGUI;
 import config.KafkaProperties;

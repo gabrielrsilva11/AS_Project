@@ -1,4 +1,4 @@
-package entities;
+package BatchEntity;
 
 import GUI.BatchGUI;
 import config.KafkaProperties;

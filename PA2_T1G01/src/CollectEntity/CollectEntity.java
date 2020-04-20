@@ -1,4 +1,4 @@
-package entities;
+package CollectEntity;
 
 import GUI.CollectGUI;
 import config.KafkaProperties;

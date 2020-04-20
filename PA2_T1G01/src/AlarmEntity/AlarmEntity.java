@@ -1,4 +1,4 @@
-package entities;
+package AlarmEntity;
 
 import GUI.AlarmGUI;
 import config.KafkaProperties;
