@@ -21,14 +21,15 @@ public class StartKafkaServer {
             topics.add(BATCH_TOPIC);
             topics.add(REPORT_TOPIC);
             topics.add(ALARM_TOPIC);
-            RunScripts.runZookeeper();
+            RunScripts run = new RunScripts();
+            run.runZookeeper();
             Thread.sleep(1000);
-            RunScripts.runKafkaServer();
+            run.runKafkaServer();
             Thread.sleep(1000);
-            List<String> outputTopics = RunScripts.listTopics();
+            List<String> outputTopics = run.listTopics();
             // Create topics
             topics.stream().filter((topic) -> (!outputTopics.contains(topic))).forEachOrdered((topic) -> {
-                RunScripts.createKafkaTopic(topic);
+                run.createKafkaTopic(topic);
             });
         } catch (InterruptedException ex) {
             Logger.getLogger(StartKafkaServer.class.getName()).log(Level.SEVERE, null, ex);

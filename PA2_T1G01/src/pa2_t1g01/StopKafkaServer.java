@@ -11,11 +11,12 @@ public class StopKafkaServer {
     public static void main(String[] args) {
         //Thread.sleep of 1 second to give time to Zookeper and Kafka to stop
         try {
-            RunScripts.deleteKafkaTopics();
+            RunScripts run = new RunScripts();
+            run.deleteKafkaTopics();
             Thread.sleep(1000);
-            RunScripts.stopKafkaServer();
+            run.stopKafkaServer();
             Thread.sleep(1000);
-            RunScripts.stopZookeeper();
+            run.stopZookeeper();
             Thread.sleep(1000);
         } catch (InterruptedException ex) {
             Logger.getLogger(StopKafkaServer.class.getName()).log(Level.SEVERE, null, ex);

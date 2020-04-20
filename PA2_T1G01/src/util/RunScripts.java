@@ -17,13 +17,22 @@ import java.util.logging.Logger;
 */
 public class RunScripts {
     
+    private String SO;
+    
+    public RunScripts() {
+        SO = System.getProperty("os.name");
+    }
+    
     /**
      * Method to start Zookeeper
      * 
      */
-    public static void runZookeeper() {
+    public void runZookeeper() {
         ProcessBuilder processBuilder = new ProcessBuilder();
-        processBuilder.command("src/scripts/bin/zookeeper-server-start.sh", "src/scripts/config/zookeeper.properties");
+        if (SO.startsWith("Windows"))
+            processBuilder.command("cmd.exe", "/c", "src/scripts/bin/zookeeper-server-start.sh", "src/scripts/config/zookeeper.properties");
+        else
+            processBuilder.command("src/scripts/bin/zookeeper-server-start.sh", "src/scripts/config/zookeeper.properties");
         try {
             Process process = processBuilder.start();
         } catch (IOException ex) {
@@ -35,8 +44,11 @@ public class RunScripts {
      * Method to stop Zookeeper
      * 
      */
-    public static void stopZookeeper() {
+    public void stopZookeeper() {
         ProcessBuilder processBuilder = new ProcessBuilder();
+        if (SO.startsWith("Windows"))
+            processBuilder.command("cmd.exe", "/c", "src/scripts/bin/zookeeper-server-stop.sh");
+        else
         processBuilder.command("src/scripts/bin/zookeeper-server-stop.sh");
         try {
             Process process = processBuilder.start();
@@ -49,9 +61,12 @@ public class RunScripts {
      * Method to start Kafka server
      * 
      */
-    public static void runKafkaServer() {
+    public void runKafkaServer() {
         ProcessBuilder processBuilder = new ProcessBuilder();
-        processBuilder.command("src/scripts/bin/kafka-server-start.sh", "src/scripts/config/server.properties");
+        if (SO.startsWith("Windows"))
+            processBuilder.command("cmd.exe", "/c", "src/scripts/bin/kafka-server-start.sh", "src/scripts/config/server.properties");
+        else
+            processBuilder.command("src/scripts/bin/kafka-server-start.sh", "src/scripts/config/server.properties");
         try {
             Process process = processBuilder.start();
         } catch (IOException ex) {
@@ -63,9 +78,12 @@ public class RunScripts {
      * Method to stop Kafka server
      * 
      */
-    public static void stopKafkaServer() {
+    public void stopKafkaServer() {
         ProcessBuilder processBuilder = new ProcessBuilder();
-        processBuilder.command("src/scripts/bin/kafka-server-stop.sh");
+        if (SO.startsWith("Windows"))
+            processBuilder.command("cmd.exe", "/c", "src/scripts/bin/kafka-server-stop.sh");
+        else        
+            processBuilder.command("src/scripts/bin/kafka-server-stop.sh");
         try {
             Process process = processBuilder.start();
         } catch (IOException ex) {
@@ -77,9 +95,12 @@ public class RunScripts {
      * Method to create one Kafka topic
      * 
      */
-    public static void createKafkaTopic(String topic) {
+    public void createKafkaTopic(String topic) {
         ProcessBuilder processBuilder = new ProcessBuilder();
-        processBuilder.command("src/scripts/bin/kafka-topics.sh", "--create", "--zookeeper", "localhost:2181", "--replication-factor 1", "--partitions 1", "--topic " + topic);
+        if (SO.startsWith("Windows"))
+            processBuilder.command("cmd.exe", "/c", "src/scripts/bin/kafka-topics.sh", "--create", "--zookeeper", "localhost:2181", "--replication-factor 1", "--partitions 1", "--topic " + topic);
+        else         
+            processBuilder.command("src/scripts/bin/kafka-topics.sh", "--create", "--zookeeper", "localhost:2181", "--replication-factor 1", "--partitions 1", "--topic " + topic);
         try {
             Process process = processBuilder.start();
         } catch (IOException ex) {
@@ -92,10 +113,13 @@ public class RunScripts {
      * 
      * @return list with all the topics that exist
      */
-    public static List<String> listTopics() {
+    public List<String> listTopics() {
         List<String> output = new ArrayList<>();
         ProcessBuilder processBuilder = new ProcessBuilder();
-        processBuilder.command("src/scripts/bin/kafka-topics.sh", "--list", "--zookeeper", "localhost:2181");
+        if (SO.startsWith("Windows"))
+            processBuilder.command("cmd.exe", "/c", "src/scripts/bin/kafka-topics.sh", "--list", "--zookeeper", "localhost:2181");
+        else 
+            processBuilder.command("src/scripts/bin/kafka-topics.sh", "--list", "--zookeeper", "localhost:2181");
         try {
 
             Process process = processBuilder.start();
@@ -118,9 +142,12 @@ public class RunScripts {
      * Method to delete all Kafka topics
      * 
      */
-    public static void deleteKafkaTopics() {
+    public void deleteKafkaTopics() {
         ProcessBuilder processBuilder = new ProcessBuilder();
-        processBuilder.command("src/scripts/bin/kafka-topics.sh", "--zookeeper", "localhost:2181", "--delete", "--topic", "'.*'");
+        if (SO.startsWith("Windows"))
+            processBuilder.command("cmd.exe", "/c", "src/scripts/bin/kafka-topics.sh", "--zookeeper", "localhost:2181", "--delete", "--topic", "'.*'");
+        else 
+            processBuilder.command("src/scripts/bin/kafka-topics.sh", "--zookeeper", "localhost:2181", "--delete", "--topic", "'.*'");
         try {
             Process process = processBuilder.start();
         } catch (IOException ex) {
