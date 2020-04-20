@@ -15,16 +15,17 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.StringSerializer;
 import util.Message;
 import util.MessageSerializer;
+import static config.KafkaProperties.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Random;
 import java.util.stream.Stream;
 import org.apache.kafka.clients.producer.RecordMetadata;
 import java.util.Date;
+import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JTextField;
-
-import static config.KafkaProperties.*;
 import static util.Constants.PATH_TO_DATA;
 
 /**
@@ -35,7 +36,6 @@ import static util.Constants.PATH_TO_DATA;
  * @author Manuel Marcos
  *
  */
-
 
 public class CollectEntity {
 
@@ -54,7 +54,19 @@ public class CollectEntity {
     /**
      * Kafka topic subscribed
      */
-    String topic;
+    private String topic;
+    /**
+     * Variable to store the GUI
+     */
+    private CollectGUI cGUI;
+    /**
+     * JFrame to display the main GUI
+     */
+    private JFrame coll_frame;
+    /**
+     * JFrame to display the history GUI
+     */
+    private JFrame history;
     /**
      * Counts the number of rows in a file
      */
@@ -78,6 +90,16 @@ public class CollectEntity {
         } catch (FileNotFoundException ex) {
             System.out.println("File not found");
         }
+                
+        cGUI = new CollectGUI();
+        coll_frame = new JFrame();
+        coll_frame.setVisible(true);
+        coll_frame.setSize(450, 250);
+        coll_frame.setResizable(true);
+        coll_frame.add(cGUI);
+        historyButtonListener();
+        closeHistoryButtonListener();
+        sendButtonListener();
     }
 
     /**
@@ -104,10 +126,9 @@ public class CollectEntity {
 
     /**
      * Method to send all messages to the corresponding destination Kafka topic
-     * 
-     * @param text GUI text
+     *      
      */
-    public void sendRecords(JTextField text) {
+    public void sendRecords() {
         Message toSend = null;
         while ((toSend = getRecord()) != null) {
             try {
@@ -121,8 +142,9 @@ public class CollectEntity {
                         metadata = producerACK.send(new ProducerRecord<>(REPORT_TOPIC, "message", toSend)).get();
                         break;
                 }
-                text.setText(String.format("Car registration: %s, Date: %s, Message type: %d\n",
+                cGUI.getMessageText().setText(String.format("Car registration: %s, Date: %s, Message type: %d\n",
                         toSend.getCarReg(), new Date(toSend.getTs()), toSend.getType()));
+                cGUI.getMessageText().paintImmediately(cGUI.getMessageText().getVisibleRect());
             } catch (InterruptedException | ExecutionException ex) {
                 System.out.println("Error sending record" + ex);
             }
@@ -158,7 +180,7 @@ public class CollectEntity {
         }
         return toSend;
     }
-
+    
     /**
      * Method to get a random message from the referred file
      *
@@ -208,6 +230,71 @@ public class CollectEntity {
         producerACK.flush();
         producer.close();
     }
+    
+    /**
+     * Method that will create the history panel and set its text
+     */
+    private void historyText() {
+        history = new JFrame();
+        history.add(cGUI.getHistoryPanel());
+        history.setVisible(true);
+        history.setSize(450,400);
+        history.setResizable(true);
+        BufferedReader br = null;
+        try {
+            br = new BufferedReader(new FileReader(PATH_TO_DATA));
+            String line;
+            while ((line = br.readLine()) != null) {
+                cGUI.getHistoryText().append(line + "\n");
+            }
+        } catch (IOException e) {
+            System.out.println("Error opening file" + e);
+        } finally {
+            try {
+                br.close();
+            } catch (IOException e) {
+                System.out.println("Error closing file" + e);
+            }
+        }
+    }
+    
+    /**
+     * Listener method for the Send All button
+     */
+    private void sendButtonListener(){
+        JButton sendButton = cGUI.getSendButton();
+        ActionListener actionListener = (ActionEvent actionEvent) -> {
+            System.out.println("Send");
+            sendRecords();
+            reorderMessage();
+        };
+        sendButton.addActionListener(actionListener);
+    }
+    
+    /**
+     * Listener method for the history button
+     */
+    private void historyButtonListener() {
+        JButton historyButton = cGUI.getHistoryButton();
+        
+        ActionListener actionListener = (ActionEvent actionEvent) -> {
+            System.out.println("History button");
+            historyText();
+        };
+        historyButton.addActionListener(actionListener);
+    }
+    
+    /**
+     * Listener method for the close button inside the history panel
+     */
+    private void closeHistoryButtonListener() {
+        JButton closeButton = cGUI.getCloseHistoryButton();
+        
+        ActionListener actionListener = (ActionEvent actionEvent) -> {
+            history.setVisible(false);
+        };
+        closeButton.addActionListener(actionListener);
+    }
 
     /**
      * Method to run the program, starts the BatchEntity
@@ -216,11 +303,5 @@ public class CollectEntity {
      */
     public static void main(String[] args) {
         CollectEntity collect = new CollectEntity();
-        CollectGUI cGUI = new CollectGUI(collect);
-        JFrame coll_frame = new JFrame();
-        coll_frame.setVisible(true);
-        coll_frame.setSize(400, 150);
-        coll_frame.setResizable(true);
-        coll_frame.add(cGUI);
     }
 }

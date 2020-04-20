@@ -1,12 +1,19 @@
 package entities;
 
+import GUI.ReportGUI;
 import config.KafkaProperties;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Properties;
+import javax.swing.JButton;
+import javax.swing.JFrame;
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -34,7 +41,18 @@ public class ReportEntity {
     * Kafka topic subscribed
     */
     String topic;
-
+    /**
+     * Variable to store the GUI
+     */
+    private ReportGUI reGUI = null;
+    /**
+     * JFrame to display the main GUI
+     */
+    private JFrame gui = null;
+    /**
+     * JFrame to display the history GUI
+     */
+    private JFrame history = null;
     /**
      * ReportEntity class constructor
      * 
@@ -49,6 +67,14 @@ public class ReportEntity {
 
         consumer = new KafkaConsumer<>(props);
         this.topic = topic;
+        reGUI = new ReportGUI();
+        gui = new JFrame();
+        gui.setVisible(true);
+        gui.setSize(450,200);
+        gui.setResizable(true);
+        gui.add(reGUI);
+        historyButtonListener();
+        closeHistoryButtonListener();
     }
 
     /**
@@ -64,13 +90,64 @@ public class ReportEntity {
                 try (BufferedWriter writer = new BufferedWriter(new FileWriter(PATH_TO_REPORT, true))) {
                     writer.append(String.format("Car registration: %s, Date: %s, Message type: %d, Information: %s\n",
                             record.value().getCarReg(), new Date(record.value().getTs()), record.value().getType(), record.value().getExtraInfo()));
+                    reGUI.setMessageText(String.format("Car registration: %s Date: %s", record.value().getCarReg(), new Date(record.value().getTs())));
+                    reGUI.setStatusText(record.value().getExtraInfo());
                 } catch (IOException ex) {
                     System.out.println("Error writing to file: " + PATH_TO_REPORT);
                 }
             }
         }
     }
+    /**
+     * Method that will create the history panel and set its text
+     */
+    private void historyText() {
+        history = new JFrame();
+        history.add(reGUI.getHistoryPanel());
+        history.setVisible(true);
+        history.setSize(450,400);
+        history.setResizable(true);
+        BufferedReader br = null;
+        try {
+            br = new BufferedReader(new FileReader(PATH_TO_REPORT));
+            String line;
+            while ((line = br.readLine()) != null) {
+                reGUI.getHistoryText().append(line + "\n");
+            }
+        } catch (IOException e) {
+            System.out.println("Error opening file" + e);
+        } finally {
+            try {
+                br.close();
+            } catch (IOException e) {
+                System.out.println("Error closing file" + e);
+            }
+        }
+    }
+    /**
+     * Listener method for the History button
+     */
+    private void historyButtonListener() {
+        JButton historyButton = reGUI.getHistoryButton();
 
+        ActionListener actionListener = (ActionEvent actionEvent) -> {
+            System.out.println("History button");
+            historyText();
+        };
+        
+        historyButton.addActionListener(actionListener);
+    }
+    /**
+     * Listener method for the close button on the history panel
+     */
+    private void closeHistoryButtonListener() {
+        JButton closeButton = reGUI.getCloseHistoryButton();
+        
+        ActionListener actionListener = (ActionEvent actionEvent) -> {
+            history.setVisible(false);
+        };
+        closeButton.addActionListener(actionListener);
+    }
     /**
      * Method to run the program, starts the BatchEntity
      * @param args arguments used when running the program

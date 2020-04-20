@@ -4,7 +4,9 @@ import GUI.AlarmGUI;
 import config.KafkaProperties;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
@@ -35,8 +37,6 @@ import static util.Constants.*;
  * @author Manuel Marcos
  *
  */
-
-
 public class AlarmEntity {
 
     /**
@@ -58,12 +58,20 @@ public class AlarmEntity {
     /**
      * Variable to store the GUI
      */
-    private AlarmGUI ae_gui = null;
+    private AlarmGUI aeGUI = null;
     /**
-     * JFrame to display the GUI
+     * JFrame to display the main GUI
      */
     private JFrame gui = null;
     
+    /**
+     * JFrame to display the history GUI
+     */
+    private JFrame history = null;
+    /**
+     * JFrame to display the alarm GUI
+     */
+    private JFrame alarm = null;
     /**
      * AlarmEntity class constructor
      *
@@ -81,12 +89,16 @@ public class AlarmEntity {
         consumer = new KafkaConsumer<>(props);
         this.topic = topic;
 
-        ae_gui = new AlarmGUI();
+        aeGUI = new AlarmGUI();
         gui = new JFrame();
         gui.setVisible(true);
+        gui.setSize(450,250);
         gui.setResizable(true);
-        gui.add(ae_gui);
-        mapButtonListener();
+        gui.add(aeGUI);
+        historyButtonListener();
+        closeHistoryButtonListener();
+        alarmButtonListener();
+        closeAlarmButtonListener();
     }
 
     /**
@@ -100,16 +112,12 @@ public class AlarmEntity {
             ConsumerRecords<String, Message> records = consumer.poll(100);
             for (ConsumerRecord<String, Message> record : records) {
                 try (BufferedWriter writer = new BufferedWriter(new FileWriter(PATH_TO_ALARM, true))) {
-                    // Avoid process messages already processed
-                    if (!receivedMessages.contains(record.value().getTs())) {
-                        String status = processSpeed(record.value().getCarReg(), Integer.parseInt(record.value().getExtraInfo()));
-                        writer.append(String.format("Car registration: %s, Date: %s, Message type: %d, Speed: %s, Status: %s\n",
-                                record.value().getCarReg(), new Date(record.value().getTs()), record.value().getType(), record.value().getExtraInfo(), status));
-                        ae_gui.setMessageText(String.format("Car registration: %s Speed: %s\n", record.value().getCarReg(), record.value().getExtraInfo()));
-                        ae_gui.setAlarmText(status);
-                    }
-                    receivedMessages.add(record.value().getTs());
+                    String status = processSpeed(record.value().getCarReg(), Integer.parseInt(record.value().getExtraInfo()));
+                    writer.append(String.format("Car registration: %s, Date: %s, Message type: %d, Speed: %s, Status: %s\n",
+                            record.value().getCarReg(), new Date(record.value().getTs()), record.value().getType(), record.value().getExtraInfo(), status));
 
+                    aeGUI.setMessageText(String.format("Car registration: %s Date: %s Speed: %s", record.value().getCarReg(), new Date(record.value().getTs()), record.value().getExtraInfo()));
+                    aeGUI.setAlarmText(status);
                 } catch (IOException ex) {
                     System.out.println("Error writing to file: " + PATH_TO_ALARM);
                 }
@@ -138,20 +146,95 @@ public class AlarmEntity {
         }
         return status;
     }
+    
+    /**
+     * Method that will create the history panel and set its text
+     */
+    private void historyText() {
+        history = new JFrame();
+        history.add(aeGUI.getHistoryPanel());
+        history.setVisible(true);
+        history.setSize(450,400);
+        history.setResizable(true);
+        BufferedReader br = null;
+        try {
+            br = new BufferedReader(new FileReader(PATH_TO_ALARM));
+            String line;
+            while ((line = br.readLine()) != null) {
+                aeGUI.getHistoryText().append(line+"\n");
+            }
+        } catch (IOException e) {
+            System.out.println("Error opening file" + e);
+        } finally {
+            try {
+                br.close();
+            } catch (IOException e) {
+                System.out.println("Error closing file" + e);
+            }
+        }
+    }
+    
+    /**
+     * Listener method for the History button
+     */
+    private void historyButtonListener() {
+        JButton historyButton = aeGUI.getHistoryButton();
 
-    public void alarmStatusText() {
-        JTextArea alarmArea = ae_gui.getAlarmArea();
+        ActionListener actionListener = (ActionEvent actionEvent) -> {
+            System.out.println("History button");
+            historyText();
+        };
+        
+        historyButton.addActionListener(actionListener);
+    }
+
+    /**
+     * Method that fills the text area with the current ON alarms
+     */
+    private void alarmStatusText() {
+        alarm = new JFrame();
+        alarm.add(aeGUI.getAlarmPanel());
+        alarm.setVisible(true);
+        alarm.setSize(450,400);
+        alarm.setResizable(true);
+        
+        JTextArea alarmArea = aeGUI.getAlarmArea();
         generatedAlarms.forEach((k, v) -> alarmArea.append(String.format("Car Registration: %s\tStatus:%s", k, v)));
     }
 
-    public void mapButtonListener() {
-        JButton alarm = ae_gui.getAlarmButton();
-
+    /**
+     * Listener method for the Alarm Status button on the GUI
+     */
+    private void alarmButtonListener() {
+        JButton alarmButton = aeGUI.getAlarmButton();
+        
         ActionListener actionListener = (ActionEvent actionEvent) -> {
             System.out.println(actionEvent.getActionCommand());
             alarmStatusText();
         };
-        alarm.addActionListener(actionListener);
+        alarmButton.addActionListener(actionListener);
+    }
+    /**
+     * Listener method for the close button on the history panel
+     */
+    private void closeHistoryButtonListener() {
+        JButton closeButton = aeGUI.getCloseHistoryButton();
+        
+        ActionListener actionListener = (ActionEvent actionEvent) -> {
+            history.setVisible(false);
+        };
+        closeButton.addActionListener(actionListener);
+    }
+    /**
+     * Listener method for the close button on the alarm panel
+     */
+    private void closeAlarmButtonListener() {
+        JButton alarmButton = aeGUI.getCloseAlarmButton();
+        
+        ActionListener actionListener = (ActionEvent actionEvent) -> {
+            alarm.setVisible(false);
+        };
+        alarmButton.addActionListener(actionListener);
     }
 
     /**

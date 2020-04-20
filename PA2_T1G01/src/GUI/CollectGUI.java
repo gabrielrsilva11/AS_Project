@@ -9,7 +9,11 @@ import entities.CollectEntity;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import static util.Constants.*;
 
 /**
@@ -17,16 +21,31 @@ import static util.Constants.*;
  * @author gabriel
  */
 public class CollectGUI extends javax.swing.JPanel {
-    CollectEntity ce;
     JFrame history;
     /**
      * Creates new form CollectEntity
      */
-    public CollectGUI(CollectEntity collect) {
+    public CollectGUI() {
         initComponents();
-        ce = collect;
     }
-
+    public JTextField getMessageText(){
+        return Message_Text;
+    }
+    public JButton getHistoryButton(){
+        return historyButton;
+    }
+    public JPanel getHistoryPanel(){
+        return HistoryPanel;
+    }
+    public JTextArea getHistoryText(){
+        return Text_History;
+    }
+    public JButton getCloseHistoryButton(){
+        return Close_Button;
+    }
+    public JButton getSendButton(){
+        return sendButton;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -44,8 +63,8 @@ public class CollectGUI extends javax.swing.JPanel {
         jButton1 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         Message_Text = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        historyButton = new javax.swing.JButton();
+        sendButton = new javax.swing.JButton();
 
         Text_History.setColumns(20);
         Text_History.setRows(5);
@@ -91,17 +110,17 @@ public class CollectGUI extends javax.swing.JPanel {
 
         jLabel2.setText("Last Message Sent");
 
-        jButton2.setText("History");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        historyButton.setText("History");
+        historyButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                historyButtonActionPerformed(evt);
             }
         });
 
-        jButton5.setText("Send All");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        sendButton.setText("Send All");
+        sendButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                sendButtonActionPerformed(evt);
             }
         });
 
@@ -125,9 +144,9 @@ public class CollectGUI extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(Message_Text)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(sendButton, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(26, 26, 26)
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(historyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(26, 26, 26)
                                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE)))))
@@ -144,47 +163,47 @@ public class CollectGUI extends javax.swing.JPanel {
                 .addComponent(Message_Text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton5)
-                    .addComponent(jButton2)
+                    .addComponent(sendButton)
+                    .addComponent(historyButton)
                     .addComponent(jButton1))
                 .addContainerGap(23, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
-
+    
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         System.exit(0);
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        history = new JFrame();
-        history.add(HistoryPanel);
-        history.setVisible(true);
-        history.setSize(380,280);
-        history.setResizable(true);
-        BufferedReader br = null;
-        try{
-            br = new BufferedReader(new FileReader(PATH_TO_DATA));
-            String line;
-            while((line = br.readLine())!= null){
-                Text_History.append(line + "\n");
-            }
-        }catch(IOException e){
-            System.out.println("Error opening file" + e);
-        }finally{
-            try {
-                br.close();
-            } catch (IOException e) {
-                System.out.println("Error closing file" + e);
-            }
-        }
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void historyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_historyButtonActionPerformed
+//        history = new JFrame();
+//        history.add(HistoryPanel);
+//        history.setVisible(true);
+//        history.setSize(380,280);
+//        history.setResizable(true);
+//        BufferedReader br = null;
+//        try{
+//            br = new BufferedReader(new FileReader(PATH_TO_DATA));
+//            String line;
+//            while((line = br.readLine())!= null){
+//                Text_History.append(line + "\n");
+//            }
+//        }catch(IOException e){
+//            System.out.println("Error opening file" + e);
+//        }finally{
+//            try {
+//                br.close();
+//            } catch (IOException e) {
+//                System.out.println("Error closing file" + e);
+//            }
+//        }
+    }//GEN-LAST:event_historyButtonActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        ce.sendRecords(Message_Text);
-    }//GEN-LAST:event_jButton5ActionPerformed
+    private void sendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendButtonActionPerformed
+        //ce.sendRecords(Message_Text);
+    }//GEN-LAST:event_sendButtonActionPerformed
 
     private void Close_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Close_ButtonActionPerformed
-        history.setVisible(false);
+        
     }//GEN-LAST:event_Close_ButtonActionPerformed
 
 
@@ -193,11 +212,11 @@ public class CollectGUI extends javax.swing.JPanel {
     private javax.swing.JPanel HistoryPanel;
     private javax.swing.JTextField Message_Text;
     private javax.swing.JTextArea Text_History;
+    private javax.swing.JButton historyButton;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton sendButton;
     // End of variables declaration//GEN-END:variables
 }
