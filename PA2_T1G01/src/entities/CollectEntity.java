@@ -57,10 +57,18 @@ public class CollectEntity {
      * Kafka topic subscribed
      */
     private String topic;
+    /**
+     * Variable to store the GUI
+     */
     private CollectGUI cGUI;
+    /**
+     * JFrame to display the main GUI
+     */
     private JFrame coll_frame;
+    /**
+     * JFrame to display the history GUI
+     */
     private JFrame history;
-    String topic;
     /**
      * Counts the number of rows in a file
      */
@@ -107,13 +115,6 @@ public class CollectEntity {
         props.put(ProducerConfig.CLIENT_ID_CONFIG, "CollectEntity");
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, MessageSerializer.class.getName());
-        
-        producer = new KafkaProducer<>(props);
-        try {
-            br = new BufferedReader(new FileReader(new File(PATH_TO_DATA)));
-        } catch (FileNotFoundException ex) {
-            System.out.println("File not found");
-        }
 
         if (ackProducer) {
             props.put(ProducerConfig.ACKS_CONFIG, KafkaProperties.ACKS_ALL);
@@ -128,7 +129,7 @@ public class CollectEntity {
      * Method to send all messages to the corresponding destination Kafka topic
      *
      */
-    public void sendRecords(JTextField text) {
+    public void sendRecords() {
         Message toSend = null;
         while ((toSend = getRecord()) != null) {
             try {
@@ -144,7 +145,7 @@ public class CollectEntity {
                         metadata = producerACK.send(new ProducerRecord<>(REPORT_TOPIC, "message", toSend)).get();
                         break;
                 }
-                text.setText(String.format("Car registration: %s, Date: %s, Message type: %d\n",
+                cGUI.getMessageText().setText(String.format("Car registration: %s, Date: %s, Message type: %d\n",
                         toSend.getCarReg(), new Date(toSend.getTs()), toSend.getType()));
             } catch (InterruptedException | ExecutionException ex) {
                 System.out.println("Error sending record" + ex);
@@ -223,6 +224,7 @@ public class CollectEntity {
             history.setVisible(false);
         };
         closeButton.addActionListener(actionListener);
+    }
     /**
      * Method to get a random message from the referred file
      *
@@ -267,5 +269,7 @@ public class CollectEntity {
      */
     public static void main(String[] args) {
         CollectEntity collect = new CollectEntity();
+        collect.sendRecords();
+        collect.reorderMessage();
     }
 }

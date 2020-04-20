@@ -60,7 +60,7 @@ public class AlarmEntity {
      */
     private AlarmGUI aeGUI = null;
     /**
-     * JFrame to display the GUI
+     * JFrame to display the main GUI
      */
     private JFrame gui = null;
     

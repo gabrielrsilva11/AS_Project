@@ -13,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import static util.Constants.*;
 
 /**
@@ -26,6 +27,9 @@ public class CollectGUI extends javax.swing.JPanel {
      */
     public CollectGUI() {
         initComponents();
+    }
+    public JTextField getMessageText(){
+        return Message_Text;
     }
     public JButton getHistoryButton(){
         return historyButton;
