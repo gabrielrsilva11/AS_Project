@@ -199,7 +199,10 @@ public class AlarmEntity {
         alarm.setResizable(true);
         
         JTextArea alarmArea = aeGUI.getAlarmArea();
-        generatedAlarms.forEach((k, v) -> alarmArea.append(String.format("Car Registration: %s\tStatus:%s", k, v)));
+        generatedAlarms.entrySet().forEach((entry) -> {
+            alarmArea.append(String.format("Car Registration: %s\tStatus:%s", entry.getKey(), entry.getValue()));
+        }); 
+        //generatedAlarms.forEach((k, v) -> alarmArea.append(String.format("Car Registration: %s\tStatus:%s", k, v)));
     }
 
     /**

@@ -36,7 +36,6 @@ import static util.Constants.PATH_TO_DATA;
  * @author Manuel Marcos
  *
  */
-
 public class CollectEntity {
 
     /**
@@ -90,7 +89,7 @@ public class CollectEntity {
         } catch (FileNotFoundException ex) {
             System.out.println("File not found");
         }
-                
+
         cGUI = new CollectGUI();
         coll_frame = new JFrame();
         coll_frame.setVisible(true);
@@ -115,18 +114,18 @@ public class CollectEntity {
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, MessageSerializer.class.getName());
 
-        if (ackProducer) 
+        if (ackProducer) {
             props.put(ProducerConfig.ACKS_CONFIG, KafkaProperties.ACKS_ALL);
-         else 
+        } else {
             props.put(ProducerConfig.ACKS_CONFIG, KafkaProperties.NO_ACKS);
-        
+        }
 
         return new KafkaProducer<>(props);
     }
 
     /**
      * Method to send all messages to the corresponding destination Kafka topic
-     *      
+     *
      */
     public void sendRecords() {
         Message toSend = null;
@@ -180,7 +179,7 @@ public class CollectEntity {
         }
         return toSend;
     }
-    
+
     /**
      * Method to get a random message from the referred file
      *
@@ -202,11 +201,11 @@ public class CollectEntity {
                 line = lines.skip(lineNumber - 1).findFirst().get();
                 if (line != null) {
                     fields = line.split(" ");
-                if (Integer.parseInt(fields[5]) == 0) {
-                    toSend = new Message(fields[1], Integer.parseInt(fields[3]), Integer.parseInt(fields[5]), null);
-                } else {
-                    toSend = new Message(fields[1], Integer.parseInt(fields[3]), Integer.parseInt(fields[5]), fields[7]);
-                }
+                    if (Integer.parseInt(fields[5]) == 0) {
+                        toSend = new Message(fields[1], Integer.parseInt(fields[3]), Integer.parseInt(fields[5]), null);
+                    } else {
+                        toSend = new Message(fields[1], Integer.parseInt(fields[3]), Integer.parseInt(fields[5]), fields[7]);
+                    }
                 }
             } catch (IOException ex) {
                 System.out.println("Error reading line from file");
@@ -219,7 +218,7 @@ public class CollectEntity {
         }
         System.out.println("Producer completed");
     }
-    
+
     /**
      * Method to close producers
      *
@@ -230,7 +229,7 @@ public class CollectEntity {
         producerACK.flush();
         producer.close();
     }
-    
+
     /**
      * Method that will create the history panel and set its text
      */
@@ -238,7 +237,7 @@ public class CollectEntity {
         history = new JFrame();
         history.add(cGUI.getHistoryPanel());
         history.setVisible(true);
-        history.setSize(450,400);
+        history.setSize(450, 400);
         history.setResizable(true);
         BufferedReader br = null;
         try {
@@ -257,11 +256,11 @@ public class CollectEntity {
             }
         }
     }
-    
+
     /**
      * Listener method for the Send All button
      */
-    private void sendButtonListener(){
+    private void sendButtonListener() {
         JButton sendButton = cGUI.getSendButton();
         ActionListener actionListener = (ActionEvent actionEvent) -> {
             System.out.println("Send");
@@ -270,26 +269,26 @@ public class CollectEntity {
         };
         sendButton.addActionListener(actionListener);
     }
-    
+
     /**
      * Listener method for the history button
      */
     private void historyButtonListener() {
         JButton historyButton = cGUI.getHistoryButton();
-        
+
         ActionListener actionListener = (ActionEvent actionEvent) -> {
             System.out.println("History button");
             historyText();
         };
         historyButton.addActionListener(actionListener);
     }
-    
+
     /**
      * Listener method for the close button inside the history panel
      */
     private void closeHistoryButtonListener() {
         JButton closeButton = cGUI.getCloseHistoryButton();
-        
+
         ActionListener actionListener = (ActionEvent actionEvent) -> {
             history.setVisible(false);
         };
