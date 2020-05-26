@@ -5,6 +5,9 @@
  */
 package Client;
 
+import javax.swing.JButton;
+import javax.swing.JTextField;
+
 /**
  *
  * @author gabri
@@ -16,6 +19,46 @@ public class ClientGUI extends javax.swing.JFrame {
      */
     public ClientGUI() {
         initComponents();
+    }
+
+    public JButton getButton_Connect() {
+        return Button_Connect;
+    }
+
+    public JButton getButton_Exit() {
+        return Button_Exit;
+    }
+
+    public JButton getButton_History() {
+        return Button_History;
+    }
+
+    public JButton getButton_Request() {
+        return Button_Request;
+    }
+
+    public JTextField getIP_Text() {
+        return IP_Text;
+    }
+
+    public JTextField getPR_Text() {
+        return PR_Text;
+    }
+
+    public JTextField getRM_Text() {
+        return RM_Text;
+    }
+
+    public JTextField getNI_Text() {
+        return NI_Text;
+    }
+
+    public JTextField getPort_Text() {
+        return Port_Text;
+    }
+
+    public JTextField getReplyPort_Text() {
+        return ReplyPort_Text;
     }
 
     /**
@@ -39,10 +82,11 @@ public class ClientGUI extends javax.swing.JFrame {
         Button_History = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        Processed_text = new javax.swing.JTextField();
+        RM_Text = new javax.swing.JTextField();
+        PR_Text = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         ReplyPort_Text = new javax.swing.JTextField();
+        Button_Connect = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         File_Menu = new javax.swing.JMenu();
         Exit_Menu = new javax.swing.JMenuItem();
@@ -59,7 +103,7 @@ public class ClientGUI extends javax.swing.JFrame {
 
         jLabel3.setText("Port");
 
-        Port_Text.setText("5000");
+        Port_Text.setText("5001");
 
         jLabel4.setText("Number of Iterations");
 
@@ -73,11 +117,17 @@ public class ClientGUI extends javax.swing.JFrame {
 
         jLabel6.setText("Processed Requests");
 
-        jTextField1.setText("0");
+        RM_Text.setEditable(false);
+        RM_Text.setText("0");
 
-        Processed_text.setText("0");
+        PR_Text.setEditable(false);
+        PR_Text.setText("0");
 
         jLabel7.setText("Reply Port");
+
+        ReplyPort_Text.setText("5002");
+
+        Button_Connect.setText("Connect");
 
         File_Menu.setText("File");
 
@@ -111,9 +161,11 @@ public class ClientGUI extends javax.swing.JFrame {
                         .addComponent(jLabel1)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(Button_History)
-                        .addGap(18, 18, 18)
+                        .addComponent(Button_Connect)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(Button_Request)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(Button_History)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(Button_Exit, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))))
             .addGroup(layout.createSequentialGroup()
@@ -142,9 +194,9 @@ public class ClientGUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(Port_Text, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
-                    .addComponent(jTextField1)
-                    .addComponent(Processed_text))
-                .addContainerGap(26, Short.MAX_VALUE))
+                    .addComponent(RM_Text)
+                    .addComponent(PR_Text))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -166,20 +218,21 @@ public class ClientGUI extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabel5)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(RM_Text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabel7)
                                 .addComponent(ReplyPort_Text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
-                            .addComponent(Processed_text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(PR_Text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel4)
                             .addComponent(NI_Text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(Button_History)
-                            .addComponent(Button_Request))
+                            .addComponent(Button_Request)
+                            .addComponent(Button_Connect))
                         .addGap(18, 18, 18))))
         );
 
@@ -226,6 +279,7 @@ public class ClientGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Button_Connect;
     private javax.swing.JButton Button_Exit;
     private javax.swing.JButton Button_History;
     private javax.swing.JButton Button_Request;
@@ -235,8 +289,9 @@ public class ClientGUI extends javax.swing.JFrame {
     private javax.swing.JMenu Help_Menu;
     private javax.swing.JTextField IP_Text;
     private javax.swing.JTextField NI_Text;
+    private javax.swing.JTextField PR_Text;
     private javax.swing.JTextField Port_Text;
-    private javax.swing.JTextField Processed_text;
+    private javax.swing.JTextField RM_Text;
     private javax.swing.JTextField ReplyPort_Text;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -246,6 +301,5 @@ public class ClientGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }

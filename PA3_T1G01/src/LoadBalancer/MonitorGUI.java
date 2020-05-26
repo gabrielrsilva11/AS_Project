@@ -39,6 +39,7 @@ public class MonitorGUI extends javax.swing.JFrame {
         jTextField1 = new javax.swing.JTextField();
         jTextField2 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         Exit_Menu = new javax.swing.JMenuItem();
@@ -76,6 +77,8 @@ public class MonitorGUI extends javax.swing.JFrame {
 
         jButton1.setText("Server Status");
 
+        jButton2.setText("Server Load");
+
         jMenu1.setText("File");
 
         Exit_Menu.setText("Exit");
@@ -111,8 +114,10 @@ public class MonitorGUI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(History_Button)
-                        .addGap(70, 70, 70)
+                        .addGap(18, 18, 18)
                         .addComponent(jButton1)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(Exit_Button))
                     .addGroup(layout.createSequentialGroup()
@@ -165,7 +170,8 @@ public class MonitorGUI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Exit_Button)
                     .addComponent(History_Button)
-                    .addComponent(jButton1))
+                    .addComponent(jButton1)
+                    .addComponent(jButton2))
                 .addContainerGap())
         );
 
@@ -227,6 +233,7 @@ public class MonitorGUI extends javax.swing.JFrame {
     private javax.swing.JButton History_Button;
     private javax.swing.JTextField Servers_Text;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

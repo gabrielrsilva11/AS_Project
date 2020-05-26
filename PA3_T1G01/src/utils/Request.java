@@ -5,25 +5,30 @@
  */
 package utils;
 
+import java.io.Serializable;
+
 /**
  *
  * @author gabri
  */
-public class Request {
+public class Request implements Serializable {
 
     private int ServerID;
     private int ClientID;
-    private String ClientIP;
-    private int ClientPort;
+    private final ConnectionInfo Client;
     private int RequestID;
     private int Code;
-    private float Reply;
+    private int NI;
+    private double Reply;
 
-    public Request(int ClientID, int Code, String ClientIP, int ClientPort) {
-        this.ClientID = ClientID;
+    public Request(int Code, ConnectionInfo Client, int NI) {
         this.Code = Code;
-        this.ClientIP = ClientIP;
-        this.ClientPort = ClientPort;
+        this.Client = Client;
+        this.NI = NI;
+    }
+
+    public ConnectionInfo getClient() {
+        return Client;
     }
 
     public void setServerID(int ServerID) {
@@ -38,16 +43,24 @@ public class Request {
         this.Code = Code;
     }
 
-    public void setReply(float Reply) {
+    public void setReply(double Reply) {
         this.Reply = Reply;
+    }
+
+    public void setNI(int NI) {
+        this.NI = NI;
     }
 
     public int getCode() {
         return Code;
     }
 
-    public float getReply() {
+    public double getReply() {
         return Reply;
+    }
+
+    public int getNI() {
+        return NI;
     }
 
     public String getFormattedRequest() {
