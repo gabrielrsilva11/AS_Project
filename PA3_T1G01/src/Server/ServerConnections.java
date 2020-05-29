@@ -24,24 +24,23 @@ public class ServerConnections implements Runnable {
 
     private Sockets connection;
     private Socket socketServer;
-    private int serverId;
+    //private int serverId;
         
-    public ServerConnections(Sockets connection, int serverId) {
+    public ServerConnections(Sockets connection) {
         this.connection = connection;
-        this.serverId = serverId;
+        //this.serverId = serverId;
     }
 
     @Override
     public void run() {
         int i = 0;
         try {
-            System.out.println("Waiting for clients");
+            System.out.println("Server waiting for clients");
             while (true) {
-                System.out.println("yo");
                 socketServer = connection.getServer().accept();
                 i += 1;
                 System.out.println("Connections accepted: " + i);
-                ServerMessages messageHandler = new ServerMessages(connection, socketServer, serverId);
+                ServerMessages messageHandler = new ServerMessages(connection, socketServer);
                 new Thread(messageHandler).start();
             }
         } catch (IOException ex) {

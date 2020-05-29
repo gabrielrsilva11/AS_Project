@@ -32,6 +32,7 @@ public class ServerWorkThread implements Runnable{
             re.setReply(3.1416);
             re.setCode(02);
             replyClient(re);
+            //replyLoadBalancer
         } catch (InterruptedException ex) {
             Logger.getLogger(ServerMessages.class.getName()).log(Level.SEVERE, null, ex);
         }

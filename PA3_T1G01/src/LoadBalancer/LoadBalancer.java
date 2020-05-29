@@ -6,12 +6,16 @@
 package LoadBalancer;
 
 import Server.Server;
+import Server.ServerWorkThread;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.net.InetSocketAddress;
+import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import utils.ConnectionInfo;
+import utils.Request;
 import utils.Sockets;
 
 /**
@@ -22,42 +26,25 @@ public class LoadBalancer {
 
     private Sockets connection;
 
+    private Socket socketServer;
+
+    private MonitorInterface monitor;
+
     public static void main(String[] args) {
-        Server se = new Server();
+        LoadBalancer lb = new LoadBalancer();
     }
 
     public LoadBalancer() {
         connection = new Sockets();
+        monitor = new Monitor();
         establishServerConnection();
-        awaitConnections();
     }
 
     private void establishServerConnection() {
-        System.out.println("Creating Server");
-        connection.startServer(5000);
-    }
-
-    private void awaitConnections() {
-        try {
-            ObjectInputStream input = null;
-            input = new ObjectInputStream(new BufferedInputStream(connection.getSocketServer().getInputStream()));
-            Object message = null;
-            while (true) {
-                message = input.readObject();
-                ConnectionInfo info = (ConnectionInfo) message;
-                System.out.println(info.getIp());
-                replyClient(info);
-            }
-        } catch (IOException ex) {
-            Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    private void replyClient(ConnectionInfo info) {
-        connection.startClient(info.getIp(), info.getPort());
-        connection.sendMessage("ok");
-        connection.closeClientConnection();
+        System.out.println("Creating LoadBalancer");
+        connection.startServer(80);
+        Runnable connectionHandler = new LBConnections(connection, monitor);
+        // criar connectionInfo, enviar loadbalancer
+        new Thread(connectionHandler).start();
     }
 }

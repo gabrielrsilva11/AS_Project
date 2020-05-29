@@ -17,13 +17,15 @@ import utils.Sockets;
  *
  * @author gabri
  */
-public class LBConnections implements Runnable{
+public class LBConnections implements Runnable {
 
     private Sockets connection;
     private Socket socketServer;
+    private MonitorInterface monitor;
 
-    public LBConnections(Sockets connection) {
+    public LBConnections(Sockets connection, MonitorInterface monitor) {
         this.connection = connection;
+        this.monitor = monitor;
     }
 
     @Override
@@ -35,7 +37,7 @@ public class LBConnections implements Runnable{
                 socketServer = connection.getServer().accept();
                 i += 1;
                 System.out.println("Connections accepted: " + i);
-                LBMessages messageHandler = new LBMessages();
+                LBMessages messageHandler = new LBMessages(connection, socketServer, monitor);
                 new Thread(messageHandler).start();
             }
         } catch (IOException ex) {

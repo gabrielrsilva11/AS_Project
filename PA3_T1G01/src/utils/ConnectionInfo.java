@@ -11,7 +11,8 @@ import java.io.Serializable;
  *
  * @author gabri
  */
-public class ConnectionInfo implements Serializable{
+public class ConnectionInfo implements Serializable {
+
     //1 para client, 2 para servidor
     private int type;
     private String ip;
@@ -31,11 +32,19 @@ public class ConnectionInfo implements Serializable{
         return port;
     }
 
+    public int getType() {
+        return type;
+    }
+
     public void setIp(String ip) {
         this.ip = ip;
     }
 
     public void setPort(int port) {
         this.port = port;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 }
