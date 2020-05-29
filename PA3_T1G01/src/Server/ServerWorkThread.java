@@ -34,9 +34,9 @@ public class ServerWorkThread implements Runnable {
                 Thread.sleep(1000);
             }
             re.setReply(3.1416);
-            re.setCode(02);
+            re.setCode(2);
             replyClient(re);
-            //replyLoadBalancer
+            replyLoadBalancer(re);
         } catch (InterruptedException ex) {
             Logger.getLogger(ServerMessages.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -45,13 +45,12 @@ public class ServerWorkThread implements Runnable {
     private void replyClient(Request re) {
         connection.startClient(re.getClient().getIp(), re.getClient().getPort());
         connection.sendMessage(re);
-        connection.closeClientConnection();
+        //connection.closeClientConnection();
     }
 
     private void replyLoadBalancer(Request re) {
         connection.startClient(lb_info.getIp(), lb_info.getPort());
-        re.setCode(2);
         connection.sendMessage(re);
-        connection.closeClientConnection();
+        //connection.closeClientConnection();
     }
 }

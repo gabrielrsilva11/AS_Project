@@ -64,7 +64,6 @@ public class Client {
         connection.startClient(ip, send_port);
         System.out.println("Sending Client Info");
         ci = new ConnectionInfo(ip, reply_port, 1);
-        connection.sendMessage(ci);
         System.out.println("Waiting for reply");
         if (connection.startServer(reply_port)) {
             connectionHandler = new ClientConnections(connection, requestsAnswered, gui.getPR_Text());
@@ -73,6 +72,7 @@ public class Client {
             gui.getButton_Request().setEnabled(false);
             gui.getButton_Connect().setEnabled(true);
         }
+        connection.sendMessage(ci);
     }
 
     private void historyCloseButtonListener() {

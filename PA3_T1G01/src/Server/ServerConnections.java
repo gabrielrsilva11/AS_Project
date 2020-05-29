@@ -26,7 +26,8 @@ public class ServerConnections implements Runnable {
     private Socket socketServer;
     private ConnectionInfo lb_info;
     ServerMessages messageHandler;
-    
+    private int serverId;
+
     public ServerConnections(Sockets connection, ConnectionInfo lb_connection) {
         this.connection = connection;
         this.lb_info = lb_connection;
@@ -43,13 +44,24 @@ public class ServerConnections implements Runnable {
                 System.out.println("Connections accepted: " + i);
                 messageHandler = new ServerMessages(connection, socketServer, lb_info);
                 new Thread(messageHandler).start();
+                if (i == 1) {
+                    Thread.sleep(1000);
+                    serverId = messageHandler.getServerID();
+                    System.out.println(serverId);
+                } 
             }
         } catch (IOException ex) {
             Logger.getLogger(ServerConnections.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(ServerConnections.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public int getServerId(){
-        return messageHandler.getServerID();
+
+    public int getServerId() {
+        return serverId;
+    }
+
+    public void exit() {
+        messageHandler.exit();
     }
 }

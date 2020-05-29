@@ -5,6 +5,7 @@
  */
 package LoadBalancer;
 
+import java.util.List;
 import model.ChooseServer;
 import utils.ConnectionInfo;
 import utils.Request;
@@ -15,8 +16,10 @@ import utils.Request;
  */
 public interface MonitorInterface {
     public int registerServer(ConnectionInfo connectionInfo);
+    public List<Request> closeServer(int serverId);
     public ChooseServer chooseServer();
     public int generateClientId();
     public void addClientRequest(Request re);
+    public ConnectionInfo removeServerConnection(int serverId);
     public void completeClientRequest(Request re);
 }

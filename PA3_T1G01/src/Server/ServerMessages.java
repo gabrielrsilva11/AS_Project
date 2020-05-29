@@ -26,11 +26,13 @@ public class ServerMessages implements Runnable {
     private Socket socketServer;
     private ConnectionInfo lb_info;
     private int serverId;
-    
+    private boolean active;
+
     public ServerMessages(Sockets connection, Socket serverSocket, ConnectionInfo lb_info) {
         this.connection = connection;
         this.socketServer = serverSocket;
         this.lb_info = lb_info;
+        this.active = true;
     }
 
     @Override
@@ -40,7 +42,7 @@ public class ServerMessages implements Runnable {
 
     private void awaitConnections() {
         try {
-            while (true) {
+            while (active) {
                 //receber string id ou receber um request
                 ObjectInputStream input = null;
                 input = new ObjectInputStream(new BufferedInputStream(socketServer.getInputStream()));
@@ -51,13 +53,14 @@ public class ServerMessages implements Runnable {
                     ServerWorkThread messageHandler = new ServerWorkThread(request, connection, lb_info);
                     new Thread(messageHandler).start();
                 } else if (message instanceof String) {
-                    System.out.println(message);
-                    serverId = Integer.parseInt((String) message);
-                    JOptionPane success = new JOptionPane();
-                    success.showMessageDialog(null, "Connection Successful", "Connection", JOptionPane.INFORMATION_MESSAGE);
+                    if (message.equals("exit")) {
+                        break;
+                    } else {
+                        serverId = Integer.parseInt((String) message);
+                        JOptionPane success = new JOptionPane();
+                        success.showMessageDialog(null, "Connection Successful", "Connection", JOptionPane.INFORMATION_MESSAGE);
+                    }
                 }
-                //acabou
-                //replyServer();
             }
         } catch (IOException ex) {
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
@@ -66,14 +69,12 @@ public class ServerMessages implements Runnable {
         }
         System.exit(0);
     }
-    
-    public int getServerID(){
+
+    public int getServerID() {
         return serverId;
     }
-    
-    private void replyClient(ConnectionInfo info) {
-        connection.startClient(info.getIp(), info.getPort());
-        connection.sendMessage("ok");
-        connection.closeClientConnection();
+
+    public void exit() {
+        this.active = false;
     }
 }

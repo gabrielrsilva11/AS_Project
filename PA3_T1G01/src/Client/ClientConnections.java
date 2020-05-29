@@ -31,7 +31,7 @@ public class ClientConnections implements Runnable {
     private int requestsProcessed;
     private Map requestsAnswered;
     private int clientId;
-    
+
     public ClientConnections(Sockets connection, Map requestsAnswered, JTextField PRField) {
         this.connection = connection;
         this.PRField = PRField;
@@ -64,6 +64,7 @@ public class ClientConnections implements Runnable {
             System.out.println(message.getClass());
             if (message instanceof String) {
                 clientId = Integer.parseInt((String) message);
+                System.out.println("ClientId: " + clientId);
                 JOptionPane success = new JOptionPane();
                 success.showMessageDialog(null, "Connection Successful", "Connection", JOptionPane.INFORMATION_MESSAGE);
             } else if (message instanceof Request) {
