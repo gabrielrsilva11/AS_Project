@@ -47,9 +47,9 @@ public class ServerMessages implements Runnable {
                 Object message = null;
                 message = input.readObject();
                 if (message instanceof Request) {
-                    ConnectionInfo info = (ConnectionInfo) message;
-                    System.out.println(info.getIp());
-                    //replyClient(info);
+                    Request request = (Request) message;
+                    ServerWorkThread messageHandler = new ServerWorkThread(request, connection, lb_info);
+                    new Thread(messageHandler).start();
                 } else if (message instanceof String) {
                     System.out.println(message);
                     serverId = Integer.parseInt((String) message);

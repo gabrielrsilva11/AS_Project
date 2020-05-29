@@ -17,6 +17,7 @@ import java.io.ObjectInputStream;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.ChooseServer;
 import utils.ConnectionInfo;
 import utils.Request;
 import utils.Sockets;
@@ -65,17 +66,19 @@ public class LBMessages implements Runnable {
                         int serverId = monitor.registerServer(info);
                         replyServerId(info, serverId);
                     }
-                    //replyClient(info);
-                    // case client, atribuir id e responder(id)
-                    //server guardar o connectionInfo e atribuir id 
-                    //enviar id para o server
                 } else if (message instanceof Request) {
-                    System.out.println(message.getClass());
                     Request re = (Request) message;
-                    re.setServerID(monitor.chooseServer());
-                    //replyMonitor();
-                    //ServerWorkThread st = new ServerWorkThread(re, connection);
-                    //new Thread(st).start();
+                    // message client - server
+                    if (re.getCode() == 1) {
+                        ChooseServer chooseMonitor = monitor.chooseServer();
+                        re.setServerID(chooseMonitor.getServerId());
+                        monitor.addClientRequest(re);
+                        sendServerRequest(chooseMonitor.getConnection(), re);
+                    }
+                    // message server - client
+                    else if (re.getCode() == 2) {
+                        monitor.completeClientRequest(re);
+                    }
                 }
             }
         } catch (IOException ex) {
@@ -100,6 +103,12 @@ public class LBMessages implements Runnable {
     private void replyServerId(ConnectionInfo info, int serverId) {
         connection.startClient(info.getIp(), info.getPort());
         connection.sendMessage(serverId + "");
+        connection.closeClientConnection();
+    }
+
+    private void sendServerRequest(ConnectionInfo info, Request request) {
+        connection.startClient(info.getIp(), info.getPort());
+        connection.sendMessage(request);
         connection.closeClientConnection();
     }
 

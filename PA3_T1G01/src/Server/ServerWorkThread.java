@@ -15,19 +15,20 @@ import utils.Sockets;
  *
  * @author gabri
  */
-public class ServerWorkThread implements Runnable{
+public class ServerWorkThread implements Runnable {
+
     private Request re;
     private Sockets connection;
     private ConnectionInfo lb_info;
-    
-    public ServerWorkThread(Request re, Sockets connection, ConnectionInfo lb_info){
+
+    public ServerWorkThread(Request re, Sockets connection, ConnectionInfo lb_info) {
         this.re = re;
         this.connection = connection;
         this.lb_info = lb_info;
     }
-    
+
     @Override
-    public void run(){
+    public void run() {
         try {
             for (int i = 0; i < re.getNI(); i++) {
                 Thread.sleep(1000);
@@ -40,9 +41,16 @@ public class ServerWorkThread implements Runnable{
             Logger.getLogger(ServerMessages.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     private void replyClient(Request re) {
         connection.startClient(re.getClient().getIp(), re.getClient().getPort());
+        connection.sendMessage(re);
+        connection.closeClientConnection();
+    }
+
+    private void replyLoadBalancer(Request re) {
+        connection.startClient(lb_info.getIp(), lb_info.getPort());
+        re.setCode(2);
         connection.sendMessage(re);
         connection.closeClientConnection();
     }

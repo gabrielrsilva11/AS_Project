@@ -5,7 +5,9 @@
  */
 package LoadBalancer;
 
+import model.ChooseServer;
 import utils.ConnectionInfo;
+import utils.Request;
 
 /**
  *
@@ -13,6 +15,8 @@ import utils.ConnectionInfo;
  */
 public interface MonitorInterface {
     public int registerServer(ConnectionInfo connectionInfo);
-    public int chooseServer();
+    public ChooseServer chooseServer();
     public int generateClientId();
+    public void addClientRequest(Request re);
+    public void completeClientRequest(Request re);
 }
