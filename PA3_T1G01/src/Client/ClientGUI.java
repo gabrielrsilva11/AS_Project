@@ -6,6 +6,8 @@
 package Client;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 /**
@@ -19,6 +21,18 @@ public class ClientGUI extends javax.swing.JFrame {
      */
     public ClientGUI() {
         initComponents();
+    }
+
+    public JButton getButton_CloseHistory() {
+        return Button_CloseHistory;
+    }
+
+    public JTextArea getHistory_TextArea() {
+        return History_TextArea;
+    }
+
+    public JFrame getFrame_History() {
+        return Frame_History;
     }
 
     public JButton getButton_Connect() {
@@ -70,6 +84,11 @@ public class ClientGUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        Frame_History = new javax.swing.JFrame();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        History_TextArea = new javax.swing.JTextArea();
+        Button_CloseHistory = new javax.swing.JButton();
+        jLabel9 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         IP_Text = new javax.swing.JTextField();
@@ -87,11 +106,43 @@ public class ClientGUI extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         ReplyPort_Text = new javax.swing.JTextField();
         Button_Connect = new javax.swing.JButton();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        File_Menu = new javax.swing.JMenu();
-        Exit_Menu = new javax.swing.JMenuItem();
-        Help_Menu = new javax.swing.JMenu();
-        Documentation_Menu = new javax.swing.JMenuItem();
+
+        History_TextArea.setColumns(20);
+        History_TextArea.setRows(5);
+        jScrollPane2.setViewportView(History_TextArea);
+
+        Button_CloseHistory.setText("Close");
+
+        jLabel9.setText("History");
+
+        javax.swing.GroupLayout Frame_HistoryLayout = new javax.swing.GroupLayout(Frame_History.getContentPane());
+        Frame_History.getContentPane().setLayout(Frame_HistoryLayout);
+        Frame_HistoryLayout.setHorizontalGroup(
+            Frame_HistoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(Frame_HistoryLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(Frame_HistoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 403, Short.MAX_VALUE)
+                    .addGroup(Frame_HistoryLayout.createSequentialGroup()
+                        .addComponent(jLabel9)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+            .addGroup(Frame_HistoryLayout.createSequentialGroup()
+                .addGap(155, 155, 155)
+                .addComponent(Button_CloseHistory)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        Frame_HistoryLayout.setVerticalGroup(
+            Frame_HistoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(Frame_HistoryLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Button_CloseHistory)
+                .addContainerGap())
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -107,9 +158,16 @@ public class ClientGUI extends javax.swing.JFrame {
 
         jLabel4.setText("Number of Iterations");
 
+        NI_Text.setText("1");
+
         Button_Request.setText("Request");
 
         Button_Exit.setText("Exit");
+        Button_Exit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Button_ExitActionPerformed(evt);
+            }
+        });
 
         Button_History.setText("History");
 
@@ -128,27 +186,6 @@ public class ClientGUI extends javax.swing.JFrame {
         ReplyPort_Text.setText("5002");
 
         Button_Connect.setText("Connect");
-
-        File_Menu.setText("File");
-
-        Exit_Menu.setText("Exit");
-        File_Menu.add(Exit_Menu);
-
-        jMenuBar1.add(File_Menu);
-
-        Help_Menu.setText("Help");
-
-        Documentation_Menu.setText("Documentation");
-        Documentation_Menu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Documentation_MenuActionPerformed(evt);
-            }
-        });
-        Help_Menu.add(Documentation_Menu);
-
-        jMenuBar1.add(Help_Menu);
-
-        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -201,8 +238,9 @@ public class ClientGUI extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(IP_Text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -228,7 +266,7 @@ public class ClientGUI extends javax.swing.JFrame {
                             .addComponent(PR_Text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel4)
                             .addComponent(NI_Text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(Button_History)
                             .addComponent(Button_Request)
@@ -239,9 +277,9 @@ public class ClientGUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void Documentation_MenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Documentation_MenuActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_Documentation_MenuActionPerformed
+    private void Button_ExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_ExitActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_Button_ExitActionPerformed
 
     /**
      * @param args the command line arguments
@@ -279,14 +317,13 @@ public class ClientGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Button_CloseHistory;
     private javax.swing.JButton Button_Connect;
     private javax.swing.JButton Button_Exit;
     private javax.swing.JButton Button_History;
     private javax.swing.JButton Button_Request;
-    private javax.swing.JMenuItem Documentation_Menu;
-    private javax.swing.JMenuItem Exit_Menu;
-    private javax.swing.JMenu File_Menu;
-    private javax.swing.JMenu Help_Menu;
+    private javax.swing.JFrame Frame_History;
+    private javax.swing.JTextArea History_TextArea;
     private javax.swing.JTextField IP_Text;
     private javax.swing.JTextField NI_Text;
     private javax.swing.JTextField PR_Text;
@@ -300,6 +337,7 @@ public class ClientGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
 }

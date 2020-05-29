@@ -11,9 +11,11 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import utils.ConnectionInfo;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import utils.Request;
 import utils.Sockets;
 
@@ -25,9 +27,15 @@ public class ClientConnections implements Runnable {
 
     private Sockets connection;
     private Socket socketServer;
+    private JTextField PRField;
+    private int requestsProcessed;
+    private Map requestsAnswered;
 
-    public ClientConnections(Sockets connection) {
+    public ClientConnections(Sockets connection, Map requestsAnswered, JTextField PRField) {
         this.connection = connection;
+        this.PRField = PRField;
+        this.requestsAnswered = requestsAnswered;
+        requestsProcessed = 0;
     }
 
     @Override
@@ -54,10 +62,19 @@ public class ClientConnections implements Runnable {
             message = input.readObject();
             System.out.println(message.getClass());
             if (message instanceof String) {
-                System.out.println(message);
-            }else if( message instanceof Request){
+                if (message.equals("ok")) {
+                    JOptionPane success = new JOptionPane();
+                    success.showMessageDialog(null, "Connection Successful", "Connection", JOptionPane.INFORMATION_MESSAGE);
+                }else if(message.equals("port")){
+                    JOptionPane failure = new JOptionPane();
+                    failure.showMessageDialog(null, "Connection Failed", "Connection", JOptionPane.ERROR_MESSAGE);
+                }
+            } else if (message instanceof Request) {
                 System.out.println("Request Complete");
                 Request re = (Request) message;
+                requestsProcessed += 1;
+                PRField.setText(Integer.toString(requestsProcessed));
+                requestsAnswered.put(requestsProcessed, re);
                 System.out.println("Resultado: " + re.getReply());
             }
             input.close();

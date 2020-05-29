@@ -7,82 +7,56 @@ package Client;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.util.ArrayList;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import javax.swing.JButton;
 import utils.*;
-
 
 /**
  *
  * @author gabri
  */
 public class Client {
+
     private ClientGUI gui;
     private Sockets connection;
     private ConnectionInfo ci = null;
-    private int RequestsMade;
-    private int RequestsProcessed;
-    
-    public static void main(String[] args){
+    private int requestsMade;
+    private Map<Integer, Request> requestsAnswered;
+
+    public static void main(String[] args) {
         Client cl = new Client();
+
     }
-    
-    public Client(){
+
+    public Client() {
+        requestsAnswered = new ConcurrentHashMap<>();
         gui = new ClientGUI();
         gui.getButton_Request().setEnabled(false);
         gui.setVisible(true);
         connectButtonListener();
         requestButtonListener();
-        RequestsMade=0;
-        RequestsProcessed=0;
+        historyButtonListener();
+        historyCloseButtonListener();
+        requestsMade = 0;
     }
-    
-    private void connectButtonListener(){
-        JButton connectButton = gui.getButton_Connect();
-        
-        ActionListener actionListener = (ActionEvent actionEvent)-> {
-            System.out.println("Connect button");
-            establishConnection();
-            connectButton.setEnabled(false);
-            gui.getButton_Request().setEnabled(true);
-        };
-        
-        connectButton.addActionListener(actionListener);
-    }
-    
-    private void requestButtonListener(){
-        JButton requestButton = gui.getButton_Request();
-        
-        ActionListener actionListener = (ActionEvent actionEvent)-> {
-            System.out.println("Request Button");
-            System.out.println("Sending Request");
-            Request re = getRequestInfo();
-            connection.sendMessage(re);
-            RequestsMade += 1;
-            gui.getPR_Text().setText(Integer.toString(RequestsMade));
-        };
-        
-        requestButton.addActionListener(actionListener);
-    }
-    
-    private Request getRequestInfo(){
+
+    private Request getRequestInfo() {
         int ni = Integer.parseInt(gui.getNI_Text().getText());
         int code = 1;
         return new Request(code, ci, ni);
     }
-    
-    private void establishConnection(){
+
+    private void establishConnection() {
         System.out.println("Establishing Connection");
         String ip = gui.getIP_Text().getText();
         int send_port = Integer.parseInt(gui.getPort_Text().getText());
         int reply_port = Integer.parseInt(gui.getReplyPort_Text().getText());
-        
+
         gui.getIP_Text().setEnabled(false);
         gui.getPort_Text().setEnabled(false);
         gui.getReplyPort_Text().setEnabled(false);
-        
+
         connection = new Sockets();
         System.out.println("Starting Client");
         connection.startClient(ip, send_port);
@@ -91,7 +65,61 @@ public class Client {
         connection.sendMessage(ci);
         System.out.println("Waiting for reply");
         connection.startServer(reply_port);
-        Runnable connectionHandler = new ClientConnections(connection);
+        Runnable connectionHandler = new ClientConnections(connection, requestsAnswered, gui.getPR_Text());
         new Thread(connectionHandler).start();
+    }
+
+    private void historyCloseButtonListener() {
+        JButton closeHistoryButton = gui.getButton_CloseHistory();
+
+        ActionListener actionListener = (ActionEvent actionEvent) -> {
+            gui.getFrame_History().setVisible(false);
+        };
+
+        closeHistoryButton.addActionListener(actionListener);
+    }
+
+    private void historyButtonListener() {
+        JButton historyButton = gui.getButton_History();
+        ActionListener actionListener = (ActionEvent actionEvent) -> {
+            System.out.println("History");
+            gui.getFrame_History().setVisible(true);
+            gui.getFrame_History().setSize(415, 250);
+            gui.getHistory_TextArea().setEditable(false);
+            for (int key : requestsAnswered.keySet()) {
+                gui.getHistory_TextArea().append(requestsAnswered.get(key).getFormattedRequest());
+                System.out.println(requestsAnswered.get(key).getFormattedRequest());
+            }
+        };
+
+        historyButton.addActionListener(actionListener);
+    }
+
+    private void connectButtonListener() {
+        JButton connectButton = gui.getButton_Connect();
+
+        ActionListener actionListener = (ActionEvent actionEvent) -> {
+            System.out.println("Connect button");
+            establishConnection();
+            connectButton.setEnabled(false);
+            gui.getButton_Request().setEnabled(true);
+        };
+
+        connectButton.addActionListener(actionListener);
+    }
+
+    private void requestButtonListener() {
+        JButton requestButton = gui.getButton_Request();
+
+        ActionListener actionListener = (ActionEvent actionEvent) -> {
+            System.out.println("Request Button");
+            System.out.println("Sending Request");
+            Request re = getRequestInfo();
+            connection.sendMessage(re);
+            requestsMade += 1;
+            gui.getRM_Text().setText(Integer.toString(requestsMade));
+        };
+
+        requestButton.addActionListener(actionListener);
     }
 }

@@ -1,7 +1,5 @@
 package utils;
 
-import Server.ServerConnections;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
@@ -16,7 +14,7 @@ import java.net.UnknownHostException;
  * @author Manuel Marcos
  *
  */
-public class Sockets {
+public class Sockets{
 
     /**
      * Accepts connections to the server socket

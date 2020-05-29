@@ -64,6 +64,6 @@ public class Request implements Serializable {
     }
 
     public String getFormattedRequest() {
-        return String.format("ServerID: %d || ClientID: %d || RequestID: %d || Code: %d || Reply: %f", ServerID, ClientID, RequestID, Code, Reply);
+        return String.format("ServerID: %d || ClientID: %d || RequestID: %d || Code: %d || Reply: %f\n", ServerID, ClientID, RequestID, Code, Reply);
     }
 }
