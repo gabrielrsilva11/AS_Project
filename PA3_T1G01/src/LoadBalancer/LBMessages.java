@@ -70,6 +70,7 @@ public class LBMessages implements Runnable {
                     Request re = (Request) message;
                     // message client - server
                     if (re.getCode() == 1) {
+                        System.out.println(re.getRequestID());
                         ChooseServer chooseMonitor = monitor.chooseServer();
                         re.setServerID(chooseMonitor.getServerId());
                         monitor.addClientRequest(re);

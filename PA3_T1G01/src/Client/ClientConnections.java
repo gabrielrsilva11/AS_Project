@@ -30,7 +30,8 @@ public class ClientConnections implements Runnable {
     private JTextField PRField;
     private int requestsProcessed;
     private Map requestsAnswered;
-
+    private int clientId;
+    
     public ClientConnections(Sockets connection, Map requestsAnswered, JTextField PRField) {
         this.connection = connection;
         this.PRField = PRField;
@@ -62,10 +63,9 @@ public class ClientConnections implements Runnable {
             message = input.readObject();
             System.out.println(message.getClass());
             if (message instanceof String) {
-                if (message.equals("ok")) {
-                    JOptionPane success = new JOptionPane();
-                    success.showMessageDialog(null, "Connection Successful", "Connection", JOptionPane.INFORMATION_MESSAGE);
-                }
+                clientId = Integer.parseInt((String) message);
+                JOptionPane success = new JOptionPane();
+                success.showMessageDialog(null, "Connection Successful", "Connection", JOptionPane.INFORMATION_MESSAGE);
             } else if (message instanceof Request) {
                 System.out.println("Request Complete");
                 Request re = (Request) message;
@@ -80,5 +80,9 @@ public class ClientConnections implements Runnable {
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public int getClientId() {
+        return clientId;
     }
 }

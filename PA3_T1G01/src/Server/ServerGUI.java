@@ -104,7 +104,7 @@ public class ServerGUI extends javax.swing.JFrame {
 
         LBIP_Text.setText("127.0.0.1");
 
-        LBPort_Text.setText("5001");
+        LBPort_Text.setText("80");
 
         jLabel5.setText("LB Port");
 

@@ -154,7 +154,7 @@ public class ClientGUI extends javax.swing.JFrame {
 
         jLabel3.setText("Port");
 
-        Port_Text.setText("5001");
+        Port_Text.setText("80");
 
         jLabel4.setText("Number of Iterations");
 

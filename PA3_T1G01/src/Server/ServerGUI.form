@@ -164,7 +164,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="LBPort_Text">
       <Properties>
-        <Property name="text" type="java.lang.String" value="5001"/>
+        <Property name="text" type="java.lang.String" value="80"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel5">

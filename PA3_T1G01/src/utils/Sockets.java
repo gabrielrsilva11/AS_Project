@@ -74,7 +74,6 @@ public class Sockets{
     public void startClient(String ip, int port) {
         try {
             socketClient = new Socket(ip, port);
-
         } catch (UnknownHostException u) {
             System.out.println(u);
         } catch (IOException i) {

@@ -21,11 +21,13 @@ public class Request implements Serializable {
     private int NI;
     private double Reply;
 
-    public Request(int Code, ConnectionInfo Client, int NI) {
+    public Request(int Code, ConnectionInfo Client, int NI, int RequestID, int ClientID) {
         //01 se não estiver completa //02 se estiver completa
         this.Code = Code;
         this.Client = Client;
         this.NI = NI;
+        this.RequestID = RequestID;
+        this.ClientID = ClientID;
     }
 
     public ConnectionInfo getClient() {

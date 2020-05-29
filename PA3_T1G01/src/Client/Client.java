@@ -23,7 +23,8 @@ public class Client {
     private ConnectionInfo ci = null;
     private int requestsMade;
     private Map<Integer, Request> requestsAnswered;
-
+    private ClientConnections connectionHandler;
+    
     public static void main(String[] args) {
         Client cl = new Client();
 
@@ -44,7 +45,8 @@ public class Client {
     private Request getRequestInfo() {
         int ni = Integer.parseInt(gui.getNI_Text().getText());
         int code = 1;
-        return new Request(code, ci, ni);
+        int requestId = 1000*connectionHandler.getClientId() + requestsMade;
+        return new Request(code, ci, ni, requestId, connectionHandler.getClientId());
     }
 
     private void establishConnection() {
@@ -65,7 +67,7 @@ public class Client {
         connection.sendMessage(ci);
         System.out.println("Waiting for reply");
         if (connection.startServer(reply_port)) {
-            Runnable connectionHandler = new ClientConnections(connection, requestsAnswered, gui.getPR_Text());
+            connectionHandler = new ClientConnections(connection, requestsAnswered, gui.getPR_Text());
             new Thread(connectionHandler).start();
         }else {
             gui.getButton_Request().setEnabled(false);
@@ -107,6 +109,7 @@ public class Client {
             connectButton.setEnabled(false);
             gui.getButton_Request().setEnabled(true);
             establishConnection();
+            
         };
 
         connectButton.addActionListener(actionListener);

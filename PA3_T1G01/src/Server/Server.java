@@ -18,13 +18,11 @@ public class Server {
     
     private Sockets connection;
     
-    private ConnectionInfo connectionInfo;
-    
     private ServerGUI gui;
     
     ServerConnections connectionHandler;
     
-    ConnectionInfo lbInfo;
+    private ConnectionInfo lbInfo;
     
     public static void main(String[] args) {
         Server se = new Server();
@@ -33,7 +31,7 @@ public class Server {
     public Server() {
         connection = new Sockets();
         // comunicação loadbalancer envia connectionInfo, recebe id e faz serverconnections
-        establishServerConnection();
+        //establishServerConnection();
         gui = new ServerGUI();
         gui.setVisible(true);
         connectButtonListener();
@@ -60,14 +58,13 @@ public class Server {
     }
     
     private void obtainId(String serverIp, int serverPort) {
-        connectionInfo = new ConnectionInfo(serverIp, serverPort, 2);
+        lbInfo = new ConnectionInfo(serverIp, serverPort, 2);
     }
     
     private void requestServerId() {
         connection.startClient(lbInfo.getIp(),lbInfo.getPort());
         System.out.println("Connected!");
-        connection.sendMessage(connectionInfo);
-        connection.closeClientConnection();
+        connection.sendMessage(lbInfo);
     }
     
     private void connectButtonListener() {
