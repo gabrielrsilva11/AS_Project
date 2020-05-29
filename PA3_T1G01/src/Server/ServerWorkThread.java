@@ -7,6 +7,7 @@ package Server;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import utils.ConnectionInfo;
 import utils.Request;
 import utils.Sockets;
 
@@ -17,10 +18,12 @@ import utils.Sockets;
 public class ServerWorkThread implements Runnable{
     private Request re;
     private Sockets connection;
+    private ConnectionInfo lb_info;
     
-    public ServerWorkThread(Request re, Sockets connection){
+    public ServerWorkThread(Request re, Sockets connection, ConnectionInfo lb_info){
         this.re = re;
         this.connection = connection;
+        this.lb_info = lb_info;
     }
     
     @Override

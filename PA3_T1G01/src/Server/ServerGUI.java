@@ -5,6 +5,9 @@
  */
 package Server;
 
+import javax.swing.JButton;
+import javax.swing.JTextField;
+
 /**
  *
  * @author gabri
@@ -16,6 +19,42 @@ public class ServerGUI extends javax.swing.JFrame {
      */
     public ServerGUI() {
         initComponents();
+    }
+
+    public JButton getButton_Connect() {
+        return Button_Connect;
+    }
+
+    public JTextField getCompleted_Text() {
+        return Completed_Text;
+    }
+
+    public JButton getExit_Button() {
+        return Exit_Button;
+    }
+
+    public JButton getHistory_Button() {
+        return History_Button;
+    }
+
+    public JTextField getLBIP_Text() {
+        return LBIP_Text;
+    }
+
+    public JTextField getLBPort_Text() {
+        return LBPort_Text;
+    }
+
+    public JTextField getProcessing_Text() {
+        return Processing_Text;
+    }
+
+    public JTextField getServerIP_Text() {
+        return ServerIP_Text;
+    }
+
+    public JTextField getServerPort_Text() {
+        return ServerPort_Text;
     }
 
     /**
@@ -35,14 +74,14 @@ public class ServerGUI extends javax.swing.JFrame {
         Exit_Button = new javax.swing.JButton();
         History_Button = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
-        IP_Text = new javax.swing.JTextField();
-        Port_Text = new javax.swing.JTextField();
+        LBIP_Text = new javax.swing.JTextField();
+        LBPort_Text = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        IP_Text1 = new javax.swing.JTextField();
+        ServerIP_Text = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        Port_Text1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        ServerPort_Text = new javax.swing.JTextField();
+        Button_Connect = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -63,21 +102,21 @@ public class ServerGUI extends javax.swing.JFrame {
 
         jLabel4.setText("Load balancer IP");
 
-        IP_Text.setText("127.0.0.1");
+        LBIP_Text.setText("127.0.0.1");
 
-        Port_Text.setText("5001");
+        LBPort_Text.setText("5001");
 
         jLabel5.setText("LB Port");
 
         jLabel6.setText("Server IP");
 
-        IP_Text1.setText("127.0.0.1");
+        ServerIP_Text.setText("127.0.0.1");
 
         jLabel7.setText("Server Port");
 
-        Port_Text1.setText("6000");
+        ServerPort_Text.setText("6000");
 
-        jButton1.setText("Connect");
+        Button_Connect.setText("Connect");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -92,25 +131,25 @@ public class ServerGUI extends javax.swing.JFrame {
                             .addComponent(jLabel1)
                             .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(IP_Text, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(LBIP_Text, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Port_Text, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(LBPort_Text, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 12, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(IP_Text1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(ServerIP_Text, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jLabel7))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                             .addComponent(jLabel3)
                                             .addGroup(layout.createSequentialGroup()
-                                                .addComponent(jButton1)
+                                                .addComponent(Button_Connect)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                                 .addComponent(History_Button)))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -119,7 +158,7 @@ public class ServerGUI extends javax.swing.JFrame {
                                         .addComponent(jLabel2)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(Port_Text1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(ServerPort_Text, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(Completed_Text, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(Exit_Button, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
@@ -132,17 +171,17 @@ public class ServerGUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(IP_Text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(LBIP_Text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5)
-                    .addComponent(Port_Text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(LBPort_Text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel6)
-                        .addComponent(IP_Text1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(ServerIP_Text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel7)
-                        .addComponent(Port_Text1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(ServerPort_Text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
@@ -153,7 +192,7 @@ public class ServerGUI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Exit_Button)
                     .addComponent(History_Button)
-                    .addComponent(jButton1))
+                    .addComponent(Button_Connect))
                 .addContainerGap(17, Short.MAX_VALUE))
         );
 
@@ -200,15 +239,15 @@ public class ServerGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Button_Connect;
     private javax.swing.JTextField Completed_Text;
     private javax.swing.JButton Exit_Button;
     private javax.swing.JButton History_Button;
-    private javax.swing.JTextField IP_Text;
-    private javax.swing.JTextField IP_Text1;
-    private javax.swing.JTextField Port_Text;
-    private javax.swing.JTextField Port_Text1;
+    private javax.swing.JTextField LBIP_Text;
+    private javax.swing.JTextField LBPort_Text;
     private javax.swing.JTextField Processing_Text;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JTextField ServerIP_Text;
+    private javax.swing.JTextField ServerPort_Text;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

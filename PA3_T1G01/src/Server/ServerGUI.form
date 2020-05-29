@@ -33,11 +33,11 @@
                           <Component id="jLabel6" alignment="1" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="IP_Text" min="-2" pref="190" max="-2" attributes="0"/>
+                      <Component id="LBIP_Text" min="-2" pref="190" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="Port_Text" min="-2" pref="55" max="-2" attributes="0"/>
+                      <Component id="LBPort_Text" min="-2" pref="55" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace min="0" pref="12" max="32767" attributes="0"/>
@@ -45,7 +45,7 @@
                           <Group type="102" alignment="1" attributes="0">
                               <Group type="103" groupAlignment="1" attributes="0">
                                   <Group type="102" alignment="1" attributes="0">
-                                      <Component id="IP_Text1" min="-2" pref="190" max="-2" attributes="0"/>
+                                      <Component id="ServerIP_Text" min="-2" pref="190" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
                                   </Group>
@@ -53,7 +53,7 @@
                                       <Group type="103" groupAlignment="1" attributes="0">
                                           <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                                           <Group type="102" alignment="1" attributes="0">
-                                              <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                                              <Component id="Button_Connect" min="-2" max="-2" attributes="0"/>
                                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                               <Component id="History_Button" min="-2" max="-2" attributes="0"/>
                                           </Group>
@@ -66,7 +66,7 @@
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="Port_Text1" min="-2" pref="55" max="-2" attributes="0"/>
+                                  <Component id="ServerPort_Text" min="-2" pref="55" max="-2" attributes="0"/>
                                   <Component id="Completed_Text" min="-2" pref="55" max="-2" attributes="0"/>
                               </Group>
                           </Group>
@@ -86,19 +86,19 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="IP_Text" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="LBIP_Text" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="Port_Text" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="LBPort_Text" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="IP_Text1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="ServerIP_Text" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="103" alignment="0" groupAlignment="3" attributes="0">
                       <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="Port_Text1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="ServerPort_Text" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -112,7 +112,7 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="Exit_Button" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="History_Button" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jButton1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="Button_Connect" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="17" max="32767" attributes="0"/>
           </Group>
@@ -157,12 +157,12 @@
         <Property name="text" type="java.lang.String" value="Load balancer IP"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="IP_Text">
+    <Component class="javax.swing.JTextField" name="LBIP_Text">
       <Properties>
         <Property name="text" type="java.lang.String" value="127.0.0.1"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="Port_Text">
+    <Component class="javax.swing.JTextField" name="LBPort_Text">
       <Properties>
         <Property name="text" type="java.lang.String" value="5001"/>
       </Properties>
@@ -177,7 +177,7 @@
         <Property name="text" type="java.lang.String" value="Server IP"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="IP_Text1">
+    <Component class="javax.swing.JTextField" name="ServerIP_Text">
       <Properties>
         <Property name="text" type="java.lang.String" value="127.0.0.1"/>
       </Properties>
@@ -187,12 +187,12 @@
         <Property name="text" type="java.lang.String" value="Server Port"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="Port_Text1">
+    <Component class="javax.swing.JTextField" name="ServerPort_Text">
       <Properties>
         <Property name="text" type="java.lang.String" value="6000"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton1">
+    <Component class="javax.swing.JButton" name="Button_Connect">
       <Properties>
         <Property name="text" type="java.lang.String" value="Connect"/>
       </Properties>

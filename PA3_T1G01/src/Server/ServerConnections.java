@@ -24,11 +24,11 @@ public class ServerConnections implements Runnable {
 
     private Sockets connection;
     private Socket socketServer;
-    //private int serverId;
+    private ConnectionInfo lb_info;
         
-    public ServerConnections(Sockets connection) {
+    public ServerConnections(Sockets connection, ConnectionInfo lb_connection) {
         this.connection = connection;
-        //this.serverId = serverId;
+        this.lb_info = lb_connection;
     }
 
     @Override
@@ -40,7 +40,7 @@ public class ServerConnections implements Runnable {
                 socketServer = connection.getServer().accept();
                 i += 1;
                 System.out.println("Connections accepted: " + i);
-                ServerMessages messageHandler = new ServerMessages(connection, socketServer);
+                ServerMessages messageHandler = new ServerMessages(connection, socketServer, lb_info);
                 new Thread(messageHandler).start();
             }
         } catch (IOException ex) {

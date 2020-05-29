@@ -24,12 +24,12 @@ public class ServerMessages implements Runnable {
 
     private Sockets connection;
     private Socket socketServer;
-    //private int serverId;
-
-    public ServerMessages(Sockets connection, Socket serverSocket) {
+    private ConnectionInfo lb_info;
+        
+    public ServerMessages(Sockets connection, Socket serverSocket, ConnectionInfo lb_info) {
         this.connection = connection;
         this.socketServer = serverSocket;
-        //this.serverId = serverId;
+        this.lb_info = lb_info;
     }
 
     @Override
