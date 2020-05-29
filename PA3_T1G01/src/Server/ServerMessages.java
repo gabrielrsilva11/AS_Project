@@ -9,9 +9,11 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import utils.ConnectionInfo;
 import utils.Request;
 import utils.Sockets;
@@ -27,12 +29,21 @@ public class ServerMessages implements Runnable {
     private ConnectionInfo lb_info;
     private int serverId;
     private boolean active;
+    private Map requestsAnswered;
+    private Map processingRequests;
+    private JTextField requests;
+    private JTextField completed;
 
-    public ServerMessages(Sockets connection, Socket serverSocket, ConnectionInfo lb_info) {
+    public ServerMessages(Sockets connection, Socket serverSocket, ConnectionInfo lb_info, Map requestsAnswered, Map processingRequests,
+            JTextField requests, JTextField completed) {
         this.connection = connection;
         this.socketServer = serverSocket;
         this.lb_info = lb_info;
         this.active = true;
+        this.requestsAnswered = requestsAnswered;
+        this.processingRequests = processingRequests;
+        this.requests = requests;
+        this.completed = completed;
     }
 
     @Override
@@ -50,7 +61,7 @@ public class ServerMessages implements Runnable {
                 message = input.readObject();
                 if (message instanceof Request) {
                     Request request = (Request) message;
-                    ServerWorkThread messageHandler = new ServerWorkThread(request, connection, lb_info);
+                    ServerWorkThread messageHandler = new ServerWorkThread(request, connection, lb_info, requests, completed , requestsAnswered, processingRequests);
                     new Thread(messageHandler).start();
                 } else if (message instanceof String) {
                     if (message.equals("exit")) {

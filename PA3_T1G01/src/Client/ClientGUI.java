@@ -23,6 +23,22 @@ public class ClientGUI extends javax.swing.JFrame {
         initComponents();
     }
 
+    public JButton getButton_CloseProcessed() {
+        return Button_CloseProcessed;
+    }
+
+    public JButton getButton_Processing() {
+        return Button_Processing;
+    }
+
+    public JFrame getFrame_Processed() {
+        return Frame_Processed;
+    }
+
+    public JTextArea getProcessed_TextArea() {
+        return Processed_TextArea;
+    }
+
     public JButton getButton_CloseHistory() {
         return Button_CloseHistory;
     }
@@ -89,6 +105,11 @@ public class ClientGUI extends javax.swing.JFrame {
         History_TextArea = new javax.swing.JTextArea();
         Button_CloseHistory = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
+        Frame_Processed = new javax.swing.JFrame();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        Processed_TextArea = new javax.swing.JTextArea();
+        Button_CloseProcessed = new javax.swing.JButton();
+        jLabel10 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         IP_Text = new javax.swing.JTextField();
@@ -106,6 +127,7 @@ public class ClientGUI extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         ReplyPort_Text = new javax.swing.JTextField();
         Button_Connect = new javax.swing.JButton();
+        Button_Processing = new javax.swing.JButton();
 
         History_TextArea.setColumns(20);
         History_TextArea.setRows(5);
@@ -141,6 +163,43 @@ public class ClientGUI extends javax.swing.JFrame {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Button_CloseHistory)
+                .addContainerGap())
+        );
+
+        Processed_TextArea.setColumns(20);
+        Processed_TextArea.setRows(5);
+        jScrollPane3.setViewportView(Processed_TextArea);
+
+        Button_CloseProcessed.setText("Close");
+
+        jLabel10.setText("History");
+
+        javax.swing.GroupLayout Frame_ProcessedLayout = new javax.swing.GroupLayout(Frame_Processed.getContentPane());
+        Frame_Processed.getContentPane().setLayout(Frame_ProcessedLayout);
+        Frame_ProcessedLayout.setHorizontalGroup(
+            Frame_ProcessedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(Frame_ProcessedLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(Frame_ProcessedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 403, Short.MAX_VALUE)
+                    .addGroup(Frame_ProcessedLayout.createSequentialGroup()
+                        .addComponent(jLabel10)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+            .addGroup(Frame_ProcessedLayout.createSequentialGroup()
+                .addGap(155, 155, 155)
+                .addComponent(Button_CloseProcessed)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        Frame_ProcessedLayout.setVerticalGroup(
+            Frame_ProcessedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(Frame_ProcessedLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Button_CloseProcessed)
                 .addContainerGap())
         );
 
@@ -187,6 +246,8 @@ public class ClientGUI extends javax.swing.JFrame {
 
         Button_Connect.setText("Connect");
 
+        Button_Processing.setText("Processing");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -201,9 +262,11 @@ public class ClientGUI extends javax.swing.JFrame {
                         .addComponent(Button_Connect)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(Button_Request)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(Button_History)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(Button_Processing)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Button_History)
+                        .addGap(18, 18, 18)
                         .addComponent(Button_Exit, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -233,7 +296,7 @@ public class ClientGUI extends javax.swing.JFrame {
                     .addComponent(Port_Text, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
                     .addComponent(RM_Text)
                     .addComponent(PR_Text))
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -270,7 +333,8 @@ public class ClientGUI extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(Button_History)
                             .addComponent(Button_Request)
-                            .addComponent(Button_Connect))
+                            .addComponent(Button_Connect)
+                            .addComponent(Button_Processing))
                         .addGap(18, 18, 18))))
         );
 
@@ -318,19 +382,24 @@ public class ClientGUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Button_CloseHistory;
+    private javax.swing.JButton Button_CloseProcessed;
     private javax.swing.JButton Button_Connect;
     private javax.swing.JButton Button_Exit;
     private javax.swing.JButton Button_History;
+    private javax.swing.JButton Button_Processing;
     private javax.swing.JButton Button_Request;
     private javax.swing.JFrame Frame_History;
+    private javax.swing.JFrame Frame_Processed;
     private javax.swing.JTextArea History_TextArea;
     private javax.swing.JTextField IP_Text;
     private javax.swing.JTextField NI_Text;
     private javax.swing.JTextField PR_Text;
     private javax.swing.JTextField Port_Text;
+    private javax.swing.JTextArea Processed_TextArea;
     private javax.swing.JTextField RM_Text;
     private javax.swing.JTextField ReplyPort_Text;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -339,5 +408,6 @@ public class ClientGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     // End of variables declaration//GEN-END:variables
 }

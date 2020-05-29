@@ -23,8 +23,9 @@ public class Client {
     private ConnectionInfo ci = null;
     private int requestsMade;
     private Map<Integer, Request> requestsAnswered;
+    private Map<Integer, Request> processed;
     private ClientConnections connectionHandler;
-    
+
     public static void main(String[] args) {
         Client cl = new Client();
 
@@ -32,6 +33,7 @@ public class Client {
 
     public Client() {
         requestsAnswered = new ConcurrentHashMap<>();
+        processed = new ConcurrentHashMap<>();
         gui = new ClientGUI();
         gui.getButton_Request().setEnabled(false);
         gui.setVisible(true);
@@ -39,13 +41,15 @@ public class Client {
         requestButtonListener();
         historyButtonListener();
         historyCloseButtonListener();
+        processedCloseButtonListener();
+        processedButtonListener();
         requestsMade = 0;
     }
 
     private Request getRequestInfo() {
         int ni = Integer.parseInt(gui.getNI_Text().getText());
         int code = 1;
-        int requestId = 1000*connectionHandler.getClientId() + requestsMade;
+        int requestId = 1000 * connectionHandler.getClientId() + requestsMade;
         return new Request(code, ci, ni, requestId, connectionHandler.getClientId());
     }
 
@@ -66,13 +70,23 @@ public class Client {
         ci = new ConnectionInfo(ip, reply_port, 1);
         System.out.println("Waiting for reply");
         if (connection.startServer(reply_port)) {
-            connectionHandler = new ClientConnections(connection, requestsAnswered, gui.getPR_Text());
+            connectionHandler = new ClientConnections(connection, requestsAnswered, gui.getPR_Text(), processed);
             new Thread(connectionHandler).start();
-        }else {
+        } else {
             gui.getButton_Request().setEnabled(false);
             gui.getButton_Connect().setEnabled(true);
         }
         connection.sendMessage(ci);
+    }
+
+    private void processedCloseButtonListener() {
+        JButton closeProcessedButton = gui.getButton_CloseProcessed();
+
+        ActionListener actionListener = (ActionEvent actionEvent) -> {
+            gui.getFrame_Processed().setVisible(false);
+        };
+
+        closeProcessedButton.addActionListener(actionListener);
     }
 
     private void historyCloseButtonListener() {
@@ -85,16 +99,30 @@ public class Client {
         closeHistoryButton.addActionListener(actionListener);
     }
 
+    private void processedButtonListener() {
+        JButton processedButton = gui.getButton_Processing();
+
+        ActionListener actionListener = (ActionEvent actionEvent) -> {
+            gui.getProcessed_TextArea().setText("");
+            gui.getFrame_Processed().setVisible(true);
+            gui.getFrame_Processed().setSize(415, 250);
+            gui.getProcessed_TextArea().setEditable(false);
+            for (int key : processed.keySet()) {
+                gui.getProcessed_TextArea().append(processed.get(key).getFormattedRequest());
+            }
+        };
+        processedButton.addActionListener(actionListener);
+    }
+
     private void historyButtonListener() {
         JButton historyButton = gui.getButton_History();
         ActionListener actionListener = (ActionEvent actionEvent) -> {
-            System.out.println("History");
+            gui.getProcessed_TextArea().setText("");
             gui.getFrame_History().setVisible(true);
             gui.getFrame_History().setSize(415, 250);
             gui.getHistory_TextArea().setEditable(false);
             for (int key : requestsAnswered.keySet()) {
                 gui.getHistory_TextArea().append(requestsAnswered.get(key).getFormattedRequest());
-                System.out.println(requestsAnswered.get(key).getFormattedRequest());
             }
         };
 
@@ -109,7 +137,7 @@ public class Client {
             connectButton.setEnabled(false);
             gui.getButton_Request().setEnabled(true);
             establishConnection();
-            
+
         };
 
         connectButton.addActionListener(actionListener);
@@ -123,6 +151,7 @@ public class Client {
             System.out.println("Sending Request");
             Request re = getRequestInfo();
             connection.sendMessage(re);
+            processed.put(re.getRequestID(), re);
             requestsMade += 1;
             gui.getRM_Text().setText(Integer.toString(requestsMade));
         };

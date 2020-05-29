@@ -7,6 +7,8 @@ package Server;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import javax.swing.JButton;
 import utils.*;
 
@@ -28,11 +30,17 @@ public class Server {
 
     private int serverId;
 
+    private Map<Integer, Request> requestsAnswered;
+
+    private Map<Integer, Request> processingRequests;
+
     public static void main(String[] args) {
         Server se = new Server();
     }
 
     public Server() {
+        requestsAnswered = new ConcurrentHashMap<>();
+        processingRequests = new ConcurrentHashMap<>();
         connection = new Sockets();
         // comunicação loadbalancer envia connectionInfo, recebe id e faz serverconnections
         //establishServerConnection();
@@ -41,6 +49,11 @@ public class Server {
         connectButtonListener();
         historyButtonListener();
         exitButtonListener();
+        historyCloseButtonListener();
+        processingButtonListener();
+        completedButtonListener();
+        processingCloseButtonListener();
+        completedCloseButtonListener();
     }
 
     private void establishServerConnection() {
@@ -55,7 +68,7 @@ public class Server {
         connection.startServer(server_port);
 
         System.out.println("Waiting for reply");
-        connectionHandler = new ServerConnections(connection, lbInfo);
+        connectionHandler = new ServerConnections(connection, lbInfo, requestsAnswered, processingRequests, gui.getCompleted_Text(), gui.getProcessing_Text());
         new Thread(connectionHandler).start();
 
         requestServerId();
@@ -90,10 +103,51 @@ public class Server {
 
         ActionListener actionListener = (ActionEvent actionEvent) -> {
             System.out.println("History Button");
-            //meter aqui as cenas do history
+            gui.getHistory_TextArea().setText("");
+            gui.getFrame_History().setVisible(true);
+            gui.getFrame_History().setSize(415, 250);
+            gui.getHistory_TextArea().setEditable(false);
+            for (int key : requestsAnswered.keySet()) {
+                gui.getHistory_TextArea().append(requestsAnswered.get(key).getFormattedRequest());
+            }
+            for (int key : processingRequests.keySet()) {
+                gui.getHistory_TextArea().append(processingRequests.get(key).getFormattedRequest());
+            }
+        };
+        historyButton.addActionListener(actionListener);
+    }
+
+    private void processingButtonListener() {
+        JButton processingButton = gui.getButton_Processing();
+
+        ActionListener actionListener = (ActionEvent actionEvent) -> {
+            gui.getProcessing_TextArea().setText("");
+            gui.getFrame_Processing().setVisible(true);
+            gui.getFrame_Processing().setSize(415, 250);
+            gui.getProcessing_TextArea().setEditable(false);
+            for (int key : processingRequests.keySet()) {
+                gui.getProcessing_TextArea().append(processingRequests.get(key).getFormattedRequest());
+            }
         };
 
-        historyButton.addActionListener(actionListener);
+        processingButton.addActionListener(actionListener);
+    }
+
+    private void completedButtonListener() {
+        JButton completedButton = gui.getButton_Completed();
+
+        ActionListener actionListener = (ActionEvent actionEvent) -> {
+            gui.getCompleted_Text().setText("");
+            gui.getFrame_Completed().setVisible(true);
+            gui.getFrame_Completed().setSize(415, 250);
+            gui.getCompleted_TextArea().setEditable(false);
+            for (int key : requestsAnswered.keySet()) {
+                gui.getCompleted_TextArea().append(requestsAnswered.get(key).getFormattedRequest());
+            }
+        };
+
+        completedButton.addActionListener(actionListener);
+
     }
 
     private void exitButtonListener() {
@@ -106,5 +160,35 @@ public class Server {
         };
 
         exitButton.addActionListener(actionListener);
+    }
+
+    private void historyCloseButtonListener() {
+        JButton closeHistoryButton = gui.getButton_CloseHistory();
+
+        ActionListener actionListener = (ActionEvent actionEvent) -> {
+            gui.getFrame_History().setVisible(false);
+        };
+
+        closeHistoryButton.addActionListener(actionListener);
+    }
+
+    private void processingCloseButtonListener() {
+        JButton closeProcessingButton = gui.getButton_CloseProcessing();
+
+        ActionListener actionListener = (ActionEvent actionEvent) -> {
+            gui.getFrame_Processing().setVisible(false);
+        };
+
+        closeProcessingButton.addActionListener(actionListener);
+    }
+
+    private void completedCloseButtonListener() {
+        JButton closeCompletedButton = gui.getButton_CloseCompleted();
+
+        ActionListener actionListener = (ActionEvent actionEvent) -> {
+            gui.getFrame_Completed().setVisible(false);
+        };
+
+        closeCompletedButton.addActionListener(actionListener);
     }
 }

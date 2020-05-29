@@ -41,7 +41,7 @@ public class Request implements Serializable {
     public int getServerID() {
         return ServerID;
     }
-    
+
     public void setRequestID(int RequestID) {
         this.RequestID = RequestID;
     }
@@ -49,7 +49,7 @@ public class Request implements Serializable {
     public int getRequestID() {
         return RequestID;
     }
-    
+
     public void setCode(int Code) {
         this.Code = Code;
     }
@@ -73,10 +73,13 @@ public class Request implements Serializable {
     public int getNI() {
         return NI;
     }
-    
-    
 
     public String getFormattedRequest() {
-        return String.format("ServerID: %d || ClientID: %d || RequestID: %d || Code: %d || Reply: %f\n", ServerID, ClientID, RequestID, Code, Reply);
+        if (Code == 1) {
+            return String.format("Status -> Processing || ClientID: %d || RequestID: %d\n", ClientID, RequestID);
+        } else if (Code == 2) {
+            return String.format("Status -> Processed || ServerID: %d || ClientID: %d || RequestID: %d || Reply: %f\n", ServerID, ClientID, RequestID, Reply);
+        }
+        return "Code Error";
     }
 }

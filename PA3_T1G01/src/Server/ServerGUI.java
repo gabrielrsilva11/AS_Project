@@ -6,6 +6,8 @@
 package Server;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 /**
@@ -19,6 +21,50 @@ public class ServerGUI extends javax.swing.JFrame {
      */
     public ServerGUI() {
         initComponents();
+    }
+
+    public JButton getButton_Completed() {
+        return Button_Completed;
+    }
+
+    public JButton getButton_CloseHistory() {
+        return Button_CloseHistory;
+    }
+
+    public JButton getButton_Processing() {
+        return Button_Processing;
+    }
+
+    public JButton getButton_CloseCompleted() {
+        return Button_CloseCompleted;
+    }
+
+    public JButton getButton_CloseProcessing() {
+        return Button_CloseProcessing;
+    }
+
+    public JTextArea getCompleted_TextArea() {
+        return Completed_TextArea;
+    }
+
+    public JFrame getFrame_Completed() {
+        return Frame_Completed;
+    }
+
+    public JFrame getFrame_Processing() {
+        return Frame_Processing;
+    }
+
+    public JTextArea getProcessing_TextArea() {
+        return Processing_TextArea;
+    }
+
+    public JFrame getFrame_History() {
+        return Frame_History;
+    }
+
+    public JTextArea getHistory_TextArea() {
+        return History_TextArea;
     }
 
     public JButton getButton_Connect() {
@@ -66,6 +112,21 @@ public class ServerGUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        Frame_History = new javax.swing.JFrame();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        History_TextArea = new javax.swing.JTextArea();
+        Button_CloseHistory = new javax.swing.JButton();
+        jLabel9 = new javax.swing.JLabel();
+        Frame_Processing = new javax.swing.JFrame();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        Processing_TextArea = new javax.swing.JTextArea();
+        Button_CloseProcessing = new javax.swing.JButton();
+        jLabel10 = new javax.swing.JLabel();
+        Frame_Completed = new javax.swing.JFrame();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        Completed_TextArea = new javax.swing.JTextArea();
+        Button_CloseCompleted = new javax.swing.JButton();
+        jLabel11 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         Completed_Text = new javax.swing.JTextField();
@@ -82,6 +143,119 @@ public class ServerGUI extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         ServerPort_Text = new javax.swing.JTextField();
         Button_Connect = new javax.swing.JButton();
+        Button_Processing = new javax.swing.JButton();
+        Button_Completed = new javax.swing.JButton();
+
+        History_TextArea.setColumns(20);
+        History_TextArea.setRows(5);
+        jScrollPane2.setViewportView(History_TextArea);
+
+        Button_CloseHistory.setText("Close");
+
+        jLabel9.setText("History");
+
+        javax.swing.GroupLayout Frame_HistoryLayout = new javax.swing.GroupLayout(Frame_History.getContentPane());
+        Frame_History.getContentPane().setLayout(Frame_HistoryLayout);
+        Frame_HistoryLayout.setHorizontalGroup(
+            Frame_HistoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(Frame_HistoryLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(Frame_HistoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 403, Short.MAX_VALUE)
+                    .addGroup(Frame_HistoryLayout.createSequentialGroup()
+                        .addComponent(jLabel9)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+            .addGroup(Frame_HistoryLayout.createSequentialGroup()
+                .addGap(155, 155, 155)
+                .addComponent(Button_CloseHistory)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        Frame_HistoryLayout.setVerticalGroup(
+            Frame_HistoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(Frame_HistoryLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Button_CloseHistory)
+                .addContainerGap())
+        );
+
+        Processing_TextArea.setColumns(20);
+        Processing_TextArea.setRows(5);
+        jScrollPane3.setViewportView(Processing_TextArea);
+
+        Button_CloseProcessing.setText("Close");
+
+        jLabel10.setText("History");
+
+        javax.swing.GroupLayout Frame_ProcessingLayout = new javax.swing.GroupLayout(Frame_Processing.getContentPane());
+        Frame_Processing.getContentPane().setLayout(Frame_ProcessingLayout);
+        Frame_ProcessingLayout.setHorizontalGroup(
+            Frame_ProcessingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(Frame_ProcessingLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(Frame_ProcessingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 403, Short.MAX_VALUE)
+                    .addGroup(Frame_ProcessingLayout.createSequentialGroup()
+                        .addComponent(jLabel10)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+            .addGroup(Frame_ProcessingLayout.createSequentialGroup()
+                .addGap(155, 155, 155)
+                .addComponent(Button_CloseProcessing)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        Frame_ProcessingLayout.setVerticalGroup(
+            Frame_ProcessingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(Frame_ProcessingLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Button_CloseProcessing)
+                .addContainerGap())
+        );
+
+        Completed_TextArea.setColumns(20);
+        Completed_TextArea.setRows(5);
+        jScrollPane4.setViewportView(Completed_TextArea);
+
+        Button_CloseCompleted.setText("Close");
+
+        jLabel11.setText("History");
+
+        javax.swing.GroupLayout Frame_CompletedLayout = new javax.swing.GroupLayout(Frame_Completed.getContentPane());
+        Frame_Completed.getContentPane().setLayout(Frame_CompletedLayout);
+        Frame_CompletedLayout.setHorizontalGroup(
+            Frame_CompletedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(Frame_CompletedLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(Frame_CompletedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 403, Short.MAX_VALUE)
+                    .addGroup(Frame_CompletedLayout.createSequentialGroup()
+                        .addComponent(jLabel11)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+            .addGroup(Frame_CompletedLayout.createSequentialGroup()
+                .addGap(155, 155, 155)
+                .addComponent(Button_CloseCompleted)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        Frame_CompletedLayout.setVerticalGroup(
+            Frame_CompletedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(Frame_CompletedLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel11)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Button_CloseCompleted)
+                .addContainerGap())
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -98,7 +272,7 @@ public class ServerGUI extends javax.swing.JFrame {
             }
         });
 
-        History_Button.setText("History");
+        History_Button.setText("All Requests");
 
         jLabel4.setText("Load balancer IP");
 
@@ -118,71 +292,81 @@ public class ServerGUI extends javax.swing.JFrame {
 
         Button_Connect.setText("Connect");
 
+        Button_Processing.setText("Processing");
+
+        Button_Completed.setText("Completed");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(Button_Connect)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Button_Processing)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Button_Completed)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(History_Button)
+                        .addGap(34, 34, 34)
+                        .addComponent(Exit_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(LBIP_Text, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(LBPort_Text, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 12, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(101, 101, 101)
+                                .addComponent(ServerIP_Text, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel7))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel5)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(ServerIP_Text, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel7))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(jLabel3)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(Button_Connect)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(History_Button)))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel3)
+                                        .addGap(18, 18, 18)
                                         .addComponent(Processing_Text, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jLabel2)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jLabel2))))
+                            .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(ServerPort_Text, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(Completed_Text, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(Exit_Button, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel1)
+                                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(LBIP_Text, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(142, 142, 142)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(Completed_Text, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(LBPort_Text, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ServerPort_Text, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(LBIP_Text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5)
-                    .addComponent(LBPort_Text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(LBIP_Text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel5)
+                        .addComponent(LBPort_Text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel6)
-                        .addComponent(ServerIP_Text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel7)
-                        .addComponent(ServerPort_Text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(ServerIP_Text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel7))
+                    .addComponent(ServerPort_Text, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(Completed_Text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -192,8 +376,10 @@ public class ServerGUI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Exit_Button)
                     .addComponent(History_Button)
-                    .addComponent(Button_Connect))
-                .addContainerGap(17, Short.MAX_VALUE))
+                    .addComponent(Button_Connect)
+                    .addComponent(Button_Processing)
+                    .addComponent(Button_Completed))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         pack();
@@ -239,21 +425,38 @@ public class ServerGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Button_CloseCompleted;
+    private javax.swing.JButton Button_CloseHistory;
+    private javax.swing.JButton Button_CloseProcessing;
+    private javax.swing.JButton Button_Completed;
     private javax.swing.JButton Button_Connect;
+    private javax.swing.JButton Button_Processing;
     private javax.swing.JTextField Completed_Text;
+    private javax.swing.JTextArea Completed_TextArea;
     private javax.swing.JButton Exit_Button;
+    private javax.swing.JFrame Frame_Completed;
+    private javax.swing.JFrame Frame_History;
+    private javax.swing.JFrame Frame_Processing;
     private javax.swing.JButton History_Button;
+    private javax.swing.JTextArea History_TextArea;
     private javax.swing.JTextField LBIP_Text;
     private javax.swing.JTextField LBPort_Text;
     private javax.swing.JTextField Processing_Text;
+    private javax.swing.JTextArea Processing_TextArea;
     private javax.swing.JTextField ServerIP_Text;
     private javax.swing.JTextField ServerPort_Text;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     // End of variables declaration//GEN-END:variables
 }

@@ -30,12 +30,14 @@ public class ClientConnections implements Runnable {
     private JTextField PRField;
     private int requestsProcessed;
     private Map requestsAnswered;
+    private Map processed;
     private int clientId;
 
-    public ClientConnections(Sockets connection, Map requestsAnswered, JTextField PRField) {
+    public ClientConnections(Sockets connection, Map requestsAnswered, JTextField PRField, Map processed) {
         this.connection = connection;
         this.PRField = PRField;
         this.requestsAnswered = requestsAnswered;
+        this.processed = processed;
         requestsProcessed = 0;
     }
 
@@ -72,6 +74,7 @@ public class ClientConnections implements Runnable {
                 Request re = (Request) message;
                 requestsProcessed += 1;
                 PRField.setText(Integer.toString(requestsProcessed));
+                processed.remove(re.getRequestID());
                 requestsAnswered.put(requestsProcessed, re);
                 System.out.println("Resultado: " + re.getReply());
             }
