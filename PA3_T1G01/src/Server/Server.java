@@ -22,6 +22,10 @@ public class Server {
     
     private ServerGUI gui;
     
+    ServerConnections connectionHandler;
+    
+    ConnectionInfo lbInfo;
+    
     public static void main(String[] args) {
         Server se = new Server();
     }
@@ -32,6 +36,9 @@ public class Server {
         establishServerConnection();
         gui = new ServerGUI();
         gui.setVisible(true);
+        connectButtonListener();
+        historyButtonListener();
+        exitButtonListener();
     }
     
     private void establishServerConnection() {
@@ -40,12 +47,14 @@ public class Server {
         int server_port = Integer.parseInt(gui.getServerPort_Text().getText());
         String server_ip = gui.getServerIP_Text().getText();
         obtainId(server_ip, server_port);
-        ConnectionInfo lb_info = new ConnectionInfo(lb_ip, lb_port, 3);
+        lbInfo = new ConnectionInfo(lb_ip, lb_port, 3);
+        
         System.out.println("Creating Server");
         connection.startServer(server_port);
-        requestServerId(lb_ip, lb_port);
+        requestServerId();
+        
         System.out.println("Waiting for reply");
-        Runnable connectionHandler = new ServerConnections(connection, lb_info);
+        connectionHandler = new ServerConnections(connection, lbInfo);
         // criar connectionInfo, enviar loadbalancer
         new Thread(connectionHandler).start();
     }
@@ -54,8 +63,8 @@ public class Server {
         connectionInfo = new ConnectionInfo(serverIp, serverPort, 2);
     }
     
-    private void requestServerId(String lbIp, int lbPort) {
-        connection.startClient(lbIp, lbPort);
+    private void requestServerId() {
+        connection.startClient(lbInfo.getIp(),lbInfo.getPort());
         System.out.println("Connected!");
         connection.sendMessage(connectionInfo);
     }
@@ -71,5 +80,28 @@ public class Server {
         };
         
         connectButton.addActionListener(actionListener);
+    }
+    
+    private void historyButtonListener() {
+        JButton historyButton = gui.getHistory_Button();
+        
+        ActionListener actionListener = (ActionEvent actionEvent) -> {
+            System.out.println("History Button");
+            //meter aqui as cenas do history
+        };
+        
+        historyButton.addActionListener(actionListener);
+    }
+    
+    private void exitButtonListener() {
+        JButton exitButton = gui.getExit_Button();
+        
+        ActionListener actionListener = (ActionEvent actionEvent) -> {
+            //connectionHandeler.exit();
+            connection.startClient(lbInfo.getIp(), lbInfo.getPort());
+            connection.sendMessage("exit: " + connectionHandler.getServerId());            
+        };
+        
+        exitButton.addActionListener(actionListener);
     }
 }

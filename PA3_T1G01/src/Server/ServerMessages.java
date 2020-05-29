@@ -9,9 +9,9 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
-import java.util.HashSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import utils.ConnectionInfo;
 import utils.Request;
 import utils.Sockets;
@@ -25,7 +25,8 @@ public class ServerMessages implements Runnable {
     private Sockets connection;
     private Socket socketServer;
     private ConnectionInfo lb_info;
-        
+    private int serverId;
+    
     public ServerMessages(Sockets connection, Socket serverSocket, ConnectionInfo lb_info) {
         this.connection = connection;
         this.socketServer = serverSocket;
@@ -39,7 +40,6 @@ public class ServerMessages implements Runnable {
 
     private void awaitConnections() {
         try {
-
             while (true) {
                 //receber string id ou receber um request
                 ObjectInputStream input = null;
@@ -52,6 +52,9 @@ public class ServerMessages implements Runnable {
                     //replyClient(info);
                 } else if (message instanceof String) {
                     System.out.println(message);
+                    serverId = Integer.parseInt((String) message);
+                    JOptionPane success = new JOptionPane();
+                    success.showMessageDialog(null, "Connection Successful", "Connection", JOptionPane.INFORMATION_MESSAGE);
                 }
                 //acabou
                 //replyServer();
@@ -61,8 +64,13 @@ public class ServerMessages implements Runnable {
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
         }
+        System.exit(0);
     }
-
+    
+    public int getServerID(){
+        return serverId;
+    }
+    
     private void replyClient(ConnectionInfo info) {
         connection.startClient(info.getIp(), info.getPort());
         connection.sendMessage("ok");

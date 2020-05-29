@@ -64,9 +64,13 @@ public class Client {
         ci = new ConnectionInfo(ip, reply_port, 1);
         connection.sendMessage(ci);
         System.out.println("Waiting for reply");
-        connection.startServer(reply_port);
-        Runnable connectionHandler = new ClientConnections(connection, requestsAnswered, gui.getPR_Text());
-        new Thread(connectionHandler).start();
+        if (connection.startServer(reply_port)) {
+            Runnable connectionHandler = new ClientConnections(connection, requestsAnswered, gui.getPR_Text());
+            new Thread(connectionHandler).start();
+        }else {
+            gui.getButton_Request().setEnabled(false);
+            gui.getButton_Connect().setEnabled(true);
+        }
     }
 
     private void historyCloseButtonListener() {
@@ -100,9 +104,9 @@ public class Client {
 
         ActionListener actionListener = (ActionEvent actionEvent) -> {
             System.out.println("Connect button");
-            establishConnection();
             connectButton.setEnabled(false);
             gui.getButton_Request().setEnabled(true);
+            establishConnection();
         };
 
         connectButton.addActionListener(actionListener);

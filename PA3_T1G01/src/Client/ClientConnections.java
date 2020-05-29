@@ -65,9 +65,6 @@ public class ClientConnections implements Runnable {
                 if (message.equals("ok")) {
                     JOptionPane success = new JOptionPane();
                     success.showMessageDialog(null, "Connection Successful", "Connection", JOptionPane.INFORMATION_MESSAGE);
-                }else if(message.equals("port")){
-                    JOptionPane failure = new JOptionPane();
-                    failure.showMessageDialog(null, "Connection Failed", "Connection", JOptionPane.ERROR_MESSAGE);
                 }
             } else if (message instanceof Request) {
                 System.out.println("Request Complete");

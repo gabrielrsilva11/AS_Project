@@ -5,8 +5,6 @@
  */
 package LoadBalancer;
 
-import Server.ServerConnections;
-import Server.ServerMessages;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.logging.Level;
@@ -41,7 +39,7 @@ public class LBConnections implements Runnable {
                 new Thread(messageHandler).start();
             }
         } catch (IOException ex) {
-            Logger.getLogger(ServerConnections.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LBConnections.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

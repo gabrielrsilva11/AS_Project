@@ -5,6 +5,7 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import javax.swing.JOptionPane;
 
 /**
  * Sockets - Responsible for handling the sockets, creating server and client
@@ -53,12 +54,16 @@ public class Sockets{
      *
      * @param port port in which to start the server
      */
-    public void startServer(int port) {
+    public boolean startServer(int port) {
         try {
             server = new ServerSocket(port);
+            return true;
         } catch (IOException e) {
             System.out.println(e);
+            JOptionPane failure = new JOptionPane();
+            failure.showMessageDialog(null, "Connection Failed", "Connection", JOptionPane.ERROR_MESSAGE);
         }
+        return false;
     }
     /**
      * Starts a client connection in a specified IP and port
