@@ -22,4 +22,5 @@ public interface MonitorInterface {
     public void addClientRequest(Request re);
     public ConnectionInfo removeServerConnection(int serverId);
     public void completeClientRequest(Request re);
+    public void heartbeatStatus(int serverId, int status);
 }

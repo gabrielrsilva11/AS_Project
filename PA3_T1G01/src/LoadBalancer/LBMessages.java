@@ -90,11 +90,13 @@ public class LBMessages implements Runnable {
                     if (re.startsWith("exit:")) {
                         String[] reSplitted = ((String) message).split(":");
                         int serverId = Integer.parseInt(reSplitted[1]);
-                        
+
                         List<Request> requests = monitor.closeServer(serverId);
-                        
+
+                        monitor.heartbeatStatus(serverId, -1);
+
                         ConnectionInfo connectionInfo = monitor.removeServerConnection(serverId);
-                        
+
                         sendServerExitResponse(connectionInfo);
                         //connection.closeClientConnection();
                         for (Request req : requests) {
@@ -104,6 +106,10 @@ public class LBMessages implements Runnable {
                             sendServerRequest(chooseMonitor.getConnection(), req);
                         }
                         active = false;
+                    } else if (re.startsWith("heartbeat:")) {
+                        String[] reSplitted = ((String) message).split(":");
+                        int serverId = Integer.parseInt(reSplitted[1]);
+                        monitor.heartbeatStatus(serverId, 1);
                     }
                 }
             }

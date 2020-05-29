@@ -7,6 +7,7 @@ package LoadBalancer;
 
 import Server.Server;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -17,6 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import model.ChooseServer;
+import model.Heartbeat;
 import utils.ConnectionInfo;
 import utils.Request;
 
@@ -34,6 +36,8 @@ public class Monitor implements MonitorInterface {
     private Map<Integer, List<Integer>> serverRequestComplete;
 
     private List<Request> clientRequests;
+    
+    private Map<Integer, Heartbeat> serverStatus;
     
     private int increment;
 
@@ -77,6 +81,7 @@ public class Monitor implements MonitorInterface {
         serverRequest = new ConcurrentHashMap<>();
         serverRequestComplete = new ConcurrentHashMap<>();
         clientRequests = new ArrayList<>();
+        serverStatus = new ConcurrentHashMap<>();
         increment = 0;
     }
 
@@ -188,5 +193,10 @@ public class Monitor implements MonitorInterface {
         } finally {
             rel4.unlock();
         }
+    }
+    
+    public void heartbeatStatus(int serverId, int status) {
+        Heartbeat heartbeat = new Heartbeat(status, new Date().getTime());
+        serverStatus.put(serverId, heartbeat);
     }
 }
