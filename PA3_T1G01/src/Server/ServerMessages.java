@@ -25,7 +25,8 @@ public class ServerMessages implements Runnable {
     private Sockets connection;
     private Socket socketServer;
     private ConnectionInfo lb_info;
-        
+    private int serverId;
+
     public ServerMessages(Sockets connection, Socket serverSocket, ConnectionInfo lb_info) {
         this.connection = connection;
         this.socketServer = serverSocket;
@@ -47,11 +48,11 @@ public class ServerMessages implements Runnable {
                 Object message = null;
                 message = input.readObject();
                 if (message instanceof Request) {
-                    ConnectionInfo info = (ConnectionInfo) message;
-                    System.out.println(info.getIp());
-                    //replyClient(info);
+                    Request request = (Request) message;
+                    ServerWorkThread messageHandler = new ServerWorkThread(request, connection, lb_info);
+                    new Thread(messageHandler).start();
                 } else if (message instanceof String) {
-                    System.out.println(message);
+                    serverId = (Integer) message;
                 }
                 //acabou
                 //replyServer();
@@ -61,11 +62,5 @@ public class ServerMessages implements Runnable {
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-
-    private void replyClient(ConnectionInfo info) {
-        connection.startClient(info.getIp(), info.getPort());
-        connection.sendMessage("ok");
-        connection.closeClientConnection();
     }
 }

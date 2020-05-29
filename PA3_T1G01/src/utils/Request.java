@@ -22,6 +22,7 @@ public class Request implements Serializable {
     private double Reply;
 
     public Request(int Code, ConnectionInfo Client, int NI) {
+        //01 se não estiver completa //02 se estiver completa
         this.Code = Code;
         this.Client = Client;
         this.NI = NI;
@@ -35,10 +36,18 @@ public class Request implements Serializable {
         this.ServerID = ServerID;
     }
 
+    public int getServerID() {
+        return ServerID;
+    }
+    
     public void setRequestID(int RequestID) {
         this.RequestID = RequestID;
     }
 
+    public int getRequestID() {
+        return RequestID;
+    }
+    
     public void setCode(int Code) {
         this.Code = Code;
     }
@@ -62,6 +71,8 @@ public class Request implements Serializable {
     public int getNI() {
         return NI;
     }
+    
+    
 
     public String getFormattedRequest() {
         return String.format("ServerID: %d || ClientID: %d || RequestID: %d || Code: %d || Reply: %f\n", ServerID, ClientID, RequestID, Code, Reply);

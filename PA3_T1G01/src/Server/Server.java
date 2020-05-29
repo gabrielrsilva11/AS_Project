@@ -58,6 +58,7 @@ public class Server {
         connection.startClient(lbIp, lbPort);
         System.out.println("Connected!");
         connection.sendMessage(connectionInfo);
+        connection.closeClientConnection();
     }
     
     private void connectButtonListener() {
