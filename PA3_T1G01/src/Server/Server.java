@@ -9,6 +9,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import javax.swing.JButton;
 import utils.*;
 
@@ -33,6 +36,7 @@ public class Server {
     private Map<Integer, Request> requestsAnswered;
 
     private Map<Integer, Request> processingRequests;
+    private final ScheduledExecutorService scheduler;
 
     public static void main(String[] args) {
         Server se = new Server();
@@ -42,6 +46,7 @@ public class Server {
         requestsAnswered = new ConcurrentHashMap<>();
         processingRequests = new ConcurrentHashMap<>();
         connection = new Sockets();
+        this.scheduler = Executors.newScheduledThreadPool(1);
         // comunicação loadbalancer envia connectionInfo, recebe id e faz serverconnections
         //establishServerConnection();
         gui = new ServerGUI();
@@ -72,6 +77,7 @@ public class Server {
         new Thread(connectionHandler).start();
 
         requestServerId();
+        scheduler.scheduleAtFixedRate(heartbeat, 10, 10, TimeUnit.SECONDS);
     }
 
     private void obtainId(String serverIp, int serverPort) {
@@ -152,9 +158,8 @@ public class Server {
 
     private void exitButtonListener() {
         JButton exitButton = gui.getExit_Button();
-
         ActionListener actionListener = (ActionEvent actionEvent) -> {
-            //connectionHandeler.exit();
+            scheduler.shutdown();
             connection.startClient(lbInfo.getIp(), lbInfo.getPort());
             connection.sendMessage("exit:" + connectionHandler.getServerId());
         };
@@ -191,4 +196,11 @@ public class Server {
 
         closeCompletedButton.addActionListener(actionListener);
     }
+    final Runnable heartbeat = new Runnable() {
+        public void run() {
+            connection.startClient(lbInfo.getIp(), lbInfo.getPort());
+            System.out.println("Heartbeat: " + connectionHandler.getServerId());
+            connection.sendMessage("heartbeat:" + connectionHandler.getServerId());
+        }
+    };
 }
