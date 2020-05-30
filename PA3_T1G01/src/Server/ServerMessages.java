@@ -65,7 +65,7 @@ public class ServerMessages implements Runnable {
                     new Thread(messageHandler).start();
                 } else if (message instanceof String) {
                     if (message.equals("exit")) {
-                        break;
+                        System.exit(0);
                     } else {
                         serverId = Integer.parseInt((String) message);
                         JOptionPane success = new JOptionPane();
@@ -74,11 +74,10 @@ public class ServerMessages implements Runnable {
                 }
             }
         } catch (IOException ex) {
-            Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.exit(0);
+        
     }
 
     public int getServerID() {

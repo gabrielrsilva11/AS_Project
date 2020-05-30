@@ -73,7 +73,7 @@ public class Monitor implements MonitorInterface {
     
     private MonitorGUI gui;
     
-    public Monitor(MonitorGUI gui) {
+    public Monitor() {
         rel = new ReentrantLock();
         rel1 = new ReentrantLock();
         rel2 = new ReentrantLock();
@@ -85,7 +85,7 @@ public class Monitor implements MonitorInterface {
         clientRequests = new ArrayList<>();
         serverStatus = new ConcurrentHashMap<>();
         increment = 0;
-        this.gui = gui;
+        this.gui = new MonitorGUI();
         LB_GUI_Actions actions = new LB_GUI_Actions(gui, serverConnections, serverRequest, serverRequestComplete, serverStatus);
         actions.start();
     }

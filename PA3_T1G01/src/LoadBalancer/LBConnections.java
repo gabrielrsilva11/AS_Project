@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JTextField;
 import utils.Sockets;
 
 /**
@@ -20,7 +21,7 @@ public class LBConnections implements Runnable {
     private Sockets connection;
     private Socket socketServer;
     private MonitorInterface monitor;
-
+    
     public LBConnections(Sockets connection, MonitorInterface monitor) {
         this.connection = connection;
         this.monitor = monitor;

@@ -50,6 +50,7 @@ public class LB_GUI_Actions {
         closeProcessingButtonListener();
         historyButtonListener();
         closeHistoryButtonListener();
+        exitButtonListener();
     }
 
     private void statusButtonListener() {
@@ -184,5 +185,12 @@ public class LB_GUI_Actions {
             gui.getFrame_History().setVisible(false);
         };
         gui.getButton_CloseHistory().addActionListener(actionListener);
+    }
+    
+    private void exitButtonListener() {
+        ActionListener actionListener = (ActionEvent actionEvent) -> {
+            System.exit(0);
+        };
+        gui.getExit_Button().addActionListener(actionListener);
     }
 }

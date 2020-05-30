@@ -13,6 +13,7 @@ import java.net.Socket;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JTextField;
 import model.ChooseServer;
 import utils.ConnectionInfo;
 import utils.Request;
@@ -28,13 +29,12 @@ public class LBMessages implements Runnable {
     private Socket socketServer;
     private MonitorInterface monitor;
     private boolean active;
-
+    
     public LBMessages(Sockets connection, Socket serverSocket, MonitorInterface monitor) {
         this.connection = connection;
         this.socketServer = serverSocket;
         this.monitor = monitor;
         this.active = true;
-        //this.serverId = serverId;
     }
 
     @Override
@@ -57,7 +57,6 @@ public class LBMessages implements Runnable {
                         int clientId = monitor.generateClientId();
                         System.out.println("ClientId: " + clientId);
                         replyClientId(info, clientId);
-
                     } //SERVER
                     else if (info.getType() == 2) {
                         System.out.println("Requesting server connection!");

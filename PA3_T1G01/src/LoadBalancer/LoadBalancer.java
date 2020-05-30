@@ -24,8 +24,8 @@ public class LoadBalancer {
 
     public LoadBalancer() {
         connection = new Sockets();
-        gui = new MonitorGUI();
-        monitor = new Monitor(gui);
+        
+        monitor = new Monitor();
         establishServerConnection();
     }
 
