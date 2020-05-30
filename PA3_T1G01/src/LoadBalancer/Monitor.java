@@ -71,6 +71,14 @@ public class Monitor implements MonitorInterface {
      */
     private final Lock rel4;
     
+    private int numClients;
+    
+    private int numServers;
+    
+    private int numRequests;
+    
+    private int completedRequests;
+    
     private MonitorGUI gui;
     
     public Monitor() {
@@ -88,6 +96,10 @@ public class Monitor implements MonitorInterface {
         this.gui = new MonitorGUI();
         LB_GUI_Actions actions = new LB_GUI_Actions(gui, serverConnections, serverRequest, serverRequestComplete, serverStatus);
         actions.start();
+        numClients = 0;
+        numServers = 0;
+        numRequests = 0;
+        completedRequests = 0;
     }
 
     @Override
@@ -99,6 +111,8 @@ public class Monitor implements MonitorInterface {
             increment++;
             serverConnections.put(id, connectionInfo);
             serverRequest.put(id, new ArrayList<>());
+            numServers += 1;
+            gui.getServers_Text().setText(Integer.toString(numServers));
         } finally {
             rel.unlock();
         }
@@ -107,6 +121,8 @@ public class Monitor implements MonitorInterface {
 
     @Override
     public List<Request> closeServer(int serverId) {
+        numServers -= 1;
+        gui.getServers_Text().setText(Integer.toString(numServers));
         List<Integer> requests = serverRequest.get(serverId);
         serverRequest.remove(serverId);
         System.out.println(requests);
@@ -125,6 +141,8 @@ public class Monitor implements MonitorInterface {
     @Override
     public int generateClientId() {
         rel1.lock();
+        numClients += 1;
+        gui.getClients_Text().setText(Integer.toString(numClients));
         int clientId;
         try {
             clientId = new Random().nextInt(10000);
@@ -157,9 +175,10 @@ public class Monitor implements MonitorInterface {
     public void addClientRequest(Request re) {
         rel3.lock();
         try {
-
             List<Integer> requests = serverRequest.get(re.getServerID());
             clientRequests.add(re);
+            numRequests += 1;
+            gui.getProcessing_Text().setText(Integer.toString(numRequests));
             requests.add(re.getRequestID());
             System.out.println("add");
             System.out.println(re.getServerID());
@@ -190,11 +209,15 @@ public class Monitor implements MonitorInterface {
             System.out.println("Remove");
             System.out.println(re.getServerID());
             System.out.println(serverRequest.get(re.getServerID()).toString());
-
+            
             serverRequestComplete.put(re.getServerID(), requestsComplete);
             System.out.println("complete");
             System.out.println(re.getServerID());
             System.out.println(serverRequestComplete.get(re.getServerID()).toString());
+            numRequests -= 1;
+            gui.getProcessing_Text().setText(Integer.toString(numRequests));
+            completedRequests +=1;
+            gui.getCompleted_Text().setText(Integer.toString(completedRequests));
         } finally {
             rel4.unlock();
         }
