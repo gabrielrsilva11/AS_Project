@@ -15,22 +15,45 @@ import utils.ConnectionInfo;
 import utils.Request;
 
 /**
+ * Monitor - Monitors the server usage and tells the load balancer which servers
+ * to send work to. Implements MonitorInterface.
  *
- * @author gabri
+ * @author Gabriel Silva
+ * @author Manuel Marcos
+ *
  */
 public class Monitor implements MonitorInterface {
 
-    //Id, connectionInfo
+    /**
+     * Concurrent map to store ID and Connection information of a server
+     */
     private Map<Integer, ConnectionInfo> serverConnections;
-    //Id, requests
+
+    /**
+     * Concurrent map to store ID and a list of requestIDs the server is
+     * processing
+     */
     private Map<Integer, List<Integer>> serverRequest;
-    //Id, completeRequests
+
+    /**
+     * Concurrent map to store ID and a list of requestIDs the server has
+     * processed
+     */
     private Map<Integer, List<Integer>> serverRequestComplete;
 
+    /**
+     * Saves each request made.
+     */
     private List<Request> clientRequests;
 
+    /**
+     * Concurrent map to store serverID and last heartbeat sent
+     */
     private Map<Integer, Heartbeat> serverStatus;
 
+    /**
+     * Increment to attribute server Ids.
+     */
     private int increment;
 
     /**
@@ -81,16 +104,34 @@ public class Monitor implements MonitorInterface {
      */
     private final Lock rel7;
 
+    /**
+     * number of connected clients
+     */
     private int numClients;
 
+    /**
+     * number of connected servers
+     */
     private int numServers;
 
+    /**
+     * number of requests being processed
+     */
     private int numRequests;
 
+    /**
+     * number of completedRequests
+     */
     private int completedRequests;
 
+    /**
+     * GUI for the load balancer / monitor
+     */
     private MonitorGUI gui;
 
+    /**
+     * Monitor Class Constructor
+     */
     public Monitor() {
         rel = new ReentrantLock();
         rel1 = new ReentrantLock();
@@ -107,7 +148,7 @@ public class Monitor implements MonitorInterface {
         serverStatus = new ConcurrentHashMap<>();
         increment = 0;
         this.gui = new MonitorGUI();
-        LB_GUI_Actions actions = new LB_GUI_Actions(gui, serverConnections, serverRequest, serverRequestComplete, serverStatus);
+        LB_GUI_Actions actions = new LB_GUI_Actions(gui, serverRequest, serverRequestComplete, serverStatus);
         actions.start();
         numClients = 0;
         numServers = 0;
@@ -115,6 +156,13 @@ public class Monitor implements MonitorInterface {
         completedRequests = 0;
     }
 
+    /**
+     * Adds a new server to be monitored
+     *
+     * @param connectionInfo ConnectionInfo - connection information of the
+     * server
+     * @return Integer - unique server identifier
+     */
     @Override
     public int registerServer(ConnectionInfo connectionInfo) {
         rel.lock();
@@ -132,6 +180,14 @@ public class Monitor implements MonitorInterface {
         return id;
     }
 
+    /**
+     * Method that removes a server from being monitored when it sends an exit
+     * signal.
+     *
+     * @param serverId Integer - id of the server that's closing
+     * @return List<Request> - List of requests to be distributed among the
+     * remaining servers
+     */
     @Override
     public List<Request> closeServer(int serverId) {
         rel5.lock();
@@ -151,6 +207,12 @@ public class Monitor implements MonitorInterface {
         return reqs;
     }
 
+    /**
+     * Removes a server from the available servers map
+     *
+     * @param serverId Integer - ID of the server to be removed
+     * @return ConnectionInfo - connection information of the removed server.
+     */
     @Override
     public ConnectionInfo removeServerConnection(int serverId) {
         rel6.lock();
@@ -164,6 +226,11 @@ public class Monitor implements MonitorInterface {
         return connectionInfo;
     }
 
+    /**
+     * Generates a unique clientId
+     *
+     * @return Integer - Client id that was generated
+     */
     @Override
     public int generateClientId() {
         rel1.lock();
@@ -178,6 +245,13 @@ public class Monitor implements MonitorInterface {
         return clientId;
     }
 
+    /**
+     * Method to choose the server with the least requests for the load balancer
+     * to send work to
+     *
+     * @return ChooseServer - Id and connection information of the server to get
+     * work
+     */
     @Override
     public ChooseServer chooseServer() {
         rel2.lock();
@@ -197,6 +271,11 @@ public class Monitor implements MonitorInterface {
         return new ChooseServer(serverId, serverConnections.get(serverId));
     }
 
+    /**
+     * Adds a client request to the list of requests
+     *
+     * @param re Request - request to be added
+     */
     @Override
     public void addClientRequest(Request re) {
         rel3.lock();
@@ -206,9 +285,6 @@ public class Monitor implements MonitorInterface {
             numRequests += 1;
             gui.getProcessing_Text().setText(Integer.toString(numRequests));
             requests.add(re.getRequestID());
-            System.out.println("add");
-            System.out.println(re.getServerID());
-            System.out.println(serverRequest.get(re.getServerID()).toString());
             serverRequest.put(re.getServerID(), requests);
         } finally {
             rel3.unlock();
@@ -216,6 +292,11 @@ public class Monitor implements MonitorInterface {
 
     }
 
+    /**
+     * Sets a request by a client as completed
+     *
+     * @param re Request - request that was completed
+     */
     @Override
     public void completeClientRequest(Request re) {
         rel4.lock();
@@ -231,15 +312,6 @@ public class Monitor implements MonitorInterface {
             }
             requestsComplete.add(re.getRequestID());
             serverRequestComplete.put(re.getServerID(), requestsComplete);
-
-            System.out.println("Remove");
-            System.out.println(re.getServerID());
-            System.out.println(serverRequest.get(re.getServerID()).toString());
-
-            serverRequestComplete.put(re.getServerID(), requestsComplete);
-            System.out.println("complete");
-            System.out.println(re.getServerID());
-            System.out.println(serverRequestComplete.get(re.getServerID()).toString());
             numRequests -= 1;
             gui.getProcessing_Text().setText(Integer.toString(numRequests));
             completedRequests += 1;
@@ -249,6 +321,12 @@ public class Monitor implements MonitorInterface {
         }
     }
 
+    /**
+     * Sets a new heartbeat status for when a new heartbeat message arrives
+     *
+     * @param serverId Integer - Id of the server that sent the heartbeat
+     * @param status Integer - Status of the server when the message was sent
+     */
     public void heartbeatStatus(int serverId, int status) {
         rel7.lock();
         try {

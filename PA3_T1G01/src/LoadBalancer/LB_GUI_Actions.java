@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package LoadBalancer;
 
 import java.awt.event.ActionEvent;
@@ -10,32 +5,56 @@ import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Map;
 import model.Heartbeat;
-import utils.ConnectionInfo;
 
 /**
+ * LB_GUI_Actions - Class that handles the listeners for the GUI buttons.
  *
- * @author gabri
+ * @author Gabriel Silva
+ * @author Manuel Marcos
+ *
  */
 public class LB_GUI_Actions {
 
+    /**
+     * GUI that contains the buttons to listen to
+     */
     private MonitorGUI gui;
 
-    private Map<Integer, ConnectionInfo> serverConnections;
-
+    /**
+     * Concurrent map that stores ID and a list of requestIDs the server is
+     * processing
+     */
     private Map<Integer, List<Integer>> serverRequest;
 
+    /**
+     * Concurrent map that stores ID and a list of requestIDs the server has
+     * processed
+     */
     private Map<Integer, List<Integer>> serverRequestComplete;
 
+    /**
+     * Concurrent map to store serverID and last heartbeat sent
+     */
     private Map<Integer, Heartbeat> serverStatus;
 
-    public LB_GUI_Actions(MonitorGUI gui, Map<Integer, ConnectionInfo> serverConnections, Map<Integer, List<Integer>> serverRequest, Map<Integer, List<Integer>> serverRequestComplete, Map<Integer, Heartbeat> serverStatus) {
+    /**
+     * Class constructor
+     *
+     * @param gui MonitorGUI - variable with a initialized GUI
+     * @param serverRequest Map - contains the server requests
+     * @param serverRequestComplete Map - contains the completed server requests
+     * @param serverStatus Map - contains the server status
+     */
+    public LB_GUI_Actions(MonitorGUI gui, Map<Integer, List<Integer>> serverRequest, Map<Integer, List<Integer>> serverRequestComplete, Map<Integer, Heartbeat> serverStatus) {
         this.gui = gui;
-        this.serverConnections = serverConnections;
         this.serverRequest = serverRequest;
         this.serverRequestComplete = serverRequestComplete;
         this.serverStatus = serverStatus;
     }
 
+    /**
+     * Initializes all the listeners and sets the GUI visible
+     */
     public void start() {
         gui.setVisible(true);
         statusButtonListener();
@@ -53,6 +72,9 @@ public class LB_GUI_Actions {
         exitButtonListener();
     }
 
+    /**
+     * Listener method for the status button
+     */
     private void statusButtonListener() {
         ActionListener actionListener = (ActionEvent actionEvent) -> {
             gui.getFrame_Status().setVisible(true);
@@ -66,6 +88,9 @@ public class LB_GUI_Actions {
         gui.getButton_Status().addActionListener(actionListener);
     }
 
+    /**
+     * Listener method for the close button of the status panel
+     */
     private void closeStatusButtonListener() {
         ActionListener actionListener = (ActionEvent actionEvent) -> {
             gui.getFrame_Status().setVisible(false);
@@ -73,6 +98,9 @@ public class LB_GUI_Actions {
         gui.getButton_CloseStatus().addActionListener(actionListener);
     }
 
+    /**
+     * Listener method for the search button of the status panel
+     */
     private void searchStatusButtonListener() {
         ActionListener actionListener = (ActionEvent actionEvent) -> {
             gui.getStatus_TextArea().setText("");
@@ -88,6 +116,9 @@ public class LB_GUI_Actions {
         gui.getButton_StatusSearch().addActionListener(actionListener);
     }
 
+    /**
+     * Listener method for the load button
+     */
     private void loadButtonListener() {
         ActionListener actionListener = (ActionEvent actionEvent) -> {
             gui.getFrame_Load().setVisible(true);
@@ -101,6 +132,9 @@ public class LB_GUI_Actions {
         gui.getButton_Load().addActionListener(actionListener);
     }
 
+    /**
+     * Listener method for the close button of the load panel
+     */
     private void closeLoadButtonListener() {
         ActionListener actionListener = (ActionEvent actionEvent) -> {
             gui.getFrame_Load().setVisible(false);
@@ -108,6 +142,9 @@ public class LB_GUI_Actions {
         gui.getButton_CloseLoad().addActionListener(actionListener);
     }
 
+    /**
+     * Listener method for the search button of the load panel
+     */
     private void searchLoadButtonListener() {
         ActionListener actionListener = (ActionEvent actionEvent) -> {
             int serverId = Integer.parseInt(gui.getLoadSearch_Text().getText());
@@ -123,6 +160,9 @@ public class LB_GUI_Actions {
         gui.getButton_LoadSearch().addActionListener(actionListener);
     }
 
+    /**
+     * Listener method for the completed button
+     */
     private void completedButtonListener() {
         ActionListener actionListener = (ActionEvent actionEvent) -> {
             gui.getFrame_Completed().setVisible(true);
@@ -136,6 +176,9 @@ public class LB_GUI_Actions {
         gui.getButton_Completed().addActionListener(actionListener);
     }
 
+    /**
+     * Listener method for the close button if the completed panel
+     */
     private void closeCompletedButtonListener() {
         ActionListener actionListener = (ActionEvent actionEvent) -> {
             gui.getFrame_Completed().setVisible(false);
@@ -143,6 +186,9 @@ public class LB_GUI_Actions {
         gui.getButton_CloseCompleted().addActionListener(actionListener);
     }
 
+    /**
+     * Listener method for the processing button
+     */
     private void processingButtonListener() {
         ActionListener actionListener = (ActionEvent actionEvent) -> {
             gui.getFrame_Processing().setVisible(true);
@@ -156,6 +202,9 @@ public class LB_GUI_Actions {
         gui.getButton_Processing().addActionListener(actionListener);
     }
 
+    /**
+     * Listener method for the close button of the processing panel
+     */
     private void closeProcessingButtonListener() {
         ActionListener actionListener = (ActionEvent actionEvent) -> {
             gui.getFrame_Processing().setVisible(false);
@@ -163,6 +212,9 @@ public class LB_GUI_Actions {
         gui.getButton_CloseProcessed().addActionListener(actionListener);
     }
 
+    /**
+     * Listener method for the history button
+     */
     private void historyButtonListener() {
         ActionListener actionListener = (ActionEvent actionEvent) -> {
             gui.getFrame_History().setVisible(true);
@@ -180,13 +232,19 @@ public class LB_GUI_Actions {
         gui.getButton_History().addActionListener(actionListener);
     }
 
+    /**
+     * Listener method for the close button of the history panel
+     */
     private void closeHistoryButtonListener() {
         ActionListener actionListener = (ActionEvent actionEvent) -> {
             gui.getFrame_History().setVisible(false);
         };
         gui.getButton_CloseHistory().addActionListener(actionListener);
     }
-    
+
+    /**
+     * Listener method for the exit button
+     */
     private void exitButtonListener() {
         ActionListener actionListener = (ActionEvent actionEvent) -> {
             System.exit(0);

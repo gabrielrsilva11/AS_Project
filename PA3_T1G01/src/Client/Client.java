@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Client;
 
 import java.awt.event.ActionEvent;
@@ -13,24 +8,60 @@ import javax.swing.JButton;
 import utils.*;
 
 /**
+ * Client - Responsible for sending Requests to the Load Balancer and getting
+ * replies from the server when the request is completed.
  *
- * @author gabri
+ * @author Gabriel Silva
+ * @author Manuel Marcos
+ *
  */
 public class Client {
 
+    /**
+     * GUI for the client program.
+     */
     private ClientGUI gui;
+    /**
+     * Sockets class used to send and receive connections from the load balancer
+     * and the server.
+     */
     private Sockets connection;
+    /**
+     * Variable that stores the client own connection information
+     */
     private ConnectionInfo ci = null;
+    /**
+     * Number of requests the client has made
+     */
     private int requestsMade;
+    /**
+     * Concurrent map that saves the requests that have been completed.
+     */
     private Map<Integer, Request> requestsAnswered;
+    /**
+     * Concurrent map that saves the requests that are being processed.
+     */
     private Map<Integer, Request> processed;
+    /**
+     * Class that deals with accepting new connections to the client.
+     */
     private ClientConnections connectionHandler;
 
+    /**
+     * Main function of the client process, used to start a new client process.
+     *
+     * @param args command line arguments (not used)
+     */
     public static void main(String[] args) {
         Client cl = new Client();
 
     }
 
+    /**
+     * Client class constructor.
+     *
+     * Initializes the GUI and all the necessary variables.
+     */
     public Client() {
         requestsAnswered = new ConcurrentHashMap<>();
         processed = new ConcurrentHashMap<>();
@@ -46,6 +77,11 @@ public class Client {
         requestsMade = 0;
     }
 
+    /**
+     * Method to get information about a new request that will be sent out.
+     *
+     * @return an initialized Request variable ready to be sent.
+     */
     private Request getRequestInfo() {
         int ni = Integer.parseInt(gui.getNI_Text().getText());
         int code = 1;
@@ -53,8 +89,13 @@ public class Client {
         return new Request(code, ci, ni, requestId, connectionHandler.getClientId());
     }
 
+    /**
+     * Method that establishes the connection to the load balancer and asks it
+     * for a clientID as well as starting the thread to accept new connections.
+     * If we try to initialize the client on a port that's already taken an
+     * error will pop up asking for a new port.
+     */
     private void establishConnection() {
-        System.out.println("Establishing Connection");
         String ip = gui.getIP_Text().getText();
         int send_port = Integer.parseInt(gui.getPort_Text().getText());
         int reply_port = Integer.parseInt(gui.getReplyPort_Text().getText());
@@ -63,12 +104,9 @@ public class Client {
         gui.getPort_Text().setEnabled(false);
         gui.getReplyPort_Text().setEnabled(false);
         connection = new Sockets();
-        System.out.println("Starting Client");
         connection.startClient(ip, send_port);
-        System.out.println("Sending Client Info");
         ci = new ConnectionInfo(ip, reply_port, 1);
         if (connection.startServer(reply_port)) {
-            System.out.println("Waiting for reply");
             connectionHandler = new ClientConnections(connection, requestsAnswered, gui.getPR_Text(), processed);
             new Thread(connectionHandler).start();
             connection.sendMessage(ci);
@@ -81,6 +119,9 @@ public class Client {
         }
     }
 
+    /**
+     * Listener method for the close button on the processed panel
+     */
     private void processedCloseButtonListener() {
         JButton closeProcessedButton = gui.getButton_CloseProcessed();
 
@@ -91,6 +132,9 @@ public class Client {
         closeProcessedButton.addActionListener(actionListener);
     }
 
+    /**
+     * Listener method for the close button on the history panel
+     */
     private void historyCloseButtonListener() {
         JButton closeHistoryButton = gui.getButton_CloseHistory();
 
@@ -101,6 +145,9 @@ public class Client {
         closeHistoryButton.addActionListener(actionListener);
     }
 
+    /**
+     * Listener method for the processed button
+     */
     private void processedButtonListener() {
         JButton processedButton = gui.getButton_Processing();
 
@@ -116,6 +163,9 @@ public class Client {
         processedButton.addActionListener(actionListener);
     }
 
+    /**
+     * Listener method for the history button
+     */
     private void historyButtonListener() {
         JButton historyButton = gui.getButton_History();
         ActionListener actionListener = (ActionEvent actionEvent) -> {
@@ -134,11 +184,13 @@ public class Client {
         historyButton.addActionListener(actionListener);
     }
 
+    /**
+     * Listener method for the connect button
+     */
     private void connectButtonListener() {
         JButton connectButton = gui.getButton_Connect();
 
         ActionListener actionListener = (ActionEvent actionEvent) -> {
-            System.out.println("Connect button");
             connectButton.setEnabled(false);
             gui.getButton_Request().setEnabled(true);
             establishConnection();
@@ -148,11 +200,13 @@ public class Client {
         connectButton.addActionListener(actionListener);
     }
 
+    /**
+     * Listener method for the Request button on the processed panel
+     */
     private void requestButtonListener() {
         JButton requestButton = gui.getButton_Request();
 
         ActionListener actionListener = (ActionEvent actionEvent) -> {
-            System.out.println("Request Button");
             System.out.println("Sending Request");
             Request re = getRequestInfo();
             connection.sendMessage(re);

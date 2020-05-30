@@ -1,34 +1,48 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package LoadBalancer;
 
 import utils.Sockets;
 
 /**
+ * LoadBalancer - Class that receives requests and sends work to the servers.
  *
- * @author gabri
+ * @author Gabriel Silva
+ * @author Manuel Marcos
+ *
  */
 public class LoadBalancer {
 
+    /**
+     * Variable used to start servers and clients
+     */
     private Sockets connection;
-
+    /**
+     * Monitor to tell which server to send work to
+     */
     private MonitorInterface monitor;
 
-    private MonitorGUI gui;
+    /**
+     * Method to run the program, starts the load balancer and monitor
+     *
+     * @param args arguments used when running the program (not used)
+     */
     public static void main(String[] args) {
         LoadBalancer lb = new LoadBalancer();
     }
 
+    /**
+     * Class Constructor
+     */
     public LoadBalancer() {
         connection = new Sockets();
-        
+
         monitor = new Monitor();
         establishServerConnection();
     }
 
+    /**
+     * Starts the server that will be used by new connections and starts a
+     * thread to handle connections to the server.
+     */
     private void establishServerConnection() {
         System.out.println("Creating LoadBalancer");
         connection.startServer(80);

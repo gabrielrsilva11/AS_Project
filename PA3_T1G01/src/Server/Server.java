@@ -67,12 +67,13 @@ public class Server {
 
     /**
      * Method to run the program, starts the Server
-     * @param args arguments used when running the program
+     *
+     * @param args arguments used when running the program (not used)
      */
     public static void main(String[] args) {
         Server se = new Server();
     }
-    
+
     /**
      * Server class constructor
      */
@@ -96,8 +97,8 @@ public class Server {
     }
 
     /**
-     * Stablish server - LoadBalancer connection and request serverId on connection
-     * Heartbeat scheduler start
+     * Establish server - LoadBalancer connection and request serverId on
+     * connection Heartbeat scheduler start
      */
     private void establishServerConnection() {
         int lb_port = Integer.parseInt(gui.getLBPort_Text().getText());
@@ -149,7 +150,6 @@ public class Server {
         JButton connectButton = gui.getButton_Connect();
 
         ActionListener actionListener = (ActionEvent actionEvent) -> {
-            System.out.println("Connect Button");
             connectButton.setEnabled(false);
             establishServerConnection();
         };
@@ -164,7 +164,6 @@ public class Server {
         JButton historyButton = gui.getHistory_Button();
 
         ActionListener actionListener = (ActionEvent actionEvent) -> {
-            System.out.println("History Button");
             gui.getHistory_TextArea().setText("");
             gui.getFrame_History().setVisible(true);
             gui.getFrame_History().setSize(415, 250);
@@ -178,7 +177,7 @@ public class Server {
         };
         historyButton.addActionListener(actionListener);
     }
-    
+
     /**
      * Listener method for the processing button
      */
@@ -270,7 +269,7 @@ public class Server {
 
         closeCompletedButton.addActionListener(actionListener);
     }
-    
+
     /**
      * Runnable to send heartbeat message
      */

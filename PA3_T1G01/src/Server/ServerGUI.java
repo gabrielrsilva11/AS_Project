@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Server;
 
 import javax.swing.JButton;
@@ -11,8 +6,12 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 /**
+ * ServerGUI - Contains the GUI for the server and getter methods for every
+ * relevant component
  *
- * @author gabri
+ * @author Gabriel Silva
+ * @author Manuel Marcos
+ *
  */
 public class ServerGUI extends javax.swing.JFrame {
 

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package LoadBalancer;
 
 import Server.Server;
@@ -13,23 +8,46 @@ import java.net.Socket;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JTextField;
 import model.ChooseServer;
 import utils.ConnectionInfo;
 import utils.Request;
 import utils.Sockets;
 
 /**
+ * LBMessages - This class handles the messages of the load balancer. A new
+ * LBMessages thread is started every time a new connection is made.
  *
- * @author gabri
+ * @author Gabriel Silva
+ * @author Manuel Marcos
+ *
  */
 public class LBMessages implements Runnable {
 
+    /**
+     * Server connection
+     */
     private Sockets connection;
+    /**
+     * socketServer that contains the input stream
+     */
     private Socket socketServer;
+    /**
+     * Monitor variable used to select servers and update new clients / server /
+     * request maps
+     */
     private MonitorInterface monitor;
+    /**
+     * Boolean to stop the execution if needed
+     */
     private boolean active;
-    
+
+    /**
+     * Class constructor
+     *
+     * @param connection Sockets - server connection
+     * @param serverSocket Socket - socket that contains the input stream
+     * @param monitor Monitor - monitor used to pick servers and update the maps
+     */
     public LBMessages(Sockets connection, Socket serverSocket, MonitorInterface monitor) {
         this.connection = connection;
         this.socketServer = serverSocket;
@@ -37,11 +55,18 @@ public class LBMessages implements Runnable {
         this.active = true;
     }
 
+    /**
+     * Implementation of the run method to start a new thread. Calls the a
+     * function to handle messages.
+     */
     @Override
     public void run() {
         awaitConnections();
     }
 
+    /**
+     * Waits for new messages to arrives and handles them.
+     */
     private void awaitConnections() {
         try {
             while (active) {
@@ -91,7 +116,6 @@ public class LBMessages implements Runnable {
                         ConnectionInfo connectionInfo = monitor.removeServerConnection(serverId);
 
                         sendServerExitResponse(connectionInfo);
-                        //connection.closeClientConnection();
                         for (Request req : requests) {
                             ChooseServer chooseMonitor = monitor.chooseServer();
                             req.setServerID(chooseMonitor.getServerId());
@@ -112,29 +136,46 @@ public class LBMessages implements Runnable {
         }
     }
 
+    /**
+     * Method to send the client his ID
+     *
+     * @param info ConnectionInfo - connection information of the client
+     * @param clientId Integer - Id of the client
+     */
     private void replyClientId(ConnectionInfo info, int clientId) {
         connection.startClient(info.getIp(), info.getPort());
         connection.sendMessage(clientId + "");
-        //connection.closeClientConnection();
     }
 
+    /**
+     * Method to send the server his ID
+     *
+     * @param info ConnectionInfo - connection information of the server
+     * @param serverId Integer - Id of the server
+     */
     private void replyServerId(ConnectionInfo info, int serverId) {
         connection.startClient(info.getIp(), info.getPort());
         connection.sendMessage(serverId + "");
-        //connection.closeClientConnection();
     }
 
+    /**
+     * Method to send a Request to the server
+     *
+     * @param info ConnectionInfo - connection information of the server
+     * @param request Request - request for the server to work on
+     */
     private void sendServerRequest(ConnectionInfo info, Request request) {
         connection.startClient(info.getIp(), info.getPort());
         connection.sendMessage(request);
-        //connection.closeClientConnection();
     }
 
+    /**
+     * Method to send the server an exit signal
+     *
+     * @param info ConnectionInfo - connection information of the server
+     */
     private void sendServerExitResponse(ConnectionInfo info) {
         connection.startClient(info.getIp(), info.getPort());
         connection.sendMessage("exit");
-        //connection.closeClientConnection();
     }
-
-    //mesmo que o server messages, comunicar com o monitor para decrementar o uso dos servidores
 }

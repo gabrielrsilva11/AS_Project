@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Client;
 
 import Server.Server;
@@ -20,19 +15,53 @@ import utils.Request;
 import utils.Sockets;
 
 /**
+ * ClientConnections - Responsible for handling the connections to the client.
+ * Accepts new connections and launches a thread to handle the messages.
  *
- * @author gabri
+ * @author Gabriel Silva
+ * @author Manuel Marcos
+ *
  */
 public class ClientConnections implements Runnable {
 
+    /**
+     * Sockets class used to send and receive connections from the load balancer
+     * and the server.
+     */
     private Sockets connection;
+    /**
+     * Socket variable where we will accept new connections from
+     */
     private Socket socketServer;
+    /**
+     * Processed request text field to be updated
+     */
     private JTextField PRField;
+    /**
+     * Processed requests counter
+     */
     private int requestsProcessed;
+    /**
+     * Concurrent map that saves the requests that have been completed.
+     */
     private Map requestsAnswered;
+    /**
+     * Concurrent map that saves the requests that are being processed.
+     */
     private Map processed;
+    /**
+     * Variable containing the clientId attributed by the load balancer
+     */
     private int clientId;
 
+    /**
+     * ClientConnections class constructor.
+     *
+     * @param connection Sockets - variable created on the Client class.
+     * @param requestsAnswered ConcurrentMap - to store the completed requests
+     * @param PRField JTextField - to update the number of processed requests
+     * @param processed ConcurrentMap - to store the requests being processed
+     */
     public ClientConnections(Sockets connection, Map requestsAnswered, JTextField PRField, Map processed) {
         this.connection = connection;
         this.PRField = PRField;
@@ -41,15 +70,18 @@ public class ClientConnections implements Runnable {
         requestsProcessed = 0;
     }
 
+    /**
+     * Method that contains the main loop of the class. Keeps accepting new
+     * connections until the program is closed and deals with the messages
+     * received.
+     */
     @Override
     public void run() {
         int i = 0;
         try {
-            System.out.println("Waiting for clients");
             while (true) {
                 socketServer = connection.getServer().accept();
                 i += 1;
-                System.out.println("Connections accepted: " + i);
                 awaitConnections();
             }
         } catch (IOException ex) {
@@ -57,16 +89,18 @@ public class ClientConnections implements Runnable {
         }
     }
 
+    /**
+     * Method to handle the messages received in the socket. Waits for an input
+     * and deals with it appropriately.
+     */
     private void awaitConnections() {
         try {
             ObjectInputStream input = null;
             input = new ObjectInputStream(new BufferedInputStream(socketServer.getInputStream()));
             Object message = null;
             message = input.readObject();
-            System.out.println(message.getClass());
             if (message instanceof String) {
                 clientId = Integer.parseInt((String) message);
-                System.out.println("ClientId: " + clientId);
                 JOptionPane success = new JOptionPane();
                 success.showMessageDialog(null, "Connection Successful", "Connection", JOptionPane.INFORMATION_MESSAGE);
             } else if (message instanceof Request) {
@@ -76,7 +110,6 @@ public class ClientConnections implements Runnable {
                 PRField.setText(Integer.toString(requestsProcessed));
                 processed.remove(re.getRequestID());
                 requestsAnswered.put(requestsProcessed, re);
-                System.out.println("Resultado: " + re.getReply());
             }
             input.close();
         } catch (IOException ex) {
@@ -86,6 +119,11 @@ public class ClientConnections implements Runnable {
         }
     }
 
+    /**
+     * Getter method for the clientId variable
+     *
+     * @return Integer clientId
+     */
     public int getClientId() {
         return clientId;
     }

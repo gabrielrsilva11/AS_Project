@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Client;
 
 import javax.swing.JButton;
@@ -11,8 +6,12 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 /**
+ * ClientGUI - GUI class. Contains a getter method for every relevant button
+ * used.
  *
- * @author gabri
+ * @author Gabriel Silva
+ * @author Manuel Marcos
+ *
  */
 public class ClientGUI extends javax.swing.JFrame {
 

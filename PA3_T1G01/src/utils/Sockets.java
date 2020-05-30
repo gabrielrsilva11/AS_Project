@@ -15,7 +15,7 @@ import javax.swing.JOptionPane;
  * @author Manuel Marcos
  *
  */
-public class Sockets{
+public class Sockets {
 
     /**
      * Accepts connections to the server socket
@@ -48,7 +48,7 @@ public class Sockets{
     public ServerSocket getServer() {
         return server;
     }
-    
+
     /**
      * Starts a server connection in a specified port
      *
@@ -65,6 +65,7 @@ public class Sockets{
             return false;
         }
     }
+
     /**
      * Starts a client connection in a specified IP and port
      *
