@@ -146,6 +146,7 @@ public class ServerGUI extends javax.swing.JFrame {
         Button_Processing = new javax.swing.JButton();
         Button_Completed = new javax.swing.JButton();
 
+        History_TextArea.setEditable(false);
         History_TextArea.setColumns(20);
         History_TextArea.setRows(5);
         jScrollPane2.setViewportView(History_TextArea);
@@ -183,13 +184,14 @@ public class ServerGUI extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        Processing_TextArea.setEditable(false);
         Processing_TextArea.setColumns(20);
         Processing_TextArea.setRows(5);
         jScrollPane3.setViewportView(Processing_TextArea);
 
         Button_CloseProcessing.setText("Close");
 
-        jLabel10.setText("History");
+        jLabel10.setText("Requests Processing");
 
         javax.swing.GroupLayout Frame_ProcessingLayout = new javax.swing.GroupLayout(Frame_Processing.getContentPane());
         Frame_Processing.getContentPane().setLayout(Frame_ProcessingLayout);
@@ -220,13 +222,14 @@ public class ServerGUI extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        Completed_TextArea.setEditable(false);
         Completed_TextArea.setColumns(20);
         Completed_TextArea.setRows(5);
         jScrollPane4.setViewportView(Completed_TextArea);
 
         Button_CloseCompleted.setText("Close");
 
-        jLabel11.setText("History");
+        jLabel11.setText("Requests Completed");
 
         javax.swing.GroupLayout Frame_CompletedLayout = new javax.swing.GroupLayout(Frame_Completed.getContentPane());
         Frame_Completed.getContentPane().setLayout(Frame_CompletedLayout);
@@ -315,21 +318,6 @@ public class ServerGUI extends javax.swing.JFrame {
                         .addComponent(Exit_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(101, 101, 101)
-                                .addComponent(ServerIP_Text, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel7))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel5)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel3)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(Processing_Text, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jLabel2))))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel4)
@@ -337,8 +325,25 @@ public class ServerGUI extends javax.swing.JFrame {
                                     .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(LBIP_Text, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(142, 142, 142)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGap(148, 148, 148))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addGap(101, 101, 101)
+                                        .addComponent(ServerIP_Text, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jLabel7))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addGap(0, 0, Short.MAX_VALUE)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                .addComponent(jLabel3)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(Processing_Text, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(24, 24, 24)
+                                                .addComponent(jLabel2)))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(Completed_Text, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(LBPort_Text, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)

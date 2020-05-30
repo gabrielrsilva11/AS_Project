@@ -129,6 +129,7 @@ public class ClientGUI extends javax.swing.JFrame {
         Button_Connect = new javax.swing.JButton();
         Button_Processing = new javax.swing.JButton();
 
+        History_TextArea.setEditable(false);
         History_TextArea.setColumns(20);
         History_TextArea.setRows(5);
         jScrollPane2.setViewportView(History_TextArea);
@@ -166,13 +167,14 @@ public class ClientGUI extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        Processed_TextArea.setEditable(false);
         Processed_TextArea.setColumns(20);
         Processed_TextArea.setRows(5);
         jScrollPane3.setViewportView(Processed_TextArea);
 
         Button_CloseProcessed.setText("Close");
 
-        jLabel10.setText("History");
+        jLabel10.setText("Requests Processing");
 
         javax.swing.GroupLayout Frame_ProcessedLayout = new javax.swing.GroupLayout(Frame_Processed.getContentPane());
         Frame_Processed.getContentPane().setLayout(Frame_ProcessedLayout);

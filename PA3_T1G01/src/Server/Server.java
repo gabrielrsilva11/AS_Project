@@ -51,6 +51,8 @@ public class Server {
         //establishServerConnection();
         gui = new ServerGUI();
         gui.setVisible(true);
+        gui.getProcessing_Text().setEnabled(false);
+        gui.getCompleted_Text().setEnabled(false);
         connectButtonListener();
         historyButtonListener();
         exitButtonListener();
@@ -63,21 +65,30 @@ public class Server {
 
     private void establishServerConnection() {
         int lb_port = Integer.parseInt(gui.getLBPort_Text().getText());
+        gui.getLBPort_Text().setEnabled(false);
         String lb_ip = gui.getLBIP_Text().getText();
+        gui.getLBIP_Text().setEnabled(false);
         int server_port = Integer.parseInt(gui.getServerPort_Text().getText());
+        gui.getServerPort_Text().setEnabled(false);
         String server_ip = gui.getServerIP_Text().getText();
+        gui.getServerIP_Text().setEnabled(false);
         obtainId(server_ip, server_port);
         lbInfo = new ConnectionInfo(lb_ip, lb_port, 3);
 
-        System.out.println("Creating Server");
-        connection.startServer(server_port);
+        if (connection.startServer(server_port)) {
+            System.out.println("Waiting for reply");
+            connectionHandler = new ServerConnections(connection, lbInfo, requestsAnswered, processingRequests, gui.getCompleted_Text(), gui.getProcessing_Text());
+            new Thread(connectionHandler).start();
 
-        System.out.println("Waiting for reply");
-        connectionHandler = new ServerConnections(connection, lbInfo, requestsAnswered, processingRequests, gui.getCompleted_Text(), gui.getProcessing_Text());
-        new Thread(connectionHandler).start();
-
-        requestServerId();
-        scheduler.scheduleAtFixedRate(heartbeat, 10, 10, TimeUnit.SECONDS);
+            requestServerId();
+            scheduler.scheduleAtFixedRate(heartbeat, 10, 10, TimeUnit.SECONDS);
+        } else {
+            gui.getLBPort_Text().setEnabled(true);
+            gui.getLBIP_Text().setEnabled(true);
+            gui.getServerPort_Text().setEnabled(true);
+            gui.getServerIP_Text().setEnabled(true);
+            gui.getButton_Connect().setEnabled(true);
+        }
     }
 
     private void obtainId(String serverIp, int serverPort) {
@@ -96,9 +107,8 @@ public class Server {
 
         ActionListener actionListener = (ActionEvent actionEvent) -> {
             System.out.println("Connect Button");
-            establishServerConnection();
             connectButton.setEnabled(false);
-            gui.getButton_Connect().setEnabled(false);
+            establishServerConnection();
         };
 
         connectButton.addActionListener(actionListener);

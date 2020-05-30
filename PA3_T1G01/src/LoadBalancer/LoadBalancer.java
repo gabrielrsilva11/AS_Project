@@ -5,17 +5,6 @@
  */
 package LoadBalancer;
 
-import Server.Server;
-import Server.ServerWorkThread;
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.net.InetSocketAddress;
-import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import utils.ConnectionInfo;
-import utils.Request;
 import utils.Sockets;
 
 /**
@@ -26,17 +15,17 @@ public class LoadBalancer {
 
     private Sockets connection;
 
-    private Socket socketServer;
-
     private MonitorInterface monitor;
 
+    private MonitorGUI gui;
     public static void main(String[] args) {
         LoadBalancer lb = new LoadBalancer();
     }
 
     public LoadBalancer() {
         connection = new Sockets();
-        monitor = new Monitor();
+        gui = new MonitorGUI();
+        monitor = new Monitor(gui);
         establishServerConnection();
     }
 

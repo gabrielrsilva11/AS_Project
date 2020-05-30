@@ -6,13 +6,8 @@
 package LoadBalancer;
 
 import Server.Server;
-import Server.ServerConnections;
-import Server.ServerMessages;
 import java.io.BufferedInputStream;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.net.Socket;
 import java.util.List;
@@ -31,7 +26,6 @@ public class LBMessages implements Runnable {
 
     private Sockets connection;
     private Socket socketServer;
-    //private int serverId;
     private MonitorInterface monitor;
     private boolean active;
 
@@ -117,12 +111,6 @@ public class LBMessages implements Runnable {
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-
-    private void replyClient(ConnectionInfo info) {
-        connection.startClient(info.getIp(), info.getPort());
-        connection.sendMessage("ok");
-        //connection.closeClientConnection();
     }
 
     private void replyClientId(ConnectionInfo info, int clientId) {

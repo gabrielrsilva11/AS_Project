@@ -62,21 +62,23 @@ public class Client {
         gui.getIP_Text().setEnabled(false);
         gui.getPort_Text().setEnabled(false);
         gui.getReplyPort_Text().setEnabled(false);
-
         connection = new Sockets();
         System.out.println("Starting Client");
         connection.startClient(ip, send_port);
         System.out.println("Sending Client Info");
         ci = new ConnectionInfo(ip, reply_port, 1);
-        System.out.println("Waiting for reply");
         if (connection.startServer(reply_port)) {
+            System.out.println("Waiting for reply");
             connectionHandler = new ClientConnections(connection, requestsAnswered, gui.getPR_Text(), processed);
             new Thread(connectionHandler).start();
+            connection.sendMessage(ci);
         } else {
             gui.getButton_Request().setEnabled(false);
             gui.getButton_Connect().setEnabled(true);
+            gui.getIP_Text().setEnabled(true);
+            gui.getPort_Text().setEnabled(true);
+            gui.getReplyPort_Text().setEnabled(true);
         }
-        connection.sendMessage(ci);
     }
 
     private void processedCloseButtonListener() {
@@ -121,6 +123,9 @@ public class Client {
             gui.getFrame_History().setVisible(true);
             gui.getFrame_History().setSize(415, 250);
             gui.getHistory_TextArea().setEditable(false);
+            for (int key : processed.keySet()) {
+                gui.getProcessed_TextArea().append(processed.get(key).getFormattedRequest());
+            }
             for (int key : requestsAnswered.keySet()) {
                 gui.getHistory_TextArea().append(requestsAnswered.get(key).getFormattedRequest());
             }

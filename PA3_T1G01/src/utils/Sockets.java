@@ -61,9 +61,9 @@ public class Sockets{
         } catch (IOException e) {
             System.out.println(e);
             JOptionPane failure = new JOptionPane();
-            failure.showMessageDialog(null, "Connection Failed", "Connection", JOptionPane.ERROR_MESSAGE);
+            failure.showMessageDialog(null, "Connection Failed: Port already in use.", "Connection", JOptionPane.ERROR_MESSAGE);
+            return false;
         }
-        return false;
     }
     /**
      * Starts a client connection in a specified IP and port
