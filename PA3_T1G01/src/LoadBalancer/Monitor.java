@@ -1,11 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package LoadBalancer;
 
-import Server.Server;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -14,8 +8,6 @@ import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import model.ChooseServer;
 import model.Heartbeat;
@@ -36,9 +28,9 @@ public class Monitor implements MonitorInterface {
     private Map<Integer, List<Integer>> serverRequestComplete;
 
     private List<Request> clientRequests;
-    
+
     private Map<Integer, Heartbeat> serverStatus;
-    
+
     private int increment;
 
     /**
@@ -70,23 +62,44 @@ public class Monitor implements MonitorInterface {
      * operate
      */
     private final Lock rel4;
-    
+
+    /**
+     * The ReentratLock that defines the critical region where the threads
+     * operate
+     */
+    private final Lock rel5;
+
+    /**
+     * The ReentratLock that defines the critical region where the threads
+     * operate
+     */
+    private final Lock rel6;
+
+    /**
+     * The ReentratLock that defines the critical region where the threads
+     * operate
+     */
+    private final Lock rel7;
+
     private int numClients;
-    
+
     private int numServers;
-    
+
     private int numRequests;
-    
+
     private int completedRequests;
-    
+
     private MonitorGUI gui;
-    
+
     public Monitor() {
         rel = new ReentrantLock();
         rel1 = new ReentrantLock();
         rel2 = new ReentrantLock();
         rel3 = new ReentrantLock();
         rel4 = new ReentrantLock();
+        rel5 = new ReentrantLock();
+        rel6 = new ReentrantLock();
+        rel7 = new ReentrantLock();
         serverConnections = new ConcurrentHashMap<>();
         serverRequest = new ConcurrentHashMap<>();
         serverRequestComplete = new ConcurrentHashMap<>();
@@ -121,20 +134,33 @@ public class Monitor implements MonitorInterface {
 
     @Override
     public List<Request> closeServer(int serverId) {
-        numServers -= 1;
-        gui.getServers_Text().setText(Integer.toString(numServers));
-        List<Integer> requests = serverRequest.get(serverId);
-        serverRequest.remove(serverId);
-        System.out.println(requests);
-        List<Request> reqs = clientRequests.stream().filter(re -> requests.contains(re.getRequestID())).collect(Collectors.toList());
-        reqs.stream().forEach(re -> clientRequests.remove(re));
+        rel5.lock();
+        List<Request> reqs;
+        try {
+            numServers -= 1;
+            gui.getServers_Text().setText(Integer.toString(numServers));
+            List<Integer> requests = serverRequest.get(serverId);
+            serverRequest.remove(serverId);
+            System.out.println(requests);
+            reqs = clientRequests.stream().filter(re -> requests.contains(re.getRequestID())).collect(Collectors.toList());
+            reqs.stream().forEach(re -> clientRequests.remove(re));
+        } finally {
+            rel5.unlock();
+        }
+
         return reqs;
     }
-    
+
     @Override
     public ConnectionInfo removeServerConnection(int serverId) {
-        ConnectionInfo connectionInfo = serverConnections.get(serverId);
-        serverConnections.remove(serverId);
+        rel6.lock();
+        ConnectionInfo connectionInfo;
+        try {
+            connectionInfo = serverConnections.get(serverId);
+            serverConnections.remove(serverId);
+        } finally {
+            rel6.unlock();
+        }
         return connectionInfo;
     }
 
@@ -209,22 +235,27 @@ public class Monitor implements MonitorInterface {
             System.out.println("Remove");
             System.out.println(re.getServerID());
             System.out.println(serverRequest.get(re.getServerID()).toString());
-            
+
             serverRequestComplete.put(re.getServerID(), requestsComplete);
             System.out.println("complete");
             System.out.println(re.getServerID());
             System.out.println(serverRequestComplete.get(re.getServerID()).toString());
             numRequests -= 1;
             gui.getProcessing_Text().setText(Integer.toString(numRequests));
-            completedRequests +=1;
+            completedRequests += 1;
             gui.getCompleted_Text().setText(Integer.toString(completedRequests));
         } finally {
             rel4.unlock();
         }
     }
-    
+
     public void heartbeatStatus(int serverId, int status) {
-        Heartbeat heartbeat = new Heartbeat(status, new Date().getTime());
-        serverStatus.put(serverId, heartbeat);
+        rel7.lock();
+        try {
+            Heartbeat heartbeat = new Heartbeat(status, new Date().getTime());
+            serverStatus.put(serverId, heartbeat);
+        } finally {
+            rel7.unlock();
+        }
     }
 }

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Server;
 
 import java.awt.event.ActionEvent;
@@ -16,39 +11,76 @@ import javax.swing.JButton;
 import utils.*;
 
 /**
+ * Server - This class send a request to the LoadBalancer to receive a ServerId
+ * and wait to further requests
  *
- * @author gabri
+ * @author Gabriel Silva
+ * @author Manuel Marcos
+ *
  */
 public class Server {
 
+    /**
+     * Server connection
+     */
     private Sockets connection;
 
+    /**
+     * Server connection information (ip, port)
+     */
     private ConnectionInfo connectionInfo;
 
+    /**
+     * Server GUI
+     */
     private ServerGUI gui;
 
-    ServerConnections connectionHandler;
+    /**
+     * Accept connections
+     */
+    private ServerConnections connectionHandler;
 
-    ConnectionInfo lbInfo;
+    /**
+     * LoadBalancer connection information (ip, port)
+     */
+    private ConnectionInfo lbInfo;
 
+    /**
+     * Server identification
+     */
     private int serverId;
 
+    /**
+     * Server requests that where requested and answered
+     */
     private Map<Integer, Request> requestsAnswered;
 
+    /**
+     * Server processing requests
+     */
     private Map<Integer, Request> processingRequests;
+
+    /**
+     * Server scheduler to send heartbeat
+     */
     private final ScheduledExecutorService scheduler;
 
+    /**
+     * Method to run the program, starts the Server
+     * @param args arguments used when running the program
+     */
     public static void main(String[] args) {
         Server se = new Server();
     }
-
+    
+    /**
+     * Server class constructor
+     */
     public Server() {
         requestsAnswered = new ConcurrentHashMap<>();
         processingRequests = new ConcurrentHashMap<>();
         connection = new Sockets();
         this.scheduler = Executors.newScheduledThreadPool(1);
-        // comunicação loadbalancer envia connectionInfo, recebe id e faz serverconnections
-        //establishServerConnection();
         gui = new ServerGUI();
         gui.setVisible(true);
         gui.getProcessing_Text().setEnabled(false);
@@ -63,6 +95,10 @@ public class Server {
         completedCloseButtonListener();
     }
 
+    /**
+     * Stablish server - LoadBalancer connection and request serverId on connection
+     * Heartbeat scheduler start
+     */
     private void establishServerConnection() {
         int lb_port = Integer.parseInt(gui.getLBPort_Text().getText());
         gui.getLBPort_Text().setEnabled(false);
@@ -76,7 +112,6 @@ public class Server {
         lbInfo = new ConnectionInfo(lb_ip, lb_port, 3);
 
         if (connection.startServer(server_port)) {
-            System.out.println("Waiting for reply");
             connectionHandler = new ServerConnections(connection, lbInfo, requestsAnswered, processingRequests, gui.getCompleted_Text(), gui.getProcessing_Text());
             new Thread(connectionHandler).start();
 
@@ -91,17 +126,25 @@ public class Server {
         }
     }
 
+    /**
+     * Create server connection information
+     */
     private void obtainId(String serverIp, int serverPort) {
         connectionInfo = new ConnectionInfo(serverIp, serverPort, 2);
     }
 
+    /**
+     * Request server identification to the LoadBalancer
+     */
     private void requestServerId() {
         connection.startClient(lbInfo.getIp(), lbInfo.getPort());
         System.out.println("Connected!");
         connection.sendMessage(connectionInfo);
-        //connection.closeClientConnection();
     }
 
+    /**
+     * Listener method for the connect button
+     */
     private void connectButtonListener() {
         JButton connectButton = gui.getButton_Connect();
 
@@ -114,6 +157,9 @@ public class Server {
         connectButton.addActionListener(actionListener);
     }
 
+    /**
+     * Listener method for the history button
+     */
     private void historyButtonListener() {
         JButton historyButton = gui.getHistory_Button();
 
@@ -132,7 +178,10 @@ public class Server {
         };
         historyButton.addActionListener(actionListener);
     }
-
+    
+    /**
+     * Listener method for the processing button
+     */
     private void processingButtonListener() {
         JButton processingButton = gui.getButton_Processing();
 
@@ -149,6 +198,9 @@ public class Server {
         processingButton.addActionListener(actionListener);
     }
 
+    /**
+     * Listener method for the completed button
+     */
     private void completedButtonListener() {
         JButton completedButton = gui.getButton_Completed();
 
@@ -166,6 +218,9 @@ public class Server {
 
     }
 
+    /**
+     * Listener method for the exit button
+     */
     private void exitButtonListener() {
         JButton exitButton = gui.getExit_Button();
         ActionListener actionListener = (ActionEvent actionEvent) -> {
@@ -177,6 +232,9 @@ public class Server {
         exitButton.addActionListener(actionListener);
     }
 
+    /**
+     * Listener method for the close button
+     */
     private void historyCloseButtonListener() {
         JButton closeHistoryButton = gui.getButton_CloseHistory();
 
@@ -187,6 +245,9 @@ public class Server {
         closeHistoryButton.addActionListener(actionListener);
     }
 
+    /**
+     * Listener method for the processing close button
+     */
     private void processingCloseButtonListener() {
         JButton closeProcessingButton = gui.getButton_CloseProcessing();
 
@@ -197,6 +258,9 @@ public class Server {
         closeProcessingButton.addActionListener(actionListener);
     }
 
+    /**
+     * Listener method for the completed close button
+     */
     private void completedCloseButtonListener() {
         JButton closeCompletedButton = gui.getButton_CloseCompleted();
 
@@ -206,6 +270,10 @@ public class Server {
 
         closeCompletedButton.addActionListener(actionListener);
     }
+    
+    /**
+     * Runnable to send heartbeat message
+     */
     final Runnable heartbeat = new Runnable() {
         public void run() {
             connection.startClient(lbInfo.getIp(), lbInfo.getPort());
